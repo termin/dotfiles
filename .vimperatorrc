@@ -1,8 +1,10 @@
 "2.2 (created: 2009/10/28 19:04:27)
+" for Mac
 
 " ----- notice -----
 " set!はFirefoxの設定を変える
 " setはvimperatorの設定
+" らしい.
 
 " ----- main options -----
 set runtimepath=/Users/termin/.vimperator
@@ -18,17 +20,18 @@ source! /Users/termin/.vimperatorrc.local
 " l Left scrollbar (l and r are mutually exclusive)
 set guioptions=rbT
 
-
 " ブラウザタイトルの変更
-set titlestring=Vimperator
+set titlestring=vimp
 " ページ全体で検索語を強調表示
 set hlsearch
 " 検索語の大文字小文字を無視
 " set ignorecase
+
 "ビープ音を鳴らさずビジュアルベルを使用
 set visualbell
 "ビジュアルベルを無効化
 hi Bell display: none;
+
 " 新しいタブで開く
 " all			All commands
 " addons		:addo[ns] command
@@ -41,6 +44,7 @@ set newtab=all
 " exモード時でインクリメント補完
 set wildoptions=auto
 " input要素にfocusを奪われないようにする
+" AwesomeBarを使いたい場合に、フォーカスがvimpに取られてしまうと扱いにくいので通常はoff
 " set focuscontent
 " Items which are completed at the :open prompts. Available items:
 " default: slf
@@ -69,6 +73,11 @@ set showstatuslinks=2
 " <M-x>: The meta key, windows key, or command key
 " <S-x>: The shift key.
 
+" 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
+
+" show current website with a minimal style sheet.
+noremap ! :set usermode<CR>
+
 " <M-A-Left>/<M-A-Right>かh/lでタブ移動
 map <M-A-Left> <C-p>
 map <M-A-Right> <C-n>
@@ -93,17 +102,21 @@ map d <C-w>
 " undo一覧から開く
 map U :undo<Space>
 map ,s :saves<CR>
-nnoremap ,r :source ~/.vimperatorrc<CR>
+" .vimperatorrcをリロード.
+" mapcだけじゃ全てのmappingがクリアされないみたい. 追試済み (http://d.hatena.ne.jp/blooo/20100120/1263963525)
+nnoremap <silent> ,r :mapc<CR>:cmapc<CR>:imapc<CR>:so ~/.vimperatorrc<CR>
+
+" colorscheme (http://coderepos.org/share/browser/lang/javascript/vimperator-plugins/trunk/colors/sweets_snaka.vimp)
+" colorscheme sweets_snaka
+" colorscheme sweets
+" colorscheme default
+colorscheme simple
 
 " ----- Plugin Options  -----
 "<C-Del>で検索語の強調表示をトグル(toggleHighlight.js)
 "map <C-Del> :toggleHighlight<CR>
-"<F2>でメニューバーをトグル(toggleToolbar-0.5.1.js)
-"map <F2> :toggleToolbar<CR>
 "<A-g>でGreasemonkeyをトグル(gmperator.js)
 "map <A-g> :gmset!<CR>
-"bではてブのコメントを表示(hatenabookmark_show.js 一部修正)
-"map b :hbinfo<CR>
 
 " copy.js
 "<C-S-c>でタイトルとURLをコピー(copy.js)
@@ -117,6 +130,7 @@ liberator.globalVariables.copy_templates = [
   { label: 'selanchor',      value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' },
   { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' },
   { label: 'hatena',		 value: '[%URL%:title]'},
+  { label: 'hatenawithtitle',value: '%URL%:title=%TITLE%'},
   { label: 'ASIN',   value: 'copy ASIN code from Amazon', custom: function(){return content.document.getElementById('ASIN').value;} }
 ];
 EOM
@@ -213,17 +227,17 @@ liberator.globalVariables.hBookmark_commands = {
 };
 */
 
-// :hb! url 等の bang(!) 付きで開いた場合の挙動。
-// 標準ははてブエントリーページを開く entryPage が設定されている。
-// 他に新規タブで開く openNewTab がある。
-// また、文字列ではなく自分で定義した関数をセットすることもできる。
+// :hb! url 等の bang(!) 付きで開いた場合の挙動.
+// 標準ははてブエントリーページを開く entryPage が設定されている.
+// 他に新規タブで開く openNewTab がある.
+// また、文字列ではなく自分で定義した関数をセットすることもできる.
 liberator.globalVariables.hBookmark_bangFunction = 'entryPage';
 
 // 検索時の wait(ms)
 liberator.globalVariables.hBookmark_search_interval = 1000;
 // 一度に検索する limit
 liberator.globalVariables.hBookmark_search_limit = 10;
-// 検索時の表示の最大件数。この件数に達するまで検索し続ける。
+// 検索時の表示の最大件数. この件数に達するまで検索し続ける.
 liberator.globalVariables.hBookmark_search_max_limit = 100;
 
 EOF
@@ -256,21 +270,24 @@ liberator.globalVariables.exopen_templates = [
 EOM
 
 " label:
-"   テンプレート名。コマンドの引数で指定してください。
+"   テンプレート名. コマンドの引数で指定してください.
 " value:
 "   OpenするURL
 " custom:
-"   関数か配列で指定してください。
-"   関数の場合、return された文字列をオープンします。
-"   配列の場合、value で指定された文字列を置換します。(条件→Array[0]、置換文字列→Array[1])
+"   関数か配列で指定してください.
+"   関数の場合、return された文字列をオープンします.
+"   配列の場合、value で指定された文字列を置換します. (条件→Array[0]、置換文字列→Array[1])
 " description:
-"   補完時に表示する説明文。
+"   補完時に表示する説明文.
 " newtab:
-"   新規タブで開く場合は true を指定してください。
+"   新規タブで開く場合は true を指定してください.
 " escape:
-"   URLエンコードする場合、true を指定してください。
- 
+"   URLエンコードする場合、true を指定してください.
+
 noremap <C-S-x> :exopen hatenaep<CR>
+
+" migemo-find
+set hintmatching=custom
 
 " ----- その他 -----
 " フィードボタンをステータスラインに移動
