@@ -6,6 +6,9 @@
 " setはvimperatorの設定
 " らしい.
 
+" Loading
+echo "vimp: We'll back soon..."
+
 " ----- main options -----
 set runtimepath=/Users/termin/.vimperator
 source! /Users/termin/.vimperatorrc.local
@@ -286,24 +289,48 @@ EOM
 
 noremap <C-S-x> :exopen hatenaep<CR>
 
-" migemo-find
-set hintmatching=custom
-
 " ----- その他 -----
-" フィードボタンをステータスラインに移動
+" migrate_statusbar.js 
+" ☆, feed, faviconをステータスラインに移動 
 javascript <<EOM
-(function () {
-    var feedButton = document.getElementById('feed-button');
-        feedButton.parentNode.removeChild(feedButton);
-    var feedPanel  = document.createElement('statusbarpanel');
-        feedPanel.setAttribute('id', 'feed-panel-clone');
-        feedPanel.appendChild(feedButton.cloneNode(true));
-    document.getElementById('status-bar').insertBefore(
-        feedPanel,
-        document.getElementById('security-button')
-    );
-})();
+liberator.globalVariables.migrate_elements = [
+  {
+      // star button of awesome bar
+      id:    'star-button',
+      dest:  'security-button',
+      after: true,
+  },
+  {
+      // icon that show the existence of RSS and Atom on current page
+      id:    'feed-button',
+      dest:  'security-button',
+      after: true,
+  },
+  {
+      // favicon of awesome bar
+      id:    'page-proxy-stack',
+      dest:  'liberator-statusline',
+      after: false,
+  },
+];
 EOM
 
+" フィードボタンをステータスラインに移動
+" javascript <<EOM
+" (function () {
+"     var feedButton = document.getElementById('feed-button');
+"         feedButton.parentNode.removeChild(feedButton);
+"     var feedPanel  = document.createElement('statusbarpanel');
+"         feedPanel.setAttribute('id', 'feed-panel-clone');
+"         feedPanel.appendChild(feedButton.cloneNode(true));
+"     document.getElementById('status-bar').insertBefore(
+"         feedPanel,
+"         document.getElementById('security-button')
+"     );
+" })();
+" EOM
+
+" 読み終わりましたわ
+echo "vimp: ギギギ..."
 
 " vim: set ft=vimperator:
