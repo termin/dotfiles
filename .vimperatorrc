@@ -255,6 +255,7 @@ liberator.globalVariables.exopen_templates = [
 } */
 ];
 EOM
+
 " label:
 "   テンプレート名。コマンドの引数で指定してください。
 " value:
