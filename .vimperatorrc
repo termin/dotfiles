@@ -88,7 +88,6 @@ map e <M-i>
 noremap ++ <C-a>
 noremap -- <C-x>
 " d キーでも直前にフォーカスしていたタブに戻る様にする
-" 恐らく<M-w>にはTabMixPlusの設定が生きているが、dキー及び<C-w>にはそれが効かない・・・のかな...
 noremap <C-w> <M-w>
 map d <C-w>
 " undo一覧から開く
