@@ -91,9 +91,9 @@ map <S-M-Left>  :tabmove! -1<CR>
 map <S-M-Right> :tabmove! +1<CR>
 " <M-f>でvimpによる検索/
 map <M-f> /
-" tumblrでtキーを使う為、Tで代用する
+" tumblrでtキーを使う為, Tで代用する
 "map T :tabopen<Space>
-" LDRizeのfキー対策
+" <M-i>でinput fieldにフォーカス
 " map e gi
 map e <M-i>
 " URL中の数字を++/--
@@ -138,9 +138,6 @@ liberator.globalVariables.copy_templates = [
 ];
 EOM
 
-"<S-s>でBloglinesに登録(commandBookmarklet.js)
-"map S :Sub<CR>
-
 " feedSomekeys_2.js
 autocmd LocationChange .* :fmapc
 " LDR/Fastladder/OpenFL
@@ -151,7 +148,7 @@ autocmd LocationChange ^http://reader\\.livedoor\\.com/reader :fmap! j k s a r p
 " Tumblr (user : ReblogCommand, TumblrTagCommand)
 autocmd LocationChange ^http://.*\\.tumblr\\.com/ :fmap! i,t h g
 " Gmail
-autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
+autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc
 " Google Calendar
 autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event keydown j k t a d w m x c e <;Del> / + q s ?
 " RememberTheMilk
@@ -245,6 +242,9 @@ liberator.globalVariables.hBookmark_search_max_limit = 100;
 
 EOF
 
+" ldrize_cooperation.js
+let g:ldrc_captureMappings = "['j','k','p','o','?']"
+
 " autocmd VimperatorEnter .* :set complete+=H
 " はてブ検索
 noremap C :hbt<Space>
@@ -254,7 +254,7 @@ noremap cc :hbtc<Space>
 " titleのみ対象
 noremap ct :hbtti<Space>
 " urlのみ対象
-" noremap cu :hbu<Space>
+noremap cu :hbtu<Space>
 " entry_pageを表示する( exopen.jsを用いる )
 javascript <<EOM
 liberator.globalVariables.exopen_templates = [
