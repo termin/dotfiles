@@ -95,7 +95,7 @@ map <M-f> /
 "map T :tabopen<Space>
 " <M-i>でinput fieldにフォーカス
 " map e gi
-map e <M-i>
+nmap e <M-i>
 " URL中の数字を++/--
 noremap ++ <C-a>
 noremap -- <C-x>
@@ -146,7 +146,7 @@ autocmd LocationChange .* :fmapc
 " autocmd LocationChange fastladder\\.com/reader :fmap j k s a r p o v c <Space> <S-Space> < > T
 autocmd LocationChange ^http://reader\\.livedoor\\.com/reader :fmap! j k s a r p o f v c <Space> <S-Space> < > T
 " Tumblr (user : ReblogCommand, TumblrTagCommand)
-autocmd LocationChange ^http://.*\\.tumblr\\.com/ :fmap! i,t h g
+autocmd LocationChange ^http://.*\\.tumblr\\.com/ :fmap! i,t n,h g
 " Gmail
 autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc
 " Google Calendar
@@ -244,6 +244,10 @@ EOF
 
 " ldrize_cooperation.js
 let g:ldrc_captureMappings = "['j','k','p','o','?']"
+
+" autopagerize_control.js
+" let g:autopagerize_prevmap = "J" 
+" let g:autopagerize_nextmap = "K"
 
 " autocmd VimperatorEnter .* :set complete+=H
 " はてブ検索
