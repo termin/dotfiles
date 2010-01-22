@@ -177,6 +177,7 @@ autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j 
 " Google Calendar
 autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event keydown j k t a d w m x c e <;Del> / + q s ?
 " RememberTheMilk
+" <Tab> がうまくいってない
 autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap r t i o p a s d f g h j k l z x c v b n m 0 1 2 3 4 <Tab>
 " はてなブックマーク
 " autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o e a
