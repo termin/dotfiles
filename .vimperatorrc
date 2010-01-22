@@ -92,13 +92,15 @@ map U :undo<Space>
 map ,s :saves<CR>
 " .vimperatorrcをリロード.
 " mapcだけじゃ全てのmappingがクリアされないみたい. 追試済み (http://d.hatena.ne.jp/blooo/20100120/1263963525)
-nnoremap <silent> ,r :mapc<CR>:cmapc<CR>:imapc<CR>:so ~/.vimperatorrc<CR>
+" nnoremap <silent> ,r :mapc<CR>:cmapc<CR>:imapc<CR>:so ~/.vimperatorrc<CR>
+nnoremap ,r :mapc<CR>:cmapc<CR>:imapc<CR>:so ~/.vimperatorrc<CR>
 
-" colorscheme (http://coderepos.org/share/browser/lang/javascript/vimperator-plugins/trunk/colors/sweets_snaka.vimp)
+" colorscheme (http://coderepos.org/share/browser/lang/javascript/vimperator-plugins/trunk/colors/)
 " colorscheme sweets_snaka
 " colorscheme sweets
 " colorscheme default
-colorscheme simple
+" colorscheme simple
+colorscheme vimplight
 
 " ----- Plugin Options  -----
 " (http://coderepos.org/share/browser/dotfiles/vimperator/retlet-vimperatorrc?rev=)
@@ -126,6 +128,41 @@ liberator.globalVariables.copy_templates = [
   { label: 'hatenawithtitle',value: '%URL%:title=%TITLE%'},
   { label: 'ASIN',   value: 'copy ASIN code from Amazon', custom: function(){return content.document.getElementById('ASIN').value;} }
 ];
+EOM
+
+" localkeymode.js, stella.js
+" stseek! +10がうまく動かないなぁ. -10なら動くんだけど.
+let g:localkeymode_enable = "true"
+js <<EOM
+liberator.globalVariables.localKeyMappings=[
+  [/^http:\/\/www\.(nicovideo\.jp|youtube\.com)\/watch/, [
+    ['p', ':stplay'],
+    ['m', ':stmute'],
+    ['v', ':stcomment'],
+    ['s', ':stseek! +10'],
+    ['S', ':stseek! -10'],
+    ['z', ':stlarge'],
+  ]],
+];
+EOM
+
+nmap <C-l> :let g:localkeymode_enable = "false"<CR>
+
+" feedSomeKeys_2.jsとlocalkeymode.jsの相性問題対応パッチ
+" cf.http://vimperator.g.hatena.ne.jp/nokturnalmortum/20081220/1229773089
+js <<EOM
+autocommands.add(
+  'VimperatorEnter',
+  /.*/,
+  function () {
+    let (orig = plugins.LocalKeyMode.loadKeyMap) {
+      plugins.LocalKeyMode.loadKeyMap = function () {
+        if (!liberator.plugins.feedKey || liberator.plugins.feedKey.origMap.length <= 0)
+          orig.call(plugins.LocalKeyMode);
+      };
+    }
+  }
+);
 EOM
 
 " feedSomekeys_2.js
@@ -229,12 +266,12 @@ map <F2> :toggle go<CR>
 map <F3> :toggle tab<CR>
 map <F4> :toggle sb<CR>
 " 再考したい
-" noremap ,1 :set go=rbT<CR>
-" noremap ,2 :set go=rb<CR>
-noremap <A-M-1> :set go="rbT" <CR>
-noremap <A-M-2> :set go="rb" <CR>
-noremap <A-M-q> :set showtabline="2"<CR>
-noremap <A-M-w> :set showtabline="0"<CR>
+map ,1 :set go=rbT<CR>
+map ,2 :set go=rb<CR>
+" map <C-S-1> :set go="rbT"<CR>
+" map <C-S-2> :set go="rb" <CR>
+map ,q :set showtabline="2"<CR>
+map ,w :set showtabline="0"<CR>
 " travian のみでツールバーを表示する
 autocmd LocationChange .* set go=rb
 autocmd LocationChange ^http://s4.travian.jp/ set go=rbT
