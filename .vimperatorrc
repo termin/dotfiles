@@ -13,14 +13,6 @@ echo "vimp: We'll back soon..."
 set runtimepath=/Users/termin/.vimperator
 source! /Users/termin/.vimperatorrc.local
 
-" m Menubar
-" T Toolbar
-" B Bookmark bar
-" n Tab number 
-" N Tab number over image
-" b Bottom scrollbar
-" r Right scrollbar
-" l Left scrollbar (l and r are mutually exclusive)
 set guioptions=rbT
 
 " ブラウザタイトルの変更
@@ -49,6 +41,7 @@ set wildoptions=auto
 " input要素にfocusを奪われないようにする
 " AwesomeBarを使いたい場合に、フォーカスがvimpに取られてしまうと扱いにくいので通常はoff
 " set focuscontent
+
 " Items which are completed at the :open prompts. Available items:
 " default: slf
 " s Search engines and keyword URLs 
@@ -60,21 +53,12 @@ set wildoptions=auto
 " t Open tabs
 set complete=slS
 " リンク先の表示位置
-" 0 Don’t show link destination
-" 1 Show the link in the status line
-" 2 Show the link in the command line
 set showstatuslinks=2
 "Awesomebarの補完対象にBookmarkletを追加、件数を50件に変更
 " set! browser.urlbar.filter.javascript=false
 " set! browser.urlbar.maxRichResults=50 
-" HintのStyle
-" hi Hint z-index:5000; font-family:monospace; font-size:14px; color:white; background-color:blue; border-color:ButtonShadow; border-width:0px; border-style:solid; padding:0px 1px 0px 1px; position:absolute;
 
 " ----- Key Mappings -----
-" <C-x>: The control or ctrl key.
-" <A-x>: The alt key.
-" <M-x>: The meta key, windows key, or command key
-" <S-x>: The shift key.
 " 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
 " let mapleader0 ","
 
@@ -229,6 +213,8 @@ liberator.globalVariables.toggler = {
   //  name: [ setting commands ]],
   // ツールバー
   go: ["set go=rbT","set go=rb"],
+  // タブバー
+  tab:["set showtabline=0", "set showtabline=2"],
   // サイドバー
   sb: ["sbclose","sbar Console"],
   go_and_sb: [
@@ -240,10 +226,15 @@ liberator.globalVariables.toggler = {
 EOM
 
 map <F2> :toggle go<CR>
-map <F3> :toggle sb<CR>
+map <F3> :toggle tab<CR>
+map <F4> :toggle sb<CR>
 " 再考したい
-noremap ,1 :set go=rbT<CR>
-noremap ,2 :set go=rb<CR>
+" noremap ,1 :set go=rbT<CR>
+" noremap ,2 :set go=rb<CR>
+noremap <A-M-1> :set go="rbT" <CR>
+noremap <A-M-2> :set go="rb" <CR>
+noremap <A-M-q> :set showtabline="2"<CR>
+noremap <A-M-w> :set showtabline="0"<CR>
 " travian のみでツールバーを表示する
 autocmd LocationChange .* set go=rb
 autocmd LocationChange ^http://s4.travian.jp/ set go=rbT
