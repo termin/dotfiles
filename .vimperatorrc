@@ -60,7 +60,7 @@ set showstatuslinks=2
 
 " ----- Key Mappings -----
 " 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
-" let mapleader0 ","
+" let mapleader=","
 
 " map <M-@> <Escape>
 
