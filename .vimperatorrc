@@ -78,7 +78,7 @@ set showstatuslinks=2
 " 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
 " let mapleader0 ","
 
-map <C-@> <Escape>
+" map <M-@> <Escape>
 
 " show current website with a minimal style sheet.
 noremap ! :set usermode<CR>
@@ -96,8 +96,7 @@ map <M-f> /
 " tumblrでtキーを使う為, Tで代用する
 "map T :tabopen<Space>
 " <M-i>でinput fieldにフォーカス
-" map e gi
-nmap e <M-i>
+nmap e gi
 " URL中の数字を++/--
 noremap ++ <C-a>
 noremap -- <C-x>
