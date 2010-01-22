@@ -146,8 +146,6 @@ liberator.globalVariables.localKeyMappings=[
 ];
 EOM
 
-nmap <C-l> :let g:localkeymode_enable = "false"<CR>
-
 " feedSomeKeys_2.jsとlocalkeymode.jsの相性問題対応パッチ
 " cf.http://vimperator.g.hatena.ne.jp/nokturnalmortum/20081220/1229773089
 js <<EOM
@@ -179,7 +177,7 @@ autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j 
 " Google Calendar
 autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event keydown j k t a d w m x c e <;Del> / + q s ?
 " RememberTheMilk
-autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap r t i o p a s d f g h j k l z x c v b n m 0 1 2 3 4
+autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap r t i o p a s d f g h j k l z x c v b n m 0 1 2 3 4 <Tab>
 " はてなブックマーク
 " autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o e a
 autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp/ :fmap! j k o e a
@@ -335,7 +333,21 @@ noremap cc :hbtc<Space>
 noremap ct :hbtti<Space>
 " urlのみ対象
 noremap cu :hbtu<Space>
-" entry_pageを表示する( exopen.jsを用いる )
+" entry_pageを表示する( exopen.js )
+" label:
+"   テンプレート名. コマンドの引数で指定してください.
+" value:
+"   OpenするURL
+" custom:
+"   関数か配列で指定してください.
+"   関数の場合、return された文字列をオープンします.
+"   配列の場合、value で指定された文字列を置換します. (条件→Array[0]、置換文字列→Array[1])
+" description:
+"   補完時に表示する説明文.
+" newtab:
+"   新規タブで開く場合は true を指定してください.
+" escape:
+"   URLエンコードする場合、true を指定してください.
 javascript <<EOM
 liberator.globalVariables.exopen_templates = [
 {
@@ -351,21 +363,6 @@ liberator.globalVariables.exopen_templates = [
 } */
 ];
 EOM
-
-" label:
-"   テンプレート名. コマンドの引数で指定してください.
-" value:
-"   OpenするURL
-" custom:
-"   関数か配列で指定してください.
-"   関数の場合、return された文字列をオープンします.
-"   配列の場合、value で指定された文字列を置換します. (条件→Array[0]、置換文字列→Array[1])
-" description:
-"   補完時に表示する説明文.
-" newtab:
-"   新規タブで開く場合は true を指定してください.
-" escape:
-"   URLエンコードする場合、true を指定してください.
 
 noremap <C-S-x> :exopen hatenaep<CR>
 
