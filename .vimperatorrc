@@ -75,8 +75,10 @@ set showstatuslinks=2
 " <A-x>: The alt key.
 " <M-x>: The meta key, windows key, or command key
 " <S-x>: The shift key.
-
 " 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
+" let mapleader0 ","
+
+map <C-@> <Escape>
 
 " show current website with a minimal style sheet.
 noremap ! :set usermode<CR>
@@ -116,6 +118,11 @@ nnoremap <silent> ,r :mapc<CR>:cmapc<CR>:imapc<CR>:so ~/.vimperatorrc<CR>
 colorscheme simple
 
 " ----- Plugin Options  -----
+" (http://coderepos.org/share/browser/dotfiles/vimperator/retlet-vimperatorrc?rev=)
+" trunk以外にbranches/2.xからも欲しい時はどう指定すれば良いのだろう
+" let g:plugin_loader_roots = "~/vimperator-plugins/trunk/"
+" let g:plugin_loader_plugins = "_libly,bitly,char-hints-mod2,copy,exopen,feedSomeKeys_2,imageextender,ldrize_cooperation,migemo-find,migratestatusbar,pluginManager,removetabs,sl,tabsort,toggler,walk-input,yetmappings"
+
 "<C-Del>で検索語の強調表示をトグル(toggleHighlight.js)
 "map <C-Del> :toggleHighlight<CR>
 "<A-g>でGreasemonkeyをトグル(gmperator.js)
@@ -154,7 +161,49 @@ autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event 
 " RememberTheMilk
 autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap r t i o p a s d f g h j k l z x c v b n m 0 1 2 3 4
 " はてなブックマーク
-autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o e a
+" autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o e a
+autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp/ :fmap! j k o e a
+
+" localkeymode.js
+" let g:localkeymode_enable = "true"
+" js <<EOM
+" liberator.globalVariables.localKeyMappings=[
+"   [/^http:\/\/www\.nicovideo\.jp\/watch/, [
+"     ['p', ':nicopause'],
+"     ['m', ':nicomute'],
+"     ['v', ':nicommentvisible'],
+"     ['s', ':nicoseek! +10'],
+"     ['S', ':nicoseek! -10'],
+"     ['z', ':nicosize'],
+"     //['c', ':nicomment ', true],
+"     //['C', ':nicommand ', true],
+"   ]],
+"   [/^http:\/\/www\.youtube\.com\/watch/, [
+"     ['p', ':ytpause'],
+"     ['m', ':ytmute'],
+"     ['z', ':ytsize'],
+"     ['s', ':ytseek! +10'],
+"     ['S', ':ytseek! -10'],
+"   ]],
+" ];
+" EOM
+
+" feedSomeKeys_2.jsとlocalkeymode.jsの相性問題対応パッチ
+" cf.http://vimperator.g.hatena.ne.jp/nokturnalmortum/20081220/1229773089
+" js <<EOM
+" autocommands.add(
+"   'VimperatorEnter',
+"   /.*/,
+"   function () {
+"     let (orig = plugins.LocalKeyMode.loadKeyMap) {
+"       plugins.LocalKeyMode.loadKeyMap = function () {
+"         if (!liberator.plugins.feedKey || liberator.plugins.feedKey.origMap.length <= 0)
+"           orig.call(plugins.LocalKeyMode);
+"       };
+"     }
+"   }
+" );
+" EOM
 
 " removetabs.js
 " 左側にあるタブを閉じる
@@ -293,7 +342,6 @@ EOM
 
 noremap <C-S-x> :exopen hatenaep<CR>
 
-" ----- その他 -----
 " migrate_statusbar.js 
 " ☆, feed, faviconをステータスラインに移動 
 javascript <<EOM
@@ -317,6 +365,21 @@ liberator.globalVariables.migrate_elements = [
       after: false,
   },
 ];
+EOM
+
+" ----- その他 -----
+" yourfilehost cookie削除
+" cf.http://anond.hatelabo.jp/20100108213648
+js <<EOM
+commands.addUserCommand(
+  ['removeCookieOfYourfile'],
+  'removeCookieOfYourfile',
+  function() {
+    liberator.execute('cookiemanager remove yourfilehostdatabase.com/');
+    liberator.execute('cookiemanager remove yourfilehost.com/');
+    liberator.execute('cookiemanager remove yourlifehost.jp/');
+        }
+);
 EOM
 
 " フィードボタンをステータスラインに移動
