@@ -106,7 +106,7 @@ colorscheme vimplight
 " (http://coderepos.org/share/browser/dotfiles/vimperator/retlet-vimperatorrc?rev=)
 " trunk以外にbranches/2.xからも欲しい時はどう指定すれば良いのだろう
 " let g:plugin_loader_roots = "~/vimperator-plugins/trunk/"
-" let g:plugin_loader_plugins = "_libly,bitly,char-hints-mod2,copy,exopen,feedSomeKeys_2,imageextender,ldrize_cooperation,migemo-find,migratestatusbar,pluginManager,removetabs,sl,tabsort,toggler,walk-input,yetmappings"
+" let g:plugin_loader_plugins = "_libly.js,imageextender.js,no-reading.js*,toggler.js,bitly.js,ldrize_cooperation.js,pluginManager.js,walk-input.js,char-hints-mod2.js,localkeymode.js,removetabs.js,yetmappings.js,copy.js,migemo-find.js,sl.js,exopen.js,migratestatusbar.js,stella.js,feedSomeKeys_2.js,multi_requester.js tabsort.js"
 
 "<C-Del>で検索語の強調表示をトグル(toggleHighlight.js)
 "map <C-Del> :toggleHighlight<CR>
@@ -170,10 +170,11 @@ autocmd LocationChange .* :fmapc
 " autocmd LocationChange ^http://(reader\.livedoor\.com|fastladder\.com|0\.0\.0\.0\:3000)/reader/ :fmap j k s a p v c z Z b i,ie r < > o,vj J,<Space> K,<S-Space> q w g u T
 " autocmd LocationChange fastladder\\.com/reader :fmap j k s a r p o v c <Space> <S-Space> < > T
 autocmd LocationChange ^http://reader\\.livedoor\\.com/reader :fmap! j k s a r p o f v c <Space> <S-Space> < > T
-" Tumblr (user : ReblogCommand, TumblrTagCommand)
+" Tumblr (use : ReblogCommand, TumblrTagCommand)
 autocmd LocationChange ^http://.*\\.tumblr\\.com/ :fmap! i,t n,h g
 " Gmail
-autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc
+" autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc
+autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc
 " Google Calendar
 autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event keydown j k t a d w m x c e <;Del> / + q s ?
 " RememberTheMilk
@@ -181,7 +182,7 @@ autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event 
 autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap r t i o p a s d f g h j k l z x c v b n m 0 1 2 3 4 <Tab>
 " はてなブックマーク
 " autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o e a
-autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp/ :fmap! j k o e a
+" autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp/ :fmap! j k o e a
 
 " localkeymode.js
 " let g:localkeymode_enable = "true"
@@ -239,6 +240,9 @@ command! urlsort tabsort -t=url
 " let g:hintchars="asdfjkl"
 let g:hintsio="iO"
 " let g:hintlabeling=""
+
+" multi_requester.js
+map ,mf :mr<Space>favotter-new<Space>termin<CR>
 
 " toggler.js
 " :toggle go で setting commands配列の次を実行する
@@ -317,6 +321,13 @@ liberator.globalVariables.hBookmark_search_max_limit = 100;
 
 EOF
 
+" direct_bookmark.js
+" let g:direct_sbm_use_services_by_tag="h"
+" let g:direct_sbm_use_services_by_post="h"
+" let g:direct_sbm_echo_type=""
+" let g:direct_sbm_is_normalize=""
+" let g:direct_sbm_is_usr_migemo=""
+
 " ldrize_cooperation.js
 let g:ldrc_captureMappings = "['j','k','p','o','?']"
 
@@ -334,6 +345,7 @@ noremap cc :hbtc<Space>
 noremap ct :hbtti<Space>
 " urlのみ対象
 noremap cu :hbtu<Space>
+
 " entry_pageを表示する( exopen.js )
 " label:
 "   テンプレート名. コマンドの引数で指定してください.
@@ -366,6 +378,9 @@ liberator.globalVariables.exopen_templates = [
 EOM
 
 noremap <C-S-x> :exopen hatenaep<CR>
+
+" no-reading.js
+" let g:no_reading_do_echo = 1
 
 " migrate_statusbar.js 
 " ☆, feed, faviconをステータスラインに移動 
