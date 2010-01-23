@@ -70,11 +70,11 @@ noremap ! :set usermode<CR>
 " <M-A-Left>/<M-A-Right>かh/lでタブ移動
 map <M-A-Left> <C-p>
 map <M-A-Right> <C-n>
-map h <C-p>
-map l <C-n>
+nmap h <C-p>
+nmap l <C-n>
 "<S-M-Left>/<S-M-Right>で現在のタブの位置変更
-map <S-M-Left>  :tabmove! -1<CR>
-map <S-M-Right> :tabmove! +1<CR>
+map <S-M-Left>  :tabmove! -1<CR>:echo "うごうご・・・！"<CR>
+map <S-M-Right> :tabmove! +1<CR>:echo "うごうご・・・！"<CR>
 " <M-f>でvimpによる検索/
 map <M-f> /
 " tumblrでtキーを使う為, Tで代用する
