@@ -187,47 +187,6 @@ autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap r t i o p a s 
 " autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o e a
 " autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp/ :fmap! j k o e a
 
-" localkeymode.js
-" let g:localkeymode_enable = "true"
-" js <<EOM
-" liberator.globalVariables.localKeyMappings=[
-"   [/^http:\/\/www\.nicovideo\.jp\/watch/, [
-"     ['p', ':nicopause'],
-"     ['m', ':nicomute'],
-"     ['v', ':nicommentvisible'],
-"     ['s', ':nicoseek! +10'],
-"     ['S', ':nicoseek! -10'],
-"     ['z', ':nicosize'],
-"     //['c', ':nicomment ', true],
-"     //['C', ':nicommand ', true],
-"   ]],
-"   [/^http:\/\/www\.youtube\.com\/watch/, [
-"     ['p', ':ytpause'],
-"     ['m', ':ytmute'],
-"     ['z', ':ytsize'],
-"     ['s', ':ytseek! +10'],
-"     ['S', ':ytseek! -10'],
-"   ]],
-" ];
-" EOM
-
-" feedSomeKeys_2.jsとlocalkeymode.jsの相性問題対応パッチ
-" cf.http://vimperator.g.hatena.ne.jp/nokturnalmortum/20081220/1229773089
-" js <<EOM
-" autocommands.add(
-"   'VimperatorEnter',
-"   /.*/,
-"   function () {
-"     let (orig = plugins.LocalKeyMode.loadKeyMap) {
-"       plugins.LocalKeyMode.loadKeyMap = function () {
-"         if (!liberator.plugins.feedKey || liberator.plugins.feedKey.origMap.length <= 0)
-"           orig.call(plugins.LocalKeyMode);
-"       };
-"     }
-"   }
-" );
-" EOM
-
 " removetabs.js
 " 左側にあるタブを閉じる
 noremap <C-S-Left> :removetabsleft
