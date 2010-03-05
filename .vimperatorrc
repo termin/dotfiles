@@ -62,10 +62,9 @@ set showstatuslinks=2
 " 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
 " let mapleader=","
 
-" map <M-@> <Escape>
 " travian
-:map ,t :open http://s4.travian.jp/build.php?z=351133&gid=17<CR>
-
+:map <M-C-t> :open http://s4.travian.jp/build.php?z=351133&gid=17<CR>
+:nmap ,f ft
 " show current website with a minimal style sheet.
 noremap ! :set usermode<CR>
 
@@ -165,27 +164,37 @@ autocommands.add(
 );
 EOM
 
+"" feedSomekeys_3.js
+"command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+"" Gmail
+"lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
+"" Livedoor Reader
+"lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p v c z r < > <Space> <S-Space> q w e g
+"" RememberTheMilk
+"lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
+"" Tumblr (use : ReblogCommand, TumblrTagCommand)
+"lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' i,t e,tk n,h
+"fmap -urls='^http://[^\./]*\.tumblr\.com/' g g
+"" はてなブックマーク
+"lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o
+"" Google Calendar
+"lazy fmap -u='^http://www\.google\.com/calendar/' -event=keydown j k t a d w m x c e <Del> / + q s ?
+
 " feedSomekeys_2.js
 autocmd LocationChange .* :fmapc
-" LDR/Fastladder/OpenFL
-" れとれとさんrcより
-" autocmd LocationChange ^http://(reader\.livedoor\.com|fastladder\.com|0\.0\.0\.0\:3000)/reader/ :fmap j k s a p v c z Z b i,ie r < > o,vj J,<Space> K,<S-Space> q w g u T
-" autocmd LocationChange fastladder\\.com/reader :fmap j k s a r p o v c <Space> <S-Space> < > T
 autocmd LocationChange ^http://reader\\.livedoor\\.com/reader :fmap! j k s a r p o f v c <Space> <S-Space> < > T
 " Tumblr (use : ReblogCommand, TumblrTagCommand)
-" TagCommandを呼ぶg が2文字コマンドとバッティング. この程度だったらPASS THROUGHでごまかしてもよいけど.
+" TagCommandを呼ぶg が2文字コマンドとバッティング. _3.jsを待つ
 autocmd LocationChange ^http://.*\\.tumblr\\.com/ :fmap! i,t n,h g
 " Gmail
 " autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc
 autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc gb
 " Google Calendar
-autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event keydown j k t a d w m x c e <;Del> / + q s ?
+autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event keydown j k t a d w m x c e <Del> / + q s ?
 " RememberTheMilk
-" <Tab> がうまくいってない
-autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap r t i o p a s d f g h j k l z x c v b n m 0 1 2 3 4 <Tab>
+autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
 " はてなブックマーク
-" autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o e a
-" autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp/ :fmap! j k o e a
+autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o
 
 " removetabs.js
 " 左側にあるタブを閉じる
