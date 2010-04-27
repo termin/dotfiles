@@ -1,4 +1,3 @@
-"2.2 (created: 2009/10/28 19:04:27)
 " for Mac
 
 " ----- notice -----
@@ -57,6 +56,8 @@ set showstatuslinks=2
 "Awesomebarの補完対象にBookmarkletを追加、件数を50件に変更
 " set! browser.urlbar.filter.javascript=false
 " set! browser.urlbar.maxRichResults=50 
+
+set showtabline=1
 
 " ----- Key Mappings -----
 " 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
@@ -117,7 +118,7 @@ colorscheme vimplight
 " copy.js
 "<C-S-c>でタイトルとURLをコピー(copy.js)
 map <M-S-c> :copy titleAndURL<CR>
-map cp :copy<Space>
+"map cp :copy<Space>
 js <<EOM
 liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE%\n%URL%' },
@@ -147,54 +148,21 @@ liberator.globalVariables.localKeyMappings=[
 ];
 EOM
 
-" feedSomeKeys_2.jsとlocalkeymode.jsの相性問題対応パッチ
-" cf.http://vimperator.g.hatena.ne.jp/nokturnalmortum/20081220/1229773089
-js <<EOM
-autocommands.add(
-  'VimperatorEnter',
-  /.*/,
-  function () {
-    let (orig = plugins.LocalKeyMode.loadKeyMap) {
-      plugins.LocalKeyMode.loadKeyMap = function () {
-        if (!liberator.plugins.feedKey || liberator.plugins.feedKey.origMap.length <= 0)
-          orig.call(plugins.LocalKeyMode);
-      };
-    }
-  }
-);
-EOM
-
-"" feedSomekeys_3.js
-"command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
-"" Gmail
-"lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
-"" Livedoor Reader
-"lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p v c z r < > <Space> <S-Space> q w e g
-"" RememberTheMilk
-"lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
-"" Tumblr (use : ReblogCommand, TumblrTagCommand)
-"lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' i,t e,tk n,h
-"fmap -urls='^http://[^\./]*\.tumblr\.com/' g g
-"" はてなブックマーク
-"lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o
-"" Google Calendar
-"lazy fmap -u='^http://www\.google\.com/calendar/' -event=keydown j k t a d w m x c e <Del> / + q s ?
-
-" feedSomekeys_2.js
-autocmd LocationChange .* :fmapc
-autocmd LocationChange ^http://reader\\.livedoor\\.com/reader :fmap! j k s a r p o f v c <Space> <S-Space> < > T
-" Tumblr (use : ReblogCommand, TumblrTagCommand)
-" TagCommandを呼ぶg が2文字コマンドとバッティング. _3.jsを待つ
-autocmd LocationChange ^http://.*\\.tumblr\\.com/ :fmap! i,t n,h g
+" feedSomekeys_3.js
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 " Gmail
-" autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! -depth 4 c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc
-autocmd LocationChange ^https?://mail\\.google\\.com/mail :fmap! c / j k n p o u e x s r a # [ ] * z ? gi gs gt gd ga gc gb
-" Google Calendar
-autocmd LocationChange ^http://www\\.google\\.com/calendar/ :fmap! -vkey -event keydown j k t a d w m x c e <Del> / + q s ?
+lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
+" Livedoor Reader
+lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p v c z r < > <Space> <S-Space> q w e g
 " RememberTheMilk
-autocmd LocationChange ^http://www\\.rememberthemilk\\.com/ :fmap j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
+lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
+" Tumblr (use : ReblogCommand, TumblrTagCommand)
+lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' i,t e,tk n,h
+"fmap -urls='^http://[^\./]*\.tumblr\.com/' g g
 " はてなブックマーク
-autocmd LocationChange ^http://b\\.hatena\\.ne\\.jp(?!entry|articles|guide) :fmap! j k o
+lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o
+" Google Calendar
+lazy fmap -u='^http://www\.google\.com/calendar/' -event=keydown j k t a d w m x c e <Del> / + q s ?
 
 " removetabs.js
 " 左側にあるタブを閉じる
@@ -239,7 +207,6 @@ EOM
 map <F2> :toggle go<CR>
 map <F3> :toggle tab<CR>
 map <F4> :toggle sb<CR>
-" 再考したい
 map ,1 :set go=rbT<CR>
 map ,2 :set go=rb<CR>
 " map <C-S-1> :set go="rbT"<CR>
@@ -247,8 +214,8 @@ map ,2 :set go=rb<CR>
 map ,q :set showtabline="2"<CR>
 map ,w :set showtabline="0"<CR>
 " travian のみでツールバーを表示する
-autocmd LocationChange .* set go=rb
-autocmd LocationChange ^http://s4.travian.jp/ set go=rbT
+"autocmd LocationChange .* set go=rb
+"autocmd LocationChange ^http://s4.travian.jp/ set go=rbT
 
 " はてなブックマーク拡張( http://subtech.g.hatena.ne.jp/secondlife/20090402/1238655382 )
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
@@ -311,11 +278,11 @@ let g:ldrc_captureMappings = "['j','k','p','o','?']"
 noremap C :hbt<Space>
 " noremap cx :
 " コメントのみ対象
-noremap cc :hbtc<Space>
+noremap <C-c> :hbtc<Space>
 " titleのみ対象
-noremap ct :hbtti<Space>
+noremap <C-t> :hbtti<Space>
 " urlのみ対象
-noremap cu :hbtu<Space>
+noremap <C-u> :hbtu<Space>
 
 " entry_pageを表示する( exopen.js )
 " label:
