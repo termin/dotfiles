@@ -1,6 +1,6 @@
 " for Mac
 
-" ----- notice -----
+" -----Notice -----
 " set!はFirefoxの設定を変える
 " setはvimperatorの設定
 " らしい.
@@ -8,7 +8,7 @@
 " Loading
 echo "vimp: We'll back soon..."
 
-" ----- main options -----
+" ----- Main options -----
 set runtimepath=/Users/termin/.vimperator
 source! /Users/termin/.vimperatorrc.local
 
@@ -27,13 +27,6 @@ set visualbell
 hi Bell display: none;
 
 " 新しいタブで開く
-" all			All commands
-" addons		:addo[ns] command
-" downloads		:downl[oads] command
-" extoptions	:exto[ptions] command
-" help			:h[elp] command
-" javascript	:javascript! or :js! command
-" prefs			:pref[erences]! or :prefs! command
 set newtab=all
 " exモード時でインクリメント補完
 set wildoptions=auto
@@ -61,10 +54,7 @@ set showtabline=1
 
 " ----- Key Mappings -----
 " 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
-" let mapleader=","
 
-" travian
-":map <M-C-t> :open http://s4.travian.jp/build.php?z=351133&gid=17<CR>
 " show current website with a minimal style sheet.
 noremap ! :set usermode<CR>
 
@@ -78,9 +68,6 @@ map <S-M-Left>  :tabmove! -1<CR>:echo "うごうご・・・！"<CR>
 map <S-M-Right> :tabmove! +1<CR>:echo "うごうご・・・！"<CR>
 " <M-f>でvimpによる検索/
 map <M-f> /
-" tumblrでtキーを使う為, Tで代用する
-"map T :tabopen<Space>
-" <M-i>でinput fieldにフォーカス
 nmap e gi
 " URL中の数字を++/--
 noremap ++ <C-a>
@@ -129,8 +116,6 @@ let g:nextlink_nextmap = "J"
 " twittperator.js
 " ChirpUserStreamを使う
 let g:twittperator_use_chirp = 1
-" 棒読みちゃんにしゃべらせるプラグイン (namakubi.js プラグインが必要)
-let g:twittperator_plugin_urusai_namakubi = 0
 " コマンドラインにtweetを自動的に表示
 let g:twittperator_plugin_echo_tweet = 0
 " reply_popup_alert
@@ -142,9 +127,8 @@ let g:twittperator_plugin_reply_popup_alert_username = "termin"
 nmap <S-C-g> :gsearch!<Space>
 
 " copy.js
-"<C-S-c>でタイトルとURLをコピー(copy.js)
+" <M-S-c>でタイトルとURLをコピー
 map <M-S-c> :copy titleAndURL<CR>
-"map cp :copy<Space>
 js <<EOM
 liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE%\n%URL%' },
@@ -210,7 +194,6 @@ let g:hintsio="iO"
 map ,mf :mr<Space>favotter-new<Space>termin<CR>
 
 " toggler.js
-" :toggle go で setting commands配列の次を実行する
 " js <<EOM
 " liberator.globalVariables.toggler = {
 "   //  name: [ setting commands ]],
@@ -224,19 +207,14 @@ map ,mf :mr<Space>favotter-new<Space>termin<CR>
 "     ["set go=","sbclose"],
 "     ["set go=mTb","sbar Console"]
 "   ],
-"   //...
 " };
 " EOM
 
 " map <F2> :toggle go<CR>
-" map <F3> :toggle tab<CR>
-" map <F4> :toggle sb<CR>
 map ,1 :set go=rbT<CR>
 map ,2 :set go=rb<CR>
-" map <C-S-1> :set go="rbT"<CR>
-" map <C-S-2> :set go="rb" <CR>
-map ,q :set showtabline="2"<CR>
-map ,w :set showtabline="0"<CR>
+" map ,q :set showtabline="2"<CR>
+" map ,w :set showtabline="0"<CR>
 " travian のみでツールバーを表示する
 " autocmd LocationChange .* set go=rb
 " autocmd LocationChange ^http://s4.travian.jp/ set go=rbT
@@ -263,20 +241,6 @@ liberator.globalVariables.hBookmark_shortcuts = {
 EOF
 
 " entry_pageを表示する( exopen.js )
-" label:
-"   テンプレート名. コマンドの引数で指定してください.
-" value:
-"   OpenするURL
-" custom:
-"   関数か配列で指定してください.
-"   関数の場合、return された文字列をオープンします.
-"   配列の場合、value で指定された文字列を置換します. (条件→Array[0]、置換文字列→Array[1])
-" description:
-"   補完時に表示する説明文.
-" newtab:
-"   新規タブで開く場合は true を指定してください.
-" escape:
-"   URLエンコードする場合、true を指定してください.
 javascript <<EOM
 liberator.globalVariables.exopen_templates = [
 {
@@ -350,7 +314,8 @@ noremap <S-C-l> :lo<Space>
 " zip-de-download
 let g:zipDownloadDir = "~/Desktop"
 noremap <S-C-z> :zipdownload -auto-detect jpg
-" ----- その他 -----
+
+" ----- Others -----
 " yourfilehost cookie削除
 " cf.http://anond.hatelabo.jp/20100108213648
 js <<EOM
