@@ -1,19 +1,20 @@
 " for Mac
+" -----ToDo-----
+" migemo-find.jsを使った時にset hlsearchが効かない.
+" 現状では仕様らしい
+" set guioptions+=n の時に, removetabsが効かない.
 
 " -----Notice -----
-" set!はFirefoxの設定を変える
-" setはvimperatorの設定
-" らしい.
 
 " Loading
-echo "vimp: We'll back soon..."
 
 " ----- Main options -----
 set runtimepath=/Users/termin/.vimperator
 source! /Users/termin/.vimperatorrc.local
 
 set guioptions=rb
-
+" デフォルトで使用するサーチエンジンを指定. ブックマークキーワードの設定に準ずる.
+set defsearch=g
 " ブラウザタイトルの変更
 " set titlestring=vimp
 " ページ全体で検索語を強調表示
@@ -21,9 +22,9 @@ set hlsearch
 " 検索語の大文字小文字を無視
 " set ignorecase
 
-"ビープ音を鳴らさずビジュアルベルを使用
+" ビープ音を鳴らさずビジュアルベルを使用
 set visualbell
-"ビジュアルベルを無効化
+" ビジュアルベルを無効化
 hi Bell display: none;
 
 " 新しいタブで開く
@@ -32,17 +33,8 @@ set newtab=all
 set wildoptions=auto
 " input要素にfocusを奪われないようにする
 " AwesomeBarを使いたい場合に、フォーカスがvimpに取られてしまうと扱いにくい
-set focuscontent
+" set focuscontent
 
-" Items which are completed at the :open prompts. Available items:
-" default: slf
-" s Search engines and keyword URLs 
-" f Local files 
-" l Firefox location bar entries (bookmarks and history sorted in an intelligent way) 
-" b Bookmarks 
-" h History 
-" S Search engine suggestions 
-" t Open tabs
 set complete=slS
 " リンク先の表示位置
 set showstatuslinks=2
@@ -50,59 +42,83 @@ set showstatuslinks=2
 " set! browser.urlbar.filter.javascript=false
 " set! browser.urlbar.maxRichResults=50 
 
-set showtabline=1
+" デフォルトのプライベート情報除去期間を"全ての期間"にする.
+set sanitizetimespan=0
+
+" test
+" set verbose=15
+
+" ---- Style Options ----
+" [tab]open等で長いタイトルがURIに被らない様に補完リストの結果欄(左側)を調整 (れとれとさんちより)
+" よくわからない
+"hi CompResult width: 45%; overflow: hidden; max-width: 60%;
+
+" colorscheme (http://coderepos.org/share/browser/lang/javascript/vimperator-plugins/trunk/colors/)
+" colorscheme default
+colorscheme vimplight
 
 " ----- Key Mappings -----
-" 今は適当に割り当てているだけだけど, その内出来るところは整理したい.
+" 今は適当に割り当てているだけだけど, その内出来るところは整理したい. → 永遠にしない事が分かった
 
-" show current website with a minimal style sheet.
-noremap ! :set usermode<CR>
+" 最低限のスタイルシートで表示.invは反転.
+noremap ! :set invusermode<CR>
 
+"" tab
 " <M-A-Left>/<M-A-Right>かh/lでタブ移動
 map <M-A-Left> <C-p>
 map <M-A-Right> <C-n>
 nmap h <C-p>
 nmap l <C-n>
-"<S-M-Left>/<S-M-Right>で現在のタブの位置変更
+" <S-M-Left>/<S-M-Right>で現在のタブの位置変更
 map <S-M-Left>  :tabmove! -1<CR>:echo "うごうご・・・！"<CR>
 map <S-M-Right> :tabmove! +1<CR>:echo "うごうご・・・！"<CR>
+
+map <A-Up> gu
+
 " <M-f>でvimpによる検索/
 map <M-f> /
-nmap e gi
+" nmap e gi
 " URL中の数字を++/--
-noremap ++ <C-a>
-noremap -- <C-x>
+" noremap ++ <C-a>
+" noremap -- <C-x>
 " d キーでも直前にフォーカスしていたタブに戻る様にする
 noremap <C-w> <M-w>
 map d <C-w>
 " undo一覧から開く
 map U :undo<Space>
-map ,s :saves<CR>
+map ,s :saveas<CR>
 " .vimperatorrcをリロード.
 " mapcだけじゃ全てのmappingがクリアされないみたい. 追試済み (http://d.hatena.ne.jp/blooo/20100120/1263963525)
 " nnoremap <silent> ,r :mapc<CR>:cmapc<CR>:imapc<CR>:so ~/.vimperatorrc<CR>
 nnoremap ,r :mapc<CR>:cmapc<CR>:imapc<CR>:so ~/.vimperatorrc<CR>
 
-" colorscheme (http://coderepos.org/share/browser/lang/javascript/vimperator-plugins/trunk/colors/)
-" colorscheme sweets_snaka
-" colorscheme sweets
-" colorscheme default
-" colorscheme simple
-colorscheme vimplight
+" 一般的なコピーコマンドが上手く動かない気がするのでお試し
+nnoremap <M-c> Y
+
+" <M-k>でgoogle.co.jp/firefoxに飛ぶのを防止
+nnoremap <M-k> <Nop>
+" qmarks
+" silent qmark h http://www.hatena.ne.jp/termin2/
+" silent qmark e http://www.tumblr.com/tumblelog/termin
+" silent qmark t http://twitter.com/
+" silent qmark f http://favstar.fm/users/termin/recent
+" silent qmark l http://twitter.com/termin/lists
+" silent qmark m https://mail.google.com/mail/?hl=ja&shva=1#inbox
+" silent qmark b http://b.hatena.ne.jp/termin2/
+" silent qmark s http://s.hatena.ne.jp/termin2/report
+" silent qmark d http://www.tumblr.com/dashboard
+" silent qmark y http://twitter.com/termin
+" silent qmark L http://reader.livedoor.com/
 
 " ----- Plugin Options  -----
 " (http://coderepos.org/share/browser/dotfiles/vimperator/retlet-vimperatorrc?rev=)
 " trunk以外にbranches/2.xからも欲しい時はどう指定すれば良いのだろう
-" let g:plugin_loader_roots = "~/.vimperator/plugin-test/"
-" let g:plugin_loader_plugins = "_libly,bitly,char-hints-mod2,copy,exopen,feedSomeKeys_2,imageextender,ldrize_cooperation,localkeymode,migratestatusbar,multi_requester,no-reading,pluginManager,removetabs,sl,stella,tabsort,toggler,walk-input,yetmappings"
-
-"<C-Del>で検索語の強調表示をトグル(toggleHighlight.js)
-"map <C-Del> :toggleHighlight<CR>
-"<A-g>でGreasemonkeyをトグル(gmperator.js)
-"map <A-g> :gmset!<CR>
+"let g:plugin_loader_roots = "~/vimperator-plugins/trunk/ ~/.vimperator/plugin.old"
+let g:plugin_loader_roots = "~/vimperator-plugins/"
+let g:plugin_loader_plugins = "_libly,bitly,char-hints-mod2,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,localkeymode,migemo-find,migemo_hint,migratestatusbar,multi_requester,nextlink,no-reading,pluginManager,removetabs,sl,stella,tabsort,toggler,txt,walk-input,yetmappings,zip-de-download,reporter"
 
 " google-translator.js
-nmap ,gt :gtrans<Space>
+ nmap ,gt :gtrans<Space>
 
 " nextlink.js
 " let g:nextlink_followlink = "true"
@@ -115,16 +131,16 @@ let g:nextlink_nextmap = "J"
 
 " twittperator.js
 " ChirpUserStreamを使う
-let g:twittperator_use_chirp = 1
+" let g:twittperator_use_chirp = 1
 " コマンドラインにtweetを自動的に表示
-let g:twittperator_plugin_echo_tweet = 0
+" let g:twittperator_plugin_echo_tweet = 0
 " reply_popup_alert
-let g:twittperator_plugin_reply_popup_alert = 1
-let g:twittperator_plugin_reply_popup_alert_username = "termin"
+" let g:twittperator_plugin_reply_popup_alert = 1
+" let g:twittperator_plugin_reply_popup_alert_username = "termin"
 
 " google-search.js
-" 遅い.イマイチ使えない.
-nmap <S-C-g> :gsearch!<Space>
+" 遅い.使えない.
+"nmap <S-C-g> :gsearch!<Space>
 
 " copy.js
 " <M-S-c>でタイトルとURLをコピー
@@ -143,7 +159,6 @@ liberator.globalVariables.copy_templates = [
 EOM
 
 " localkeymode.js, stella.js
-" stseek! +10がうまく動かないなぁ. -10なら動くんだけど.
 let g:localkeymode_enable = "true"
 js <<EOM
 liberator.globalVariables.localKeyMappings=[
@@ -163,7 +178,9 @@ command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 " Gmail
 lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
 " Livedoor Reader
-lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k o s a p v c z r < > <Space> <S-Space> q w e g
+lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v c z r f J K < > <Space> <S-Space> <Del> g G,u
+" LDR Full Feed Key Settings
+" g = "load current entry" G,u = "load all entries"
 " RememberTheMilk
 lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
 " Tumblr (use : ReblogCommand, TumblrTagCommand)
@@ -172,7 +189,9 @@ lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' i,t e,tk n,h
 " はてなブックマーク
 lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o
 " Google Calendar
-lazy fmap -u='^http://www\.google\.com/calendar/' -event=keydown j k t a d w m x c e <Del> / + q s ?
+lazy fmaps -u='^http://www\.google\.com/calendar/' -event=keydown j k t a d w m x c e <Del> / + q s ?
+" New Twitter
+" lazy fmaps -u='^http://twitter.\com/#!' j k f <Space> ? .
 
 " removetabs.js
 " 左側にあるタブを閉じる
@@ -187,30 +206,31 @@ command! urlsort tabsort -t=url
 
 " char-hints-mod2.js
 " let g:hintchars="asdfjkl"
-let g:hintsio="iO"
+let g:hintsio="IO"
 " let g:hintlabeling=""
 
 " multi_requester.js
 map ,mf :mr<Space>favotter-new<Space>termin<CR>
+map ,my :mr<Space>twitter-user<Space>termin<CR>
 
 " toggler.js
-" js <<EOM
-" liberator.globalVariables.toggler = {
-"   //  name: [ setting commands ]],
-"   // ツールバー
-"   go: ["set go=rbT","set go=rb"],
-"   // タブバー
-"   tab:["set showtabline=0", "set showtabline=2"],
-"   // サイドバー
-"   sb: ["sbclose","sbar Console"],
-"   go_and_sb: [
-"     ["set go=","sbclose"],
-"     ["set go=mTb","sbar Console"]
-"   ],
-" };
-" EOM
+js <<EOM
+liberator.globalVariables.toggler = {
+  //  name: [ setting commands ]],
+  // ツールバー
+  go: ["set go-=T", "set go+=T"],
+  // タブバー
+  // tab:["set showtabline=0", "set showtabline=2"],
+  // サイドバー
+  // sb: ["sbclose","sbar Console"],
+  // go_and_sb: [
+  //   ["set go=","sbclose"],
+  //   ["set go=mTb","sbar Console"]
+  // ],
+};
+EOM
 
-" map <F2> :toggle go<CR>
+map <F2> :toggle go<CR>
 map ,1 :set go=rbT<CR>
 map ,2 :set go=rb<CR>
 " map ,q :set showtabline="2"<CR>
@@ -253,13 +273,12 @@ EOM
 noremap <S-x> :exopen hatenaep<CR>
 
 " direct_bookmark.js
-let g:direct_sbm_use_services_by_tag="h"
-let g:direct_sbm_use_services_by_post="h"
-let g:direct_sbm_echo_type="multiline"
+" let g:direct_sbm_use_services_by_tag="h"
+" let g:direct_sbm_use_services_by_post="h"
+" let g:direct_sbm_echo_type="multiline"
 " let g:direct_sbm_is_normalize
 " let g:direct_sbm_is_use_migemo
-
-noremap <S-v> :sbm<CR>
+" noremap <S-v> :sbm<CR>
 
 " autocmd VimperatorEnter .* :set complete+=H
 " はてブ検索(はてなブックマーク拡張)
@@ -268,7 +287,7 @@ noremap c :hbt<Space>
 " コメントのみ対象
 noremap <C-c> :hbtc<Space>
 " titleのみ対象
-noremap <C-t> :hbtti<Space>
+" noremap <C-t> :hbtti<Space>
 " urlのみ対象
 noremap <C-u> :hbtu<Space>
 
@@ -281,6 +300,13 @@ let g:ldrc_captureMappings = "['j','k','p','o','?']"
 
 " no-reading.js
 let g:no_reading_do_echo = 1
+
+" migemized_find.js
+" let g:migemized_find_install = "false"
+" noremap <C-/> :ml -c limegreen<Space>
+
+" migemo_hint.js
+set hintmatching=custom
 
 " migrate_statusbar.js 
 " ☆, feed, faviconをステータスラインに移動 
@@ -318,17 +344,17 @@ noremap <S-C-z> :zipdownload -auto-detect jpg
 " ----- Others -----
 " yourfilehost cookie削除
 " cf.http://anond.hatelabo.jp/20100108213648
-js <<EOM
-commands.addUserCommand(
-  ['removeCookieOfYourfile'],
-  'removeCookieOfYourfile',
-  function() {
-    liberator.execute('cookiemanager remove yourfilehostdatabase.com/');
-    liberator.execute('cookiemanager remove yourfilehost.com/');
-    liberator.execute('cookiemanager remove yourlifehost.jp/');
-        }
-);
-EOM
+" js <<EOM
+" commands.addUserCommand(
+"   ['removeCookieOfYourfile'],
+"   'removeCookieOfYourfile',
+"   function() {
+"     liberator.execute('cookiemanager remove yourfilehostdatabase.com/');
+"     liberator.execute('cookiemanager remove yourfilehost.com/');
+"     liberator.execute('cookiemanager remove yourlifehost.jp/');
+"         }
+" );
+" EOM
 
 " フィードボタンをステータスラインに移動
 " javascript <<EOM
