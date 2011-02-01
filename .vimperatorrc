@@ -17,6 +17,8 @@ set guioptions=rb
 set defsearch=g
 " ブラウザタイトルの変更
 " set titlestring=vimp
+"補完時のサジェストに使用するサーチエンジンを設定0
+"set suggestengines=g
 " ページ全体で検索語を強調表示
 set hlsearch
 " 検索語の大文字小文字を無視
@@ -39,13 +41,19 @@ set complete=slS
 " リンク先の表示位置
 set showstatuslinks=2
 "Awesomebarの補完対象にBookmarkletを追加、件数を50件に変更
-" set! browser.urlbar.filter.javascript=false
+set! browser.urlbar.filter.javascript=false
 " set! browser.urlbar.maxRichResults=50 
 
-" デフォルトのプライベート情報除去期間を"全ての期間"にする.
-set sanitizetimespan=0
+" ロケーションバーで表示する項目. vimpのcompleteオプションで"l"を選択すると本項が関連する.
+"0＝両方検索
+"1＝履歴のみ検索
+"2＝ブックマークのみ検索
+set! browser.urlbar.default.behavior=2
 
-" test
+"set sanitizeitems=
+" デフォルトのプライベート情報除去期間を"全ての期間"にする.
+"set sanitizetimespan=0
+
 " set verbose=15
 
 " ---- Style Options ----
@@ -95,6 +103,8 @@ nnoremap ,r :mapc<CR>:cmapc<CR>:imapc<CR>:so ~/.vimperatorrc<CR>
 " 一般的なコピーコマンドが上手く動かない気がするのでお試し
 nnoremap <M-c> Y
 
+nmap ,h :history!<Space>
+
 " <M-k>でgoogle.co.jp/firefoxに飛ぶのを防止
 nnoremap <M-k> <Nop>
 " qmarks
@@ -115,7 +125,8 @@ nnoremap <M-k> <Nop>
 " trunk以外にbranches/2.xからも欲しい時はどう指定すれば良いのだろう
 "let g:plugin_loader_roots = "~/vimperator-plugins/trunk/ ~/.vimperator/plugin.old"
 let g:plugin_loader_roots = "~/vimperator-plugins/"
-let g:plugin_loader_plugins = "_libly,bitly,char-hints-mod2,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,localkeymode,migemo-find,migemo_hint,migratestatusbar,multi_requester,nextlink,no-reading,pluginManager,removetabs,sl,stella,tabsort,toggler,txt,walk-input,yetmappings,zip-de-download,reporter"
+let g:plugin_loader_plugins = "_libly,bitly,char-hints-mod2,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,localkeymode,migemo_hint,migratestatusbar,multi_requester,nextlink,no-reading,pluginManager,removetabs,sl,stella,tabsort,toggler,txt,walk-input,yetmappings,zip-de-download,reporter,sbmcommentsviewer"
+" migemo-find
 
 " google-translator.js
  nmap ,gt :gtrans<Space>
@@ -248,7 +259,7 @@ javascript <<EOF
 liberator.globalVariables.hBookmark_shortcuts = {
     hintsAdd     : 'c',
     hintsComment : 'C',
-    add          : ['<S-C-v>'],
+    add          : ['<S-v>'],
     comment      : ['<S-c>'],
 };
 // コマンドの設定
@@ -279,6 +290,11 @@ noremap <S-x> :exopen hatenaep<CR>
 " let g:direct_sbm_is_normalize
 " let g:direct_sbm_is_use_migemo
 " noremap <S-v> :sbm<CR>
+
+" sbmcommentsviewer.js
+let g:def_sbms = "hdt"
+nmap <S-C-c> :viewSBMComments<CR>
+nmap ,vc :viewSBMComments -t t<CR>
 
 " autocmd VimperatorEnter .* :set complete+=H
 " はてブ検索(はてなブックマーク拡張)
