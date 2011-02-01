@@ -1,3 +1,13 @@
+" for Mac
+"#######################
+" 基本
+"#######################
+" バックスペースキーで削除できるものを指定
+" indent  : 行頭の空白
+" eol     : 改行
+" start   : 挿入モード開始位置より手前の文字
+set backspace=indent,eol,start
+
 set nocompatible "vi非互換モード
 "#######################
 " 表示系
@@ -19,6 +29,12 @@ set smartindent "オートインデント
 " tab関連
 "set expandtab "タブの代わりに空白文字挿入
 set ts=4 sw=4 sts=0 
+
+autocmd BufNewFile	*.rb	0r	~/.vim/template/skeleton.ruby
+
+filetype plugin indent on
+autocmd FileType ruby set ts=2 | set sw=2 | set expandtab 
+
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 "#######################
