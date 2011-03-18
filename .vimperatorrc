@@ -1,4 +1,4 @@
-" for Mac
+" for Vimperator 2.3 on Mac
 " -----ToDo-----
 " migemo-find.jsを使った時にset hlsearchが効かない.
 " 現状では仕様らしい
@@ -83,6 +83,8 @@ map <S-M-Right> :tabmove! +1<CR>:echo "うごうご・・・！"<CR>
 
 map <A-Up> gu
 
+map <silent> <Esc><Esc> :nohlsearch<CR>
+
 " <M-f>でvimpによる検索/
 map <M-f> /
 " nmap e gi
@@ -112,20 +114,23 @@ nnoremap <M-k> <Nop>
 " silent qmark e http://www.tumblr.com/tumblelog/termin
 " silent qmark t http://twitter.com/
 " silent qmark f http://favstar.fm/users/termin/recent
-" silent qmark l http://twitter.com/termin/lists
+" silent qmark l http://reader.livedoor.com/
 " silent qmark m https://mail.google.com/mail/?hl=ja&shva=1#inbox
 " silent qmark b http://b.hatena.ne.jp/termin2/
 " silent qmark s http://s.hatena.ne.jp/termin2/report
 " silent qmark d http://www.tumblr.com/dashboard
 " silent qmark y http://twitter.com/termin
-" silent qmark L http://reader.livedoor.com/
+" silent qmark L http://twitter.com/#!/termin/lists
+" silent qmark v http://tv.yahoo.co.jp/listings/realtime/
+" silent qmark F http://favstar.fm/users/broiddot/recent
+" silent qmark V http://voyurl.com/member/me
 
 " ----- Plugin Options  -----
 " (http://coderepos.org/share/browser/dotfiles/vimperator/retlet-vimperatorrc?rev=)
 " trunk以外にbranches/2.xからも欲しい時はどう指定すれば良いのだろう
 "let g:plugin_loader_roots = "~/vimperator-plugins/trunk/ ~/.vimperator/plugin.old"
 let g:plugin_loader_roots = "~/vimperator-plugins/"
-let g:plugin_loader_plugins = "_libly,bitly,char-hints-mod2,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,localkeymode,migemo_hint,migratestatusbar,multi_requester,nextlink,no-reading,pluginManager,removetabs,sl,stella,tabsort,toggler,txt,walk-input,yetmappings,zip-de-download,reporter,sbmcommentsviewer"
+let g:plugin_loader_plugins = "_libly,bitly,char-hints-mod2,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,localkeymode,migemo_hint,migratestatusbar,multi_requester,nextlink,no-reading,pluginManager,removetabs,sl,stella,tabsort,toggler,txt,walk-input,yetmappings,zip-de-download,reporter,sbmcommentsviewer,cookieManager,edit-vimperator-files"
 " migemo-find
 
 " google-translator.js
@@ -155,10 +160,12 @@ let g:nextlink_nextmap = "J"
 
 " copy.js
 " <M-S-c>でタイトルとURLをコピー
-map <M-S-c> :copy titleAndURL<CR>
+"map <M-S-c> :copy titleAndURL<CR>
+map <M-S-c> :copy tw<CR>
 js <<EOM
 liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE%\n%URL%' },
+  { label: 'tw',			 value: '『%TITLE%』\n%URL%' },
   { label: 'title',          value: '%TITLE%', map: ',y' },
   { label: 'anchor',         value: '<a href="%URL%">%TITLE%</a>' },
   { label: 'selanchor',      value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' },
@@ -229,19 +236,20 @@ js <<EOM
 liberator.globalVariables.toggler = {
   //  name: [ setting commands ]],
   // ツールバー
-  go: ["set go-=T", "set go+=T"],
+  go: ["set go=rbT", "set go=rb"],
   // タブバー
-  // tab:["set showtabline=0", "set showtabline=2"],
+  tab:["set showtabline=2", "set showtabline=0"],
   // サイドバー
   // sb: ["sbclose","sbar Console"],
-  // go_and_sb: [
-  //   ["set go=","sbclose"],
-  //   ["set go=mTb","sbar Console"]
-  // ],
+  go_and_tab: [
+  	["set go=rbT","set showtabline=2"],
+    ["set go=rb","set showtabline=0"]
+  ],
 };
 EOM
 
 map <F2> :toggle go<CR>
+map <F3> :toggle go_and_tab<CR>
 map ,1 :set go=rbT<CR>
 map ,2 :set go=rb<CR>
 " map ,q :set showtabline="2"<CR>
@@ -301,11 +309,11 @@ nmap ,vc :viewSBMComments -t t<CR>
 noremap c :hbt<Space>
 " noremap cx :
 " コメントのみ対象
-noremap <C-c> :hbtc<Space>
+noremap ,cc :hbtc<Space>
 " titleのみ対象
 " noremap <C-t> :hbtti<Space>
 " urlのみ対象
-noremap <C-u> :hbtu<Space>
+noremap ,cu :hbtu<Space>
 
 " ldrize_cooperation.js
 let g:ldrc_captureMappings = "['j','k','p','o','?']"
@@ -344,6 +352,24 @@ liberator.globalVariables.migrate_elements = [
       // favicon of awesome bar
       id:    'page-proxy-stack',
       dest:  'liberator-statusline',
+      after: false,
+  },
+//  {
+//	  // voyurl
+//	  id:    'voyurl on/off',
+//	  dest:  'security-button',
+//      after: false,
+//  },
+  {
+	  // voyurl
+	  id:    'voyurl-button',
+	  dest:  'security-button',
+      after: false,
+  },
+  {
+	  // voyurl remove visit from voyurl
+	  id:    'voyurl-button-no',
+	  dest:  'security-button',
       after: false,
   },
 ];

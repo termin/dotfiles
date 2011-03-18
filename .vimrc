@@ -83,6 +83,7 @@ nnoremap <C-i><C-i> :<C-u>help<Space><C-r><C-w><Enter>
 "--------------------
 autocmd BufNewFile	*.rb	0r	~/.vim/template/skeleton.ruby
 autocmd FileType ruby set ts=2 | set sw=2 | set expandtab | let ruby_space_errors = 1
+autocmd BufNewFile,BufRead	*.yaml	set filetype=ruby
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
@@ -146,7 +147,6 @@ autocmd FileType ruby set omnifunc=rubycomplete#Complete
 " NERD_commenter.vim
 let g:NERDCreateDefaultMappings = 0 " 自由にMappingを設定する
 map <Leader>c <plug>NERDCommenterToggle
-" map <Leader>x, c<space> " <Leader>xでコメントをトグル
 let NERDSpaceDelims = 1 " コメントの間にスペースを入れる
 
 " QuickRun.vim
