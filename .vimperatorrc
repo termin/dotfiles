@@ -162,10 +162,6 @@ let g:nextlink_nextmap = "J"
 " let g:twittperator_plugin_reply_popup_alert = 1
 " let g:twittperator_plugin_reply_popup_alert_username = "termin"
 
-" google-search.js
-" 遅い.使えない.
-"nmap <S-C-g> :gsearch!<Space>
-
 " copy.js
 " <M-S-c>でタイトルとURLをコピー
 "noremap <M-S-c> :copy titleAndURL<CR>
@@ -322,55 +318,6 @@ let g:ldrc_captureMappings = "['j','k','p','o','?']"
 
 " no-reading.js
 let g:no_reading_do_echo = 1
-
-" migemized_find.js
-" let g:migemized_find_install = "false"
-" noremap <C-/> :ml -c limegreen<Space>
-
-" migemo_hint.js
-
-" migrate_statusbar.js 
-" ☆, feed, faviconをステータスラインに移動 
-" javascript <<EOM
-" liberator.globalVariables.migrate_elements = [
-  " {
-      " // star button of awesome bar
-      " id:    'star-button',
-      " dest:  'security-button',
-      " after: true,
-  " },
-  " {
-      " // icon that show the existence of RSS and Atom on current page
-      " id:    'feed-button',
-      " dest:  'security-button',
-      " after: true,
-  " },
-  " {
-      " // favicon of awesome bar
-      " id:    'page-proxy-stack',
-      " dest:  'liberator-statusline',
-      " after: false,
-  " },
-" //  {
-" //	  // voyurl
-" //	  id:    'voyurl on/off',
-" //	  dest:  'security-button',
-" //      after: false,
-" //  },
-  " {
-	  " // voyurl
-	  " id:    'voyurl-button',
-	  " dest:  'security-button',
-      " after: false,
-  " },
-  " {
-	  " // voyurl remove visit from voyurl
-	  " id:    'voyurl-button-no',
-	  " dest:  'security-button',
-      " after: false,
-  " },
-" ];
-" EOM
 
 " lo.js
 noremap <S-C-f> :fo<Space>
