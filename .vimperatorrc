@@ -1,7 +1,8 @@
 " for Vimperator 3.0 on Mac
-" -----ToDo-----
+" ----- ToDo -----
+" はてなブックマーク拡張のコメント表示, ブクマ追加キーが上手く設定できない. ブクマ追加に<S-c>などを割り当ててもcでブクマ追加されてしまう. 拡張の方の設定では上手く割り当てられてる.
 
-" -----Notice -----
+" ----- Notice -----
 
 " Loading
 
@@ -79,9 +80,8 @@ let mapleader = ","
 noremap ! :set invusermode<CR>
 
 "" tab
-" <M-A-Left>/<M-A-Right>かh/lでタブ移動
-noremap <M-A-Left> <C-p>
-noremap <M-A-Right> <C-n>
+" noremap <M-A-Left> <C-p>
+" noremap <M-A-Right> <C-n>
 nnoremap h <C-p>
 nnoremap l <C-n>
 " <S-M-Left>/<S-M-Right>で現在のタブの位置変更
@@ -103,13 +103,12 @@ nmap d <C-w>
 " undo一覧から開く
 noremap U :undo<Space>
 " noremap <Leader>s :saveas<CR>
+nnoremap <Leader>h :history!<Space>
 " .vimperatorrcをリロード.
 nnoremap <Leader>r :mapc<CR>:cmapc<CR>:imapc<CR>:comclear<CR>:so ~/.vimperatorrc<CR>
 
 " <M-c>が上手く動かない時がある気がするのでお試し
 nnoremap <M-c> Y
-
-nnoremap <Leader>h :history!<Space>
 
 " 誤爆防止
 " <M-k>でgoogle.co.jp/firefoxに飛ぶのを防止
@@ -275,20 +274,20 @@ noremap <Leader>2 :set toolbars=menu,tabs,nonavigation,nobookmarks,addons<CR>
 " autocmd LocationChange .* set go=rb
 " autocmd LocationChange ^http://s4.travian.jp/ set go=rbT
 
-" statusline-toolbar
-set statuslinetoolbars=feed-button,voyurl-button,voyurl-button-no
+" statusline-toolbar.js
+" set statuslinetoolbars=feed-button,voyurl-button,voyurl-button-no
+set statuslinetoolbars=feed-button
 
 " はてなブックマーク拡張( http://subtech.g.hatena.ne.jp/secondlife/20090402/1238655382 )
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
-
 javascript <<EOF
 // キーボードショートカットの指定
 // 空(null)を指定すれば hints や nnoremap を上書きしなくなる
 liberator.globalVariables.hBookmark_shortcuts = {
-    hintsAdd     : 'c',
-    hintsComment : 'C',
-    add          : ['<S-v>'],
-    comment      : ['<S-c>'],
+	hintsAdd     : 'c',
+	hintsComment : 'C',
+	add          : ['<S-v>'],
+	comment      : ['<S-c>'],
 };
 // コマンドの設定
 // 検索時の wait(ms)
@@ -311,25 +310,14 @@ liberator.globalVariables.exopen_templates = [
 EOM
 noremap <S-x> :exopen hatenaep<CR>
 
-" direct_bookmark.js
-" let g:direct_sbm_use_services_by_tag="h"
-" let g:direct_sbm_use_services_by_post="h"
-" let g:direct_sbm_echo_type="multiline"
-" let g:direct_sbm_is_normalize
-" let g:direct_sbm_is_use_migemo
-" noremap <S-v> :sbm<CR>
-
 " sbmcommentsviewer.js
 let g:def_sbms = "hdt"
-nnoremap <S-C-c> :viewSBMComments<CR>
 nnoremap <Leader>vc :viewSBMComments -t t<CR>
 
-" autocmd VimperatorEnter .* :set complete+=H
 " はてブ検索(はてなブックマーク拡張)
 noremap c :hbt<Space>
-" noremap cx :
 " コメントのみ対象
-noremap <Leader>cc :hbtc<Space>
+" noremap <Leader>cc :hbtc<Space>
 " titleのみ対象
 " noremap <C-t> :hbtti<Space>
 " urlのみ対象
@@ -341,9 +329,6 @@ let g:ldrc_captureMappings = "['j','k','p','o','?']"
 " autopagerize_control.js
 " let g:autopagerize_prevmap = "K" 
 " let g:autopagerize_nextmap = "J"
-
-" no-reading.js
-" let g:no_reading_do_echo = 1
 
 " lo.js
 noremap <S-C-f> :fo<Space>
