@@ -1,4 +1,4 @@
-" for Vimperator 3.0 on Mac
+" for Vimperator 3.1 on Mac
 " ----- ToDo -----
 " はてなブックマーク拡張のコメント表示, ブクマ追加キーが上手く設定できない. ブクマ追加に<S-c>などを割り当ててもcでブクマ追加されてしまう. 拡張の方の設定では上手く割り当てられてる.
 
@@ -13,9 +13,9 @@
 set runtimepath=/Users/termin/.vimperator
 source! /Users/termin/.vimperatorrc.local
 
-" guioptions → toolbars or gui, scrollbars or sb, tabnumbers or tn
 set toolbars=menu,tabs,nonavigation,nobookmarks,noaddons
 "scrollbars,tabnumbers
+
 " デフォルトで使用するサーチエンジンを指定. ブックマークキーワードの設定に準ずる.
 set defsearch=g
 " ブラウザタイトルの変更
@@ -27,11 +27,6 @@ set hlsearch
 " 検索語の大文字小文字を無視
 " set ignorecase
 
-" ビープ音を鳴らさずビジュアルベルを使用
-set visualbell
-" ビジュアルベルを無効化
-hi Bell display: none;
-
 " hint
 " 『Vimperator 3のヒントモードでアルファベットを使う - アインシュタインの電話番号☎』 http://d.hatena.ne.jp/ruedap/20110327/vimperator3_hint_mode_alphabet_uppercase
 " hintcharsの1文字目は無視される仕様
@@ -39,9 +34,7 @@ set hintchars="HJKLASDFGYUIOPQWERTNMZXCVB"
 " 新しいタブで開く
 set newtab=all
 
-" input要素にfocusを奪われないようにする
-" AwesomeBarを使いたい場合に、フォーカスがvimpに取られてしまうと扱いにくい
-" set focuscontent
+set focuscontent
 
 set complete=slS
 " リンク先の表示位置
@@ -71,6 +64,11 @@ set! browser.urlbar.default.behavior=2
 " colorscheme vimpwhite
 colorscheme indigo
 
+" ビープ音を鳴らさずビジュアルベルを使用
+set visualbell
+" ビジュアルベルを無効化
+hi Bell display: none;
+
 " ----- Key Mappings -----
 " 今は適当に割り当てているだけだけど, その内出来るところは整理したい. → 永遠にしない事が分かった
 
@@ -80,8 +78,6 @@ let mapleader = ","
 noremap ! :set invusermode<CR>
 
 "" tab
-" noremap <M-A-Left> <C-p>
-" noremap <M-A-Right> <C-n>
 nnoremap h <C-p>
 nnoremap l <C-n>
 " <S-M-Left>/<S-M-Right>で現在のタブの位置変更
@@ -94,9 +90,6 @@ nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
 
 " <M-f>でvimpによる検索/
 noremap <M-f> /
-" URL中の数字を++/--
-" noremap ++ <C-a>
-" noremap -- <C-x>
 " d キーでも直前にフォーカスしていたタブに戻る様にする
 noremap <C-w> <M-w>
 nmap d <C-w>
@@ -160,8 +153,6 @@ let g:nextlink_nextmap = "J"
 " let g:twittperator_plugin_reply_popup_alert_username = "termin"
 
 " copy.js
-" <M-S-c>でタイトルとURLをコピー
-"noremap <M-S-c> :copy titleAndURL<CR>
 noremap <M-S-c> :copy tw<CR>
 js <<EOM
 liberator.globalVariables.copy_templates = [
@@ -223,7 +214,8 @@ EOM
 " feedSomekeys_3.js
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 " Gmail
-lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
+lazy fmaps -u='mail\.google\.com/mail' -events=vkeydown,keypress,vkeyup j k
+lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
 " Livedoor Reader
 lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v c z r f J K < > <Space> <S-Space> <Del> g G,u
 " LDR Full Feed Key Settings
@@ -232,11 +224,10 @@ lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v
 lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
 " Tumblr (use : ReblogCommand, TumblrTagCommand)
 lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' i,t e,tk n,h
-"fmap -urls='^http://[^\./]*\.tumblr\.com/' g g
 " はてなブックマーク
-lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o
+lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o e B,b
 " Google Calendar
-lazy fmaps -u='^http://www\.google\.com/calendar/' -event=keydown j k t a d w m x c e <Del> / + q s ?
+" lazy fmaps -u='^http://www\.google\.com/calendar/' -events=keydown j k t a d w m x c e <Del> / + q s ?
 " New Twitter
 " lazy fmaps -u='^http://twitter.\com/#!' j k f <Space> ? .
 
@@ -276,7 +267,7 @@ noremap <Leader>2 :set toolbars=menu,tabs,nonavigation,nobookmarks,addons<CR>
 
 " statusline-toolbar.js
 " set statuslinetoolbars=feed-button,voyurl-button,voyurl-button-no
-set statuslinetoolbars=feed-button
+lazy set statuslinetoolbars=feed-button
 
 " はてなブックマーク拡張( http://subtech.g.hatena.ne.jp/secondlife/20090402/1238655382 )
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
@@ -400,7 +391,6 @@ EOM
 	" }
 " );
 
-" 読み終わりましたわ
-echo "vimp: ギギギ..."
+" echo "ギギギ…"
 
 " vim: set ft=vimperator:
