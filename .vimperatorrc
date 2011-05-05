@@ -129,7 +129,7 @@ nnoremap w <Nop>
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
 let g:plugin_loader_roots = "~/vimperator-plugins/"
-let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,multi_requester,nextlink,pluginManager,removetabs,sl,stella,tabsort,toggler,walk-input,yetmappings,zip-de-download,reporter,sbmcommentsviewer,cookieManager,edit-vimperator-files,migemo_hint,statusline-toolbar,prevent-pseudo-domain"
+let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,multi_requester,nextlink,pluginManager,removetabs,sl,stella,tabsort,toggler,walk-input,yetmappings,zip-de-download,reporter,sbmcommentsviewer,cookieManager,edit-vimperator-files,migemo_hint,migemo-find,statusline-toolbar,prevent-pseudo-domain"
 
 " google-translator.js
 nnoremap <Leader>gt :gtrans<Space>
@@ -223,7 +223,7 @@ lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v
 " RememberTheMilk
 lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
 " Tumblr (use : ReblogCommand, TumblrTagCommand)
-lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' i,t e,tk n,h
+lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' e,t n,h
 " はてなブックマーク
 lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o e B,b
 " Google Calendar
