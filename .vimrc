@@ -1,10 +1,25 @@
-"for Mac
+"for Mac / debian
 "----------------------------------------------------
 " Notice
 "----------------------------------------------------
 "----------------------------------------------------
 " ToDo
 "----------------------------------------------------
+" Tab, Window関連のKey Mappingをまとめたい.
+" wildemodeで目当ての項目に到達した後, 更に下位の項目を選択させたい時に, そのままTabではダメなのが不満.
+" 何か上手い手は無いか.
+" 後で何かに割り当てるKey
+" t, T
+" F, ;も使ってないなぁ.
+"
+" i_CTRL-X_CTRL_{x} なキーバインドについて調べる.
+"
+" bufferについて調べておきたい.
+"
+" helpを:splitじゃなくて:onlyで開きたい.
+
+" set mouse=aだと, terminal.appの機能で選択, コピーが出来ない.
+" 何か良い設定は無いか. clipboardはあまり使いたくない.
 
 "----------------------------------------------------
 " Basic
@@ -19,6 +34,22 @@ set backspace=indent,eol,start " バックスペースで削除出来るもの�
 set hidden " バッファを切替えてもundoの効力を失わない
 set fileformats=unix,dos,mac " 改行コードの自動認識
 set shortmess+=m " [変更あり]" の代わりに "[+]" を表示
+
+" K でVim helpを検索する
+set keywordprg=:help
+
+" windowの境界だけマウスホイールで変えたい
+if has('mouse')
+	set mouse=a
+	map <ScrollWheelUp> <Nop>
+	map <ScrollWheelDown> <Nop>
+	map <S-ScrollWheelUp> <Nop>
+	map <S-ScrollWheelDown> <Nop>
+	map <C-ScrollWheelUp> <Nop>
+	map <C-ScrollWheelDown> <Nop>
+	map <M-ScrollWheelUp> <Nop>
+	map <M-ScrollWheelDown> <Nop>
+endif
 
 "----------------------------------------------------
 " Backup
@@ -43,23 +74,9 @@ set showcmd "入力中のコマンドをステータスに表示する
 set showmatch "括弧入力時の対応する括弧を表示
 set laststatus=2 "ステータスラインを常に表示
 set wildmenu " コマンドライン補完拡張
-" set wildmode=list:longest,full
+set wildmode=list:longest,full
 set matchtime=2 " 対応する括弧の表示時間を2にする
 syntax on " シンタックスハイライト
-
-"----------------------------------------------------
-" Search
-"----------------------------------------------------
-set ignorecase " 検索の時に大文字小文字を区別しない
-set smartcase " 検索の時に大文字が含まれている場合は区別して検索する
-set wrapscan " 最後まで検索したら先頭に戻る
-set incsearch " インクリメンタルサーチを使う
-set hlsearch "検索結果文字列のハイライト表示
-set history=100 " コマンド、検索パターンを100個まで履歴に残す
-" Ctrl-iでヘルプ
-" nnoremap <C-i>  :<C-u>help<Space>
-" カーソル下のキーワードをヘルプでひく
-" nnoremap <C-i><C-i> :<C-u>help<Space><C-r><C-w><Enter>
 
 " 全角スペースを明示
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
@@ -75,6 +92,16 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 
 " ステータスラインの色
 "highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
+
+"----------------------------------------------------
+" Search
+"----------------------------------------------------
+set ignorecase " 検索の時に大文字小文字を区別しない
+set smartcase " 検索の時に大文字が含まれている場合は区別して検索する
+set wrapscan " 最後まで検索したら先頭に戻る
+set incsearch " インクリメンタルサーチを使う
+set hlsearch "検索結果文字列のハイライト表示
+set history=100 " コマンド、検索パターンを100個まで履歴に残す
 
 "--------------------
 " コーディングの為の協奏曲
@@ -129,7 +156,7 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'thinca/vim-quickrun'
 "" Bundle 'ujihisa/quickrun'
-Bundle 'Shougo/unite.vim'
+" Bundle 'Shougo/unite.vim'
 Bundle 'vim-ruby/vim-ruby'
 "" Bundle 'vim-fugitive'
 "" vim-scripts repos
@@ -139,12 +166,10 @@ Bundle 'surround.vim'
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
 
-helptags ~/.vim/vundle.git/doc
-
 filetype plugin indent on 
 
 " Unite.vim
-nnoremap <Leader>u :<C-u>Unite<Space>
+" nnoremap <Leader>u :<C-u>Unite<Space>
 
 " neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1
@@ -211,20 +236,21 @@ map <Leader>rm :Ref<Space>man<Space>
 "----------------------------------------------------
 " Key Mapping
 "----------------------------------------------------
-"nmap <C-S-Tab> :tabprevious<CR>
-"nmap <C-Tab> :tabnext<CR>
-"map <C-S-tab> :tabprevious<CR>
-"map <C-tab> :tabnext<CR>
-"imap <C-S-tab> <ESC>:tabprevious<CR>i
-"imap <C-tab> <ESC>:tabnext<CR>i
-nmap <M-l> :tabnext<CR>
+" <修飾キー-Tab>は使えなかった. 修飾キーも使えたのは<C-x>のみ. on Mac.
+"map <C-Tab> :tabnext<CR>
+"imap <C-Tab> <ESC>:tabnext<CR>i
+" <C-l>, <C-h>って必要かな.
+nmap <C-h> :tabprevious<CR>
+nmap <C-l> :tabnext<CR>
+" nmap <C-t><C-h> :tabprevious<CR>
+" nmap <C-t><C-l> :tabnext<CR>
 nmap g1 :tabfirst<CR>
 nmap g9 :tablast<CR>
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
-nmap <C-q> :tabclose<CR>
+" <C-w><C-q> OR <C-w>q :quit
+" <C-w>c :close
+" nmap <C-t><C-t> :tabnew<CR>
 nmap <C-t> :tabnew<CR>
-" imap <C-t> <ESC>:tabnew<CR> 
-" nmap <Leader>so :on<CR>
-" nmap <Leader>ss :sp<CR>
-" nmap <Leader>sv :vsp<CR>
+" カーソル下のキーワードをヘルプでひく. -> keywordprgで用無し
+" nnoremap <Leader>h :<C-u>help<Space><C-r><C-w><Enter>
 
