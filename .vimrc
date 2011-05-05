@@ -5,7 +5,6 @@
 "----------------------------------------------------
 " ToDo
 "----------------------------------------------------
-" 日本語入力がおかしい.
 
 "----------------------------------------------------
 " Basic
@@ -44,6 +43,7 @@ set showcmd "入力中のコマンドをステータスに表示する
 set showmatch "括弧入力時の対応する括弧を表示
 set laststatus=2 "ステータスラインを常に表示
 set wildmenu " コマンドライン補完拡張
+" set wildmode=list:longest,full
 set matchtime=2 " 対応する括弧の表示時間を2にする
 syntax on " シンタックスハイライト
 
@@ -57,9 +57,9 @@ set incsearch " インクリメンタルサーチを使う
 set hlsearch "検索結果文字列のハイライト表示
 set history=100 " コマンド、検索パターンを100個まで履歴に残す
 " Ctrl-iでヘルプ
-nnoremap <C-i>  :<C-u>help<Space>
+" nnoremap <C-i>  :<C-u>help<Space>
 " カーソル下のキーワードをヘルプでひく
-nnoremap <C-i><C-i> :<C-u>help<Space><C-r><C-w><Enter>
+" nnoremap <C-i><C-i> :<C-u>help<Space><C-r><C-w><Enter>
 
 " 全角スペースを明示
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
@@ -85,6 +85,8 @@ autocmd FileType ruby set ts=2 | set sw=2 | set expandtab | let ruby_space_error
 autocmd BufNewFile,BufRead	*.yaml	set filetype=ruby
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
+
+autocmd QuickfixCmdPost vimgrep cw
 
 "----------------------------------------------------
 " Indent
@@ -112,6 +114,8 @@ set fileencodings+=,ucs-2le,ucs-2,utf-8
 "----------------------------------------------------
 " Scripts
 "----------------------------------------------------
+" 日本語helpの一部に開けない物があるのでその対策.
+set notagbsearch
 " vundle.vim
 filetype off
 set rtp+=~/.vim/vundle.git/ 
@@ -120,60 +124,72 @@ call vundle#rc()
 " original repos on github
 Bundle 'Shougo/vimproc'
 Bundle 'Shougo/vimshell'
-Bundle 'thinca/vim-ref'
+" Bundle 'thinca/vim-ref'
 Bundle 'Shougo/neocomplcache'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'thinca/vim-quickrun'
-" Bundle 'ujihisa/quickrun'
+"" Bundle 'ujihisa/quickrun'
 Bundle 'Shougo/unite.vim'
 Bundle 'vim-ruby/vim-ruby'
-" Bundle 'vim-fugitive'
-" vim-scripts repos
+"" Bundle 'vim-fugitive'
+"" vim-scripts repos
 Bundle 'surround.vim'
-" Bundle 'taglist.vim'
+"" Bundle 'grep.vim'
+"" Bundle 'taglist.vim'
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
 
+helptags ~/.vim/vundle.git/doc
+
 filetype plugin indent on 
 
-" pathogen.vim Vundleに乗り換え
-"pathogenでftdetectなどをloadさせるために一度ファイルタイプ判定をoff
-" filetype off
-" pathogen.vimによってbundle配下のpluginをpathに加える
-" call pathogen#runtime_append_all_bundles()
-" call pathogen#helptags()
-" set helpfile=$VIMRUNTIME/doc/help.txt
-" set helpfile=$HOME/.vim/bundle/vimdoc_ja/doc/help.jax
-" filetype plugin indent on " pathogenの為にoffにしたファイルタイプ判定をon
+" Unite.vim
+nnoremap <Leader>u :<C-u>Unite<Space>
 
 " neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
+" let g:neocomplcache_enable_camel_case_completion = 1
 " _を入力したときに、それを単語の区切りとしてあいまい検索を行うかどうか制御する。例えば p_h と入力したとき、public_html とマッチするようになる。1ならば有効になる。副作用があるので、初期値は0となっている。
-"let g:neocomplcache_enable_underbar_completion = 1
-"let g:neocomplcache_dictionary_filetype_lists = {
+" let g:neocomplcache_enable_underbar_completion = 1
+"let g:neocomplcache_dictionary_filetype_lists =
 let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
+"let g:neocomplcache_enable_quick_match = 1 " -入力による候補番号の表示 上手く動かない
+
+" 日本語をキャッシュしない.
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" <CR>: close popup
+inoremap <expr><CR> pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
+" <TAB>: completion.
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " 補完を選択しポップアップを閉じる
 inoremap <expr><C-y> neocomplcache#close_popup()
 " 補完をキャンセルしpopupを閉じる
 inoremap <expr><C-e> neocomplcache#cancel_popup()
-"let g:neocomplcache_enable_quick_match = 1 " -入力による候補番号の表示 上手く動かない
-"let g:neocomplcache_enable_auto_select = 1 " 補完候補の一番先頭を選択状態にする
-
+" <C-u>で補完をキャンセルしてから行頭まで削除する. 上手く動かない.
+" inoremap <expr><C-u> neocomplcache#cancel_popup() . "\<C-u>"
+ 
 " Snippets
 imap <C-k> <Plug>(neocomplcache_snippets_expand)
 smap <C-k> <Plug>(neocomplcache_snippets_expand)
+
+" inoremap <expr><C-g> neocomplcache#undo_completion()
+" inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 " Snippetsを編集する
 command! -nargs=* Nes NeoComplCacheEditSnippets
 
 " FileType別のOmni Completion設定
 autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+" autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 autocmd FileType ruby set omnifunc=rubycomplete#Complete
  
@@ -197,12 +213,18 @@ map <Leader>rm :Ref<Space>man<Space>
 "----------------------------------------------------
 "nmap <C-S-Tab> :tabprevious<CR>
 "nmap <C-Tab> :tabnext<CR>
-"map <C-S-tab> :tabprevious<cr>
-"map <C-tab> :tabnext<cr>
-"imap <C-S-tab> <ESC>:tabprevious<cr>i
-"imap <C-tab> <ESC>:tabnext<cr>i
+"map <C-S-tab> :tabprevious<CR>
+"map <C-tab> :tabnext<CR>
+"imap <C-S-tab> <ESC>:tabprevious<CR>i
+"imap <C-tab> <ESC>:tabnext<CR>i
+nmap <M-l> :tabnext<CR>
+nmap g1 :tabfirst<CR>
+nmap g9 :tablast<CR>
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
-"map <C-w> :tabclose<cr>
-nmap <C-t> :tabnew<cr>
-imap <C-t> <ESC>:tabnew<cr> 
+nmap <C-q> :tabclose<CR>
+nmap <C-t> :tabnew<CR>
+" imap <C-t> <ESC>:tabnew<CR> 
+" nmap <Leader>so :on<CR>
+" nmap <Leader>ss :sp<CR>
+" nmap <Leader>sv :vsp<CR>
 
