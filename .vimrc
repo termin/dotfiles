@@ -5,21 +5,29 @@
 "----------------------------------------------------
 " ToDo
 "----------------------------------------------------
-" Tab, Window関連のKey Mappingをまとめたい.
-" wildemodeで目当ての項目に到達した後, 更に下位の項目を選択させたい時に, そのままTabではダメなのが不満.
-" 何か上手い手は無いか.
-" 後で何かに割り当てるKey
-" t, T
-" F, ;も使ってないなぁ.
-"
-" i_CTRL-X_CTRL_{x} なキーバインドについて調べる.
-"
-" bufferについて調べておきたい.
-"
-" helpを:splitじゃなくて:onlyで開きたい.
+" *<C-w><C-q>が効かないのが何故か分からない.
 
-" set mouse=aだと, terminal.appの機能で選択, コピーが出来ない.
-" 何か良い設定は無いか. clipboardはあまり使いたくない.
+" *Tab, Window関連のKey Mappingをまとめたい.
+" *wildemodeで目当ての項目に到達した後, 更に下位の項目を選択させたい時に, そのままTabではダメなのが不満.
+" *何か上手い手は無いか.
+
+" *helpを:splitじゃなくて:onlyで開きたい.
+
+" *set mouse+=aだと, terminal.appの機能で選択, コピーが出来ない.
+" 	何か良い設定は無いか. clipboardはあまり使いたくない.
+
+" *surround.vimのキーバインドをまともにしたい気がする.
+" *『Vimの極め方』
+" http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
+
+" *outliner的な記述が出来るpluginを試す.(howm-mode.vim, QFixHowm, VimOrganizer, vim-orgmode)
+
+" あとで調べる
+" *bufferについて
+" *autocmdの使い方
+" *Diff関連について. savevers.vimとか.
+" *Sessionの使い方を確認し, キーバインドを考える.
+" *i_CTRL-X_CTRL_{x} なキーバインドについて.
 
 "----------------------------------------------------
 " Basic
@@ -29,8 +37,8 @@ set vb t_vb= " ビープ音を鳴らさない
 let mapleader = ","
 " バックスペースキーで削除できるものを指定
 set backspace=indent,eol,start " バックスペースで削除出来るものを選択
-" set clipboard=unnamed " 共有クリップボードを使う
-" set helplang=ja,en " ヘルプドキュメントの検索順
+" set clipboard+=unnamed " 共有クリップボードを使う
+set helplang=ja " ヘルプドキュメントの検索順
 set hidden " バッファを切替えてもundoの効力を失わない
 set fileformats=unix,dos,mac " 改行コードの自動認識
 set shortmess+=m " [変更あり]" の代わりに "[+]" を表示
@@ -38,9 +46,12 @@ set shortmess+=m " [変更あり]" の代わりに "[+]" を表示
 " K でVim helpを検索する
 set keywordprg=:help
 
+" 日本語helpの一部に開けない物があるのでその対策.
+set notagbsearch
+
 " windowの境界だけマウスホイールで変えたい
 if has('mouse')
-	set mouse=a
+	set mouse+=a
 	map <ScrollWheelUp> <Nop>
 	map <ScrollWheelDown> <Nop>
 	map <S-ScrollWheelUp> <Nop>
@@ -87,11 +98,11 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 
 " for debian
 " コメント文の色を変更
-"highlight Comment ctermfg=lightcyan
+" highlight Comment ctermfg=lightcyan
 " highlight Comment ctermfg=lightblue
 
 " ステータスラインの色
-"highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
+" highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 
 "----------------------------------------------------
 " Search
@@ -141,8 +152,6 @@ set fileencodings+=,ucs-2le,ucs-2,utf-8
 "----------------------------------------------------
 " Scripts
 "----------------------------------------------------
-" 日本語helpの一部に開けない物があるのでその対策.
-set notagbsearch
 " vundle.vim
 filetype off
 set rtp+=~/.vim/vundle.git/ 
@@ -156,11 +165,19 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'thinca/vim-quickrun'
 "" Bundle 'ujihisa/quickrun'
-" Bundle 'Shougo/unite.vim'
+Bundle 'Shougo/unite.vim'
+" Bundle 'Shougo/echodoc'
+Bundle 'Shougo/vimfiler'
 Bundle 'vim-ruby/vim-ruby'
+" Bundle 'tyru/caw.vim'
 "" Bundle 'vim-fugitive'
 "" vim-scripts repos
 Bundle 'surround.vim'
+Bundle 'renamer.vim'
+Bundle 'smartchr'
+" Bundle 'hsitz/VimOrganizer'
+" Bundle 'jceb/vim-orgmode'
+" Bundle 'hz_ja.vim'
 "" Bundle 'grep.vim'
 "" Bundle 'taglist.vim'
 " non github repos
@@ -169,7 +186,13 @@ Bundle 'surround.vim'
 filetype plugin indent on 
 
 " Unite.vim
-" nnoremap <Leader>u :<C-u>Unite<Space>
+nnoremap <Leader>u :<C-u>Unite<Space>
+
+" smartchr.vim
+inoremap <expr> = smartchr#one_of(' = ', ' == ', '=')
+
+" echodoc.vim
+" let g:echodoc_enable_at_startup = 1
 
 " neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1
@@ -226,8 +249,8 @@ let NERDSpaceDelims = 1 " コメントの間にスペースを入れる
 " QuickRun.vim
 " let g:quickrun_no_default_key_mappings = 1
 map <Leader>R <Plug>(quickrun)
-map <Leader>rr :Ref<Space>refe<Space>
-map <Leader>rm :Ref<Space>man<Space>
+map <Leader>rr :<C-u>Ref<Space>refe<Space>
+map <Leader>rm :<C-u>Ref<Space>man<Space>
 
 " VTreeExplorer
 " let g:treeExplVertical=1
@@ -236,21 +259,36 @@ map <Leader>rm :Ref<Space>man<Space>
 "----------------------------------------------------
 " Key Mapping
 "----------------------------------------------------
-" <修飾キー-Tab>は使えなかった. 修飾キーも使えたのは<C-x>のみ. on Mac.
+" *Mac専用としてその他環境で使う事を考えないKey Mapにするかどうか迷う.
+" *後で何かに割り当てるKey
+" CTRL-G c ; <Space> CTRL-K
+" c C s S も要らないか
+
+" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた(terminal.appで「メタキーとしてopionキーを使用」にチェックしてもしなくてもAは使えなかった.)
+" helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
+
+nnoremap ;hh :<C-u>tabnew<CR>h<Space>
+nnoremap ;hv :<C-u>tabnew<CR>:e .vimrc<CR>
+
+" Window, Tab関連
 "map <C-Tab> :tabnext<CR>
 "imap <C-Tab> <ESC>:tabnext<CR>i
 " <C-l>, <C-h>って必要かな.
-nmap <C-h> :tabprevious<CR>
-nmap <C-l> :tabnext<CR>
-" nmap <C-t><C-h> :tabprevious<CR>
-" nmap <C-t><C-l> :tabnext<CR>
-nmap g1 :tabfirst<CR>
-nmap g9 :tablast<CR>
-nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
-" <C-w><C-q> OR <C-w>q :quit
-" <C-w>c :close
-" nmap <C-t><C-t> :tabnew<CR>
-nmap <C-t> :tabnew<CR>
-" カーソル下のキーワードをヘルプでひく. -> keywordprgで用無し
-" nnoremap <Leader>h :<C-u>help<Space><C-r><C-w><Enter>
+nnoremap <silent> <C-h> :<C-u>tabprevious<CR>
+nnoremap <silent> <C-l> :<C-u>tabnext<CR>
+" tabmうごかない
+" nnoremap <C-M-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
+" nnoremap <C-M-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
+nmap g1 <silent> :<C-u>tabfirst<CR>
+nmap g9 <silent> :<C-u>tablast<CR>
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+nnoremap <silent> <C-w><C-t> :<C-u>tabnew<CR>
+" Yでクリップボードにコピー
+noremap Y "*y
 
+nnoremap <Space>m  :<C-u>marks<CR>
+nnoremap <Space>r  :<C-u>registers<CR>
+
+" noremap ; :
+" noremap : ;
+"
