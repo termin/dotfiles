@@ -5,8 +5,6 @@
 "----------------------------------------------------
 " ToDo
 "----------------------------------------------------
-" *<C-w><C-q>が効かないのが何故か分からない.
-
 " *Tab, Window関連のKey Mappingをまとめたい.
 " *wildemodeで目当ての項目に到達した後, 更に下位の項目を選択させたい時に, そのままTabではダメなのが不満.
 " *何か上手い手は無いか.
@@ -34,14 +32,13 @@
 "----------------------------------------------------
 set nocompatible "vi非互換モード
 set vb t_vb= " ビープ音を鳴らさない
-let mapleader = ","
 " バックスペースキーで削除できるものを指定
 set backspace=indent,eol,start " バックスペースで削除出来るものを選択
 " set clipboard+=unnamed " 共有クリップボードを使う
 set helplang=ja " ヘルプドキュメントの検索順
 set hidden " バッファを切替えてもundoの効力を失わない
 set fileformats=unix,dos,mac " 改行コードの自動認識
-set shortmess+=m " [変更あり]" の代わりに "[+]" を表示
+set shortmess& shortmess+=m " [変更あり]" の代わりに "[+]" を表示
 
 " K でVim helpを検索する
 set keywordprg=:help
@@ -51,7 +48,7 @@ set notagbsearch
 
 " windowの境界だけマウスホイールで変えたい
 if has('mouse')
-	set mouse+=a
+	set mouse& mouse+=a
 	map <ScrollWheelUp> <Nop>
 	map <ScrollWheelDown> <Nop>
 	map <S-ScrollWheelUp> <Nop>
@@ -147,14 +144,89 @@ set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,euc-jp,cp932,iso-2022-jp
-set fileencodings+=,ucs-2le,ucs-2,utf-8
+set fileencodings& fileencodings+=,ucs-2le,ucs-2,utf-8
+
+" au BufWritePost * call SetUTF8Xattr(expand("<afile>"))
+
+" function! SetUTF8Xattr(file)
+	" let isutf8 = &fileencoding == "utf-8" || ( &fileencoding == "" && &encoding == "utf-8")
+	" if has("unix") && match(system("uname"),'Darwin') != -1
+		" call system("xattr -w com.apple.TextEncoding 'utf-8;134217984' '" . a:file . "'")
+	" endif
+" endfunction
+
+"----------------------------------------------------
+" Key Mapping
+"----------------------------------------------------
+" *Mac専用としてその他環境で使う事を考えないKey Mapにするかどうか迷う.
+" *let mapleader = ";"だとUSキーボードで辛いのかも？
+" *後で何かに割り当てるKey
+" CTRL-G c <Space> CTRL-K CTRL-N CTRL-P
+" i_CTRL-J i_CTRL-K
+" c C s S も要らないか
+
+" *omapを使って整理したい様な気がする.
+
+" *CTRL-s はttyでstopとして使われてた. 同様にCTRL-qはstart
+
+" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた(terminal.appで「メタキーとしてopionキーを使用」にチェックしてもしなくてもAは使えなかった.)
+" helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
+
+" *使う
+" i_CTRL-w i_CTRL-x_CTRL-l
+" mark: m{a-zA-Z} , call: '{a-zA-Z}
+" Exモード(連続コマンド): Q or gQ :vi[sual]で抜ける.
+
+let mapleader = ";"
+nnoremap <SLeader> <Nop>
+nmap , <SLeader>
+
+nnoremap <Leader>hh :<C-u>tabnew<CR>:h<Space>
+nnoremap <Leader>he :<C-u>tabnew<CR>:e $MYVIMRC<CR>
+nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
+
+" Window, Tab関連
+nnoremap <silent> <C-h> :<C-u>tabprevious<CR>
+nnoremap <silent> <C-l> :<C-u>tabnext<CR>
+" nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
+" nnoremap <silent> <C-n> :<C-u>tabnext<CR>
+" tabmうごかない
+" nnoremap <C-M-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
+" nnoremap <C-M-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
+nnoremap <silent> g0 :<C-u>tabfirst<CR>
+nnoremap <silent> g9 :<C-u>tablast<CR>
+nnoremap <silent> <C-w><C-t> :<C-u>tabnew<CR>
+nnoremap <C-j> 5j
+nnoremap <C-k> 5k
+" こちらの方がCTRL-J等をinsert modeに使えて汎用的だけどCTRL-F, CTRL-B等と合わなくなるか.
+" nnoremap J 5j
+" nnoremap K 5k
+" nnoremap <C-j> J
+" nnoremap <C-k> K
+
+" tagsearch
+nnoremap <C-t> <Nop>
+nnoremap <C-t><C-t> <C-]>
+nnoremap <C-t><C-j> :<C-u>tag<CR>
+nnoremap <C-t><C-k> :<C-u>pop<CR>
+nnoremap <C-t><C-h> :<C-u>tags<CR>
+nnoremap st :<C-u>tags<CR>
+
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+" Yでクリップボードにコピー
+vnoremap Y "*y
+" nnoremap <Space>m :<C-u>marks<CR>
+" nnoremap <Space>r :<C-u>registers<CR>
+nnoremap sm :<C-u>marks<CR>
+nnoremap sr :<C-u>registers<CR>
+nnoremap sc :<C-u>changes<CR>
 
 "----------------------------------------------------
 " Scripts
 "----------------------------------------------------
 " vundle.vim
 filetype off
-set rtp+=~/.vim/vundle.git/ 
+set rtp& rtp+=~/.vim/vundle.git/ 
 call vundle#rc()
 " My Bundles here:
 " original repos on github
@@ -174,7 +246,7 @@ Bundle 'vim-ruby/vim-ruby'
 "" vim-scripts repos
 Bundle 'surround.vim'
 Bundle 'renamer.vim'
-Bundle 'smartchr'
+" Bundle 'smartchr'
 " Bundle 'hsitz/VimOrganizer'
 " Bundle 'jceb/vim-orgmode'
 " Bundle 'hz_ja.vim'
@@ -186,10 +258,36 @@ Bundle 'smartchr'
 filetype plugin indent on 
 
 " Unite.vim
-nnoremap <Leader>u :<C-u>Unite<Space>
+" nnoremap <Leader>u :<C-u>Unite file<CR>
+nnoremap [unite] <Nop>
+nmap U [unite]
+nnoremap <silent> [unite]U :<C-u>Unite<Space>
+nnoremap <silent> [unite]A :<C-u>Unite buffer file file_mru<CR>
+nnoremap <silent> [unite]F :<C-u>Unite file<CR>
+nnoremap <silent> [unite]T :<C-u>Unite tab<CR>
+nnoremap <silent> [unite]B :<C-u>Unite file_mru<CR>
+nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]S :<C-u>Unite source<CR>
+nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
+let g:unite_cursor_line_highlight = 'TabLineSel'
+" let g:unite_abbr_highlight = 'TabLine'
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()"{{{
+	" CTRL-hをhで代替したい
+	nmap <buffer> h <Plug>(unite_delete_backward_path)
+	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+	nmap <buffer> <C-h> :tabprevious<CR>
+	nmap <buffer> <C-l> :tabnext<CR>
+
+	" <C-l>: manual neocomplcache completion.
+	" inoremap <buffer> <C-l> <C-x><C-u><C-p><Down>
+
+	" Start insert.
+	"let g:unite_enable_start_insert = 1
+endfunction"}}}
 
 " smartchr.vim
-inoremap <expr> = smartchr#one_of(' = ', ' == ', '=')
+" inoremap <expr> = smartchr#one_of(' = ', ' == ', '=')
 
 " echodoc.vim
 " let g:echodoc_enable_at_startup = 1
@@ -256,39 +354,3 @@ map <Leader>rm :<C-u>Ref<Space>man<Space>
 " let g:treeExplVertical=1
 " let g:treeExplWinSize=30
 
-"----------------------------------------------------
-" Key Mapping
-"----------------------------------------------------
-" *Mac専用としてその他環境で使う事を考えないKey Mapにするかどうか迷う.
-" *後で何かに割り当てるKey
-" CTRL-G c ; <Space> CTRL-K
-" c C s S も要らないか
-
-" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた(terminal.appで「メタキーとしてopionキーを使用」にチェックしてもしなくてもAは使えなかった.)
-" helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
-
-nnoremap ;hh :<C-u>tabnew<CR>h<Space>
-nnoremap ;hv :<C-u>tabnew<CR>:e .vimrc<CR>
-
-" Window, Tab関連
-"map <C-Tab> :tabnext<CR>
-"imap <C-Tab> <ESC>:tabnext<CR>i
-" <C-l>, <C-h>って必要かな.
-nnoremap <silent> <C-h> :<C-u>tabprevious<CR>
-nnoremap <silent> <C-l> :<C-u>tabnext<CR>
-" tabmうごかない
-" nnoremap <C-M-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
-" nnoremap <C-M-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
-nmap g1 <silent> :<C-u>tabfirst<CR>
-nmap g9 <silent> :<C-u>tablast<CR>
-nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
-nnoremap <silent> <C-w><C-t> :<C-u>tabnew<CR>
-" Yでクリップボードにコピー
-noremap Y "*y
-
-nnoremap <Space>m  :<C-u>marks<CR>
-nnoremap <Space>r  :<C-u>registers<CR>
-
-" noremap ; :
-" noremap : ;
-"
