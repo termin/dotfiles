@@ -1,10 +1,13 @@
 " for Vimperator 3.1 on Mac
 " ----- ToDo -----
-" はてなブックマーク拡張のコメント表示, ブクマ追加キーが上手く設定できない. ブクマ追加に<S-c>などを割り当ててもcでブクマ追加されてしまう. 拡張の方の設定では上手く割り当てられてる.
+" *Tab Mix Plus 0.3.6と相性が悪い感じ. 多段タブ設定が反映されない.
+" *はてなブックマーク拡張のコメント表示, ブクマ追加キーが上手く設定できない. ブクマ追加に<S-c>などを割り当ててもcでブクマ追加されてしまう. 拡張の方の設定では上手く割り当てられてる.
+" *はてブ拡張のvimp連携がおかしい. :hbが重複表示されるし順番がおかしい.
+" *サイトが設定しているキーボードショートカットを無視したい
+" *pluginのhelpが上手く表示されない.地味に困る. liberator://help/plugins
 
 " ----- Notice -----
-
-" Loading
+" migemo-findのハイライトしない仕様を回避したい時は, 同pluginの"\"を先頭にすると通常の検索を使う機能を使う.
 
 " バージョンチェックのon/off
 " set! extensions.checkCompatibility.4.0=true
@@ -49,19 +52,12 @@ set! browser.urlbar.filter.javascript=false
 "2＝ブックマークのみ検索
 set! browser.urlbar.default.behavior=2
 
-"set sanitizeitems=
 " デフォルトのプライベート情報除去期間を"全ての期間"にする.
 "set sanitizetimespan=0
 
 " set verbose=15
 
 " ---- Style Options ----
-" [tab]open等で長いタイトルがURIに被らない様に補完リストの結果欄(左側)を調整 (れとれとさんちより)
-" よくわからない
-"hi CompResult width: 45%; overflow: hidden; max-width: 60%;
-
-" colorscheme vimplight
-" colorscheme vimpwhite
 colorscheme indigo
 
 " ビープ音を鳴らさずビジュアルベルを使用
@@ -70,38 +66,41 @@ set visualbell
 hi Bell display: none;
 
 " ----- Key Mappings -----
-" 今は適当に割り当てているだけだけど, その内出来るところは整理したい. → 永遠にしない事が分かった
-
 let mapleader = ","
 
 " 最低限のスタイルシートで表示.invは反転.
-noremap ! :set invusermode<CR>
+nnoremap ! :set invusermode<CR>
 
 "" tab
 nnoremap h <C-p>
 nnoremap l <C-n>
 " <S-M-Left>/<S-M-Right>で現在のタブの位置変更
-noremap <S-M-Left>  :tabmove! -1<CR>:echo "うごうご・・・！"<CR>
-noremap <S-M-Right> :tabmove! +1<CR>:echo "うごうご・・・！"<CR>
-
-" map <A-Up> gu
+noremap <S-M-Left>  :<C-u>tabmove! -1<CR>:echo "うごうご・・・！"<CR>
+noremap <S-M-Right> :<C-u>tabmove! +1<CR>:echo "うごうご・・・！"<CR>
 
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
 
 " <M-f>でvimpによる検索/
 noremap <M-f> /
+" Toggleするようにしたい.
+cnoremap <M-f> \
 " d キーでも直前にフォーカスしていたタブに戻る様にする
-noremap <C-w> <M-w>
-nmap d <C-w>
+nnoremap d <M-w>
+
 " undo一覧から開く
-noremap U :undo<Space>
+noremap U :<C-u>undo<Space>
 " noremap <Leader>s :saveas<CR>
 nnoremap <Leader>h :history!<Space>
 " .vimperatorrcをリロード.
 nnoremap <Leader>r :mapc<CR>:cmapc<CR>:imapc<CR>:comclear<CR>:so ~/.vimperatorrc<CR>
 
-" <M-c>が上手く動かない時がある気がするのでお試し
+" <M-c>が上手く動かない時があるのは何故だろう
 nnoremap <M-c> Y
+
+" noremap ; :
+" noremap : ;
+
+" nnoremap <Leader>l :emenu ツール.Greasemonkey.ユーザスクリプトコマンド....LDRize - update siteinfo
 
 " 誤爆防止
 " <M-k>でgoogle.co.jp/firefoxに飛ぶのを防止
@@ -111,20 +110,22 @@ noremap <M-o> <Nop>
 nnoremap w <Nop>
 
 " qmarks
-" silent qmark h http://www.hatena.ne.jp/termin2/
+" silent qmark E https://www.evernote.com/Login.action?targetUrl=%2FHome.action
+" silent qmark L http://twitter.com/#!/termin/lists
+" silent qmark V http://voyurl.com/member/me
+" silent qmark b http://b.hatena.ne.jp/termin2/
+" silent qmark d http://www.tumblr.com/dashboard
 " silent qmark e http://www.tumblr.com/tumblelog/termin
-" silent qmark t http://twitter.com/
 " silent qmark f http://favstar.fm/users/termin/recent
+" silent qmark h http://www.hatena.ne.jp/termin2/
 " silent qmark l http://reader.livedoor.com/
 " silent qmark m https://mail.google.com/mail/?hl=ja&shva=1#inbox
-" silent qmark b http://b.hatena.ne.jp/termin2/
+" silent qmark n https://notifo.com/user
+" silent qmark r http://www.rememberthemilk.com/home/terminal/#section.tasks
 " silent qmark s http://s.hatena.ne.jp/termin2/report
-" silent qmark d http://www.tumblr.com/dashboard
-" silent qmark y http://twitter.com/termin
-" silent qmark L http://twitter.com/#!/termin/lists
+" silent qmark t http://twitter.com/
 " silent qmark v http://tv.yahoo.co.jp/listings/realtime/
-" silent qmark F http://favstar.fm/users/broiddot/recent
-" silent qmark V http://voyurl.com/member/me
+" silent qmark y http://twitter.com/termin
 
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
@@ -132,7 +133,7 @@ let g:plugin_loader_roots = "~/vimperator-plugins/"
 let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,multi_requester,nextlink,pluginManager,removetabs,sl,stella,tabsort,toggler,walk-input,yetmappings,zip-de-download,reporter,sbmcommentsviewer,cookieManager,edit-vimperator-files,migemo_hint,migemo-find,statusline-toolbar,prevent-pseudo-domain"
 
 " google-translator.js
-nnoremap <Leader>gt :gtrans<Space>
+nnoremap <Leader>gt :<C-u>gtrans<Space>
 
 " nextlink.js
 " let g:nextlink_followlink = "true"
@@ -140,20 +141,11 @@ nnoremap <Leader>gt :gtrans<Space>
 " f Vimperatorの"[[", "]]"の動作
 " e マッチするSITEINFOが無いことを知らせる(デフォルト設定)
 " n 何もしない
-let g:nextlink_prevmap = "K"
-let g:nextlink_nextmap = "J"
-
-" twittperator.js
-" ChirpUserStreamを使う
-" let g:twittperator_use_chirp = 1
-" コマンドラインにtweetを自動的に表示
-" let g:twittperator_plugin_echo_tweet = 0
-" reply_popup_alert
-" let g:twittperator_plugin_reply_popup_alert = 1
-" let g:twittperator_plugin_reply_popup_alert_username = "termin"
+" let g:nextlink_prevmap = "K"
+" let g:nextlink_nextmap = "J"
 
 " copy.js
-noremap <M-S-c> :copy tw<CR>
+noremap <M-S-c> :<C-u>copy tw<CR>
 js <<EOM
 liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE%\n%URL%' },
@@ -215,14 +207,14 @@ EOM
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 " Gmail
 lazy fmaps -u='mail\.google\.com/mail' -events=vkeydown,keypress,vkeyup j k
-lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c / n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
+lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c * / n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
 " Livedoor Reader
 lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v c z r f J K < > <Space> <S-Space> <Del> g G,u
 " LDR Full Feed Key Settings
 " g = "load current entry" G,u = "load all entries"
-" RememberTheMilk
-lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c t r d s ? d F,f G,g L,l Y,y H,h M,m z <Del> 0 1 2 3 4
-" Tumblr (use : ReblogCommand, TumblrTagCommand)
+" RememberTheMilk 移動キーは小文字, 編集関連は大文字
+lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c T,t R,r D,d S,s ? F,f G,g L,l Y,y H,h M,m z <Tab> <Del> <Leader>1,1 <Leader>2,2 <Leader>3,3 <Leader>4,4
+" Tumblr
 lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' e,t n,h
 " はてなブックマーク
 lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o e B,b
@@ -233,15 +225,16 @@ lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o e B,b
 
 " removetabs.js
 " 左側にあるタブを閉じる
-noremap <C-S-Left> :removetabsleft
+noremap <C-S-Left> :<C-u>removetabsleft
 " 右側にあるタブを閉じる
-noremap <C-S-Right> :removetabsright
+noremap <C-S-Right> :<C-u>removetabsright
+
 " tabsort.js
 " command! urlsort tabsort -t=url
 
 " multi_requester.js
-noremap <Leader>mf :mr<Space>favotter-new<Space>termin<CR>
-" noremap <Leader>my :mr<Space>twitter-user<Space>termin<CR>
+noremap <Leader>mf :<C-u>mr<Space>favotter-new<Space>termin<CR>
+" noremap <Leader>my :<C-u>mr<Space>twitter-user<Space>termin<CR>
 
 " toggler.js
 js <<EOM
@@ -257,10 +250,10 @@ liberator.globalVariables.toggler = {
 };
 EOM
 
-noremap <F2> :toggle tb<CR>
-" noremap <F3> :toggle fs<CR>
-noremap <Leader>1 :set toolbars=menu,tabs,navigation,nobookmarks,noaddons<CR>
-noremap <Leader>2 :set toolbars=menu,tabs,nonavigation,nobookmarks,addons<CR>
+noremap <F2> :<C-u>toggle tb<CR>
+" noremap <F3> :<C-u>toggle fs<CR>
+" noremap <Leader>1 :<C-u>set toolbars=menu,tabs,navigation,nobookmarks,noaddons<CR>
+" noremap <Leader>2 :<C-u>set toolbars=menu,tabs,nonavigation,nobookmarks,addons<CR>
 " travian のみでツールバーを表示する
 " autocmd LocationChange .* set go=rb
 " autocmd LocationChange ^http://s4.travian.jp/ set go=rbT
@@ -289,6 +282,21 @@ liberator.globalVariables.hBookmark_shortcuts = {
 // liberator.globalVariables.hBookmark_search_max_limit = 100;
 EOF
 
+" はてブ検索(はてなブックマーク拡張)
+nnoremap I c	" Caret-mode用Keyを退避
+nnoremap c :<C-u>hbt<Space>
+" コメントのみ対象
+" noremap <Leader>cc :<C-u>hbtc<Space>
+" titleのみ対象
+" noremap <C-t> :<C-u>hbtti<Space>
+" urlのみ対象
+noremap <Leader>cu :<C-u>hbtu<Space>
+
+" sbmcommentsviewer.js
+let g:def_sbms = "hdt"
+nnoremap <Leader>vc :<C-u>viewSBMComments -t t<CR>
+nnoremap <Leader>vd :<C-u>viewSBMComments -t d<CR>
+
 " entry_pageを表示する( exopen.js )
 javascript <<EOM
 liberator.globalVariables.exopen_templates = [
@@ -299,20 +307,7 @@ liberator.globalVariables.exopen_templates = [
   newtab: true
 }];
 EOM
-noremap <S-x> :exopen hatenaep<CR>
-
-" sbmcommentsviewer.js
-let g:def_sbms = "hdt"
-nnoremap <Leader>vc :viewSBMComments -t t<CR>
-
-" はてブ検索(はてなブックマーク拡張)
-noremap c :hbt<Space>
-" コメントのみ対象
-" noremap <Leader>cc :hbtc<Space>
-" titleのみ対象
-" noremap <C-t> :hbtti<Space>
-" urlのみ対象
-noremap <Leader>cu :hbtu<Space>
+noremap <S-x> :<C-u>exopen hatenaep<CR>
 
 " ldrize_cooperation.js
 let g:ldrc_captureMappings = "['j','k','p','o','?']"
@@ -322,18 +317,25 @@ let g:ldrc_captureMappings = "['j','k','p','o','?']"
 " let g:autopagerize_nextmap = "J"
 
 " lo.js
-noremap <S-C-f> :fo<Space>
-noremap <S-C-l> :lo<Space>
+noremap <S-C-f> :<C-u>fo<Space>
+noremap <S-C-l> :<C-u>lo<Space>
 
 " zip-de-download
 let g:zipDownloadDir = "~/Desktop"
-noremap <S-C-z> :zipdownload -auto-detect jpg
+noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg
 
 " ----- Others -----
-" voyurl
-command -nargs=0 voy emenu ツール.VoyUrl Pref..Authenticate
-noremap <Leader>va :voy<CR>
+" set! javascript.options.strict=true
+" set! javascript.options.showInConsole=true
+" set! browser.dom.window.dump.enabled=true 
 
+" voyurl
+" command -nargs=0 voy emenu ツール.VoyUrl Pref..Authenticate
+" noremap <Leader>va :<C-u>voy<CR>
+
+" Wikipediaなどで<C-f>が思い通りに動かない現象の対策
+" 『MacのvimperatorでwikipediaのCtrl+Fが効かない件 - Web系がおもしろい。』 http://d.hatena.ne.jp/esperia/20110509/1304942966
+set! ui.key.contentAccess=5
 " LDRize patch
 " 『Firefox 4.0b10でGreasemonkey 0.9.1のユーザスクリプトのwindowを共通にする改造（開発者orVimper向け） - wltの日記』
 " http://d.hatena.ne.jp/wlt/20110130/1296359063
@@ -390,7 +392,5 @@ EOM
 		" );
 	" }
 " );
-
-" echo "ギギギ…"
 
 " vim: set ft=vimperator:
