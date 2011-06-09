@@ -9,9 +9,6 @@
 " ----- Notice -----
 " migemo-findのハイライトしない仕様を回避したい時は, 同pluginの"\"を先頭にすると通常の検索を使う機能を使う.
 
-" バージョンチェックのon/off
-" set! extensions.checkCompatibility.4.0=true
-
 " ----- Main options -----
 set runtimepath=/Users/termin/.vimperator
 source! /Users/termin/.vimperatorrc.local
@@ -42,6 +39,13 @@ set focuscontent
 set complete=slS
 " リンク先の表示位置
 set showstatuslinks=2
+
+" デフォルトのプライベート情報除去期間を"全ての期間"にする.
+"set sanitizetimespan=0
+
+" set verbose=15
+
+" ---- Firefox Prefs ----
 "Awesomebarの補完対象にBookmarkletを追加、件数を50件に変更
 set! browser.urlbar.filter.javascript=false
 " set! browser.urlbar.maxRichResults=50 
@@ -52,10 +56,16 @@ set! browser.urlbar.filter.javascript=false
 "2＝ブックマークのみ検索
 set! browser.urlbar.default.behavior=2
 
-" デフォルトのプライベート情報除去期間を"全ての期間"にする.
-"set sanitizetimespan=0
+" set! javascript.options.strict=true
+" set! javascript.options.showInConsole=true
+" set! browser.dom.window.dump.enabled=true 
 
-" set verbose=15
+" バージョンチェックのon/off
+" set! extensions.checkCompatibility.4.0=true
+
+" Wikipediaなどで<C-f>が思い通りに動かない現象の対策
+" 『MacのvimperatorでwikipediaのCtrl+Fが効かない件 - Web系がおもしろい。』 http://d.hatena.ne.jp/esperia/20110509/1304942966
+set! ui.key.contentAccess=5
 
 " ---- Style Options ----
 colorscheme indigo
@@ -325,17 +335,10 @@ let g:zipDownloadDir = "~/Desktop"
 noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg
 
 " ----- Others -----
-" set! javascript.options.strict=true
-" set! javascript.options.showInConsole=true
-" set! browser.dom.window.dump.enabled=true 
-
 " voyurl
 " command -nargs=0 voy emenu ツール.VoyUrl Pref..Authenticate
 " noremap <Leader>va :<C-u>voy<CR>
 
-" Wikipediaなどで<C-f>が思い通りに動かない現象の対策
-" 『MacのvimperatorでwikipediaのCtrl+Fが効かない件 - Web系がおもしろい。』 http://d.hatena.ne.jp/esperia/20110509/1304942966
-set! ui.key.contentAccess=5
 " LDRize patch
 " 『Firefox 4.0b10でGreasemonkey 0.9.1のユーザスクリプトのwindowを共通にする改造（開発者orVimper向け） - wltの日記』
 " http://d.hatena.ne.jp/wlt/20110130/1296359063

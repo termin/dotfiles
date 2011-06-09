@@ -1,0 +1,38 @@
+" 上手く動かないの多い
+" --- Notice ---
+" 参考: 『Vrapper — Vim-like editing in Eclipse』 http://vrapper.sourceforge.net/documentation/
+" Eclipseで既に割り当てられているキーバインドは効かないので, Eclipse Pref ->
+" 一般 -> キー で割り当てを変更しておく必要がある.
+
+set ignorecase
+set smartcase
+set wrapscan
+set autoindent
+"set smartindent " Default:On
+
+noremap <C-j> 5j
+noremap <C-k> 5k
+
+" Eclipse側え^Hを要変更
+inoremap <C-h> <BS>
+inoremap <C-k> <Esc><Right>:DeleteLineToEnd<CR>a
+" <C-g>uでUndoのポイントを作ってから何かする.
+" inoremap <C-u> <C-g>u<Esc>:DeleteLineToBeginning<CR>i
+" inoremap <C-w> <C-g>u<ESC>:DeletePreviousWord<CR>i
+inoremap <C-u> <Esc>:DeleteLineToBeginning<CR>i
+inoremap <C-w> <ESC>:DeletePreviousWord<CR>i
+vnoremap = :Format<CR>
+
+"definition ID of the source -> format action 
+eclipseaction Format org.eclipse.jdt.ui.edit.text.java.format
+
+"Action definition id of the edit delete line to beginning action. 
+eclipseaction DeleteLineToBeginning org.eclipse.ui.edit.text.delete.line.to.beginning
+
+"Action definition id of the edit delete line to end action. 
+eclipseaction DeleteLineToEnd org.eclipse.ui.edit.text.delete.line.to.end
+
+"Action definition id of the edit delete previous word action.
+eclipseaction DeletePreviousWord org.eclipse.ui.edit.text.deletePreviousWord
+
+" vim: set ft=vim:
