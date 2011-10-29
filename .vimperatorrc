@@ -60,6 +60,8 @@ set! browser.urlbar.default.behavior=2
 " set! javascript.options.showInConsole=true
 " set! browser.dom.window.dump.enabled=true 
 
+" set! browser.sessionstore.max_concurrent_tabs=0
+
 " バージョンチェックのon/off
 " set! extensions.checkCompatibility.4.0=true
 
@@ -91,9 +93,10 @@ noremap <S-M-Right> :<C-u>tabmove! +1<CR>:echo "うごうご・・・！"<CR>
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
 
 " <M-f>でvimpによる検索/
+" noremap <M-f> /\
 noremap <M-f> /
 " Toggleするようにしたい.
-cnoremap <M-f> \
+cnoremap <M-f> <C-u>
 " d キーでも直前にフォーカスしていたタブに戻る様にする
 nnoremap d <M-w>
 
@@ -120,27 +123,30 @@ noremap <M-o> <Nop>
 nnoremap w <Nop>
 
 " qmarks
-" silent qmark E https://www.evernote.com/Login.action?targetUrl=%2FHome.action
-" silent qmark L http://twitter.com/#!/termin/lists
-" silent qmark V http://voyurl.com/member/me
 " silent qmark b http://b.hatena.ne.jp/termin2/
 " silent qmark d http://www.tumblr.com/dashboard
 " silent qmark e http://www.tumblr.com/tumblelog/termin
+" silent qmark E https://www.evernote.com/Login.action?targetUrl=%2FHome.action
 " silent qmark f http://favstar.fm/users/termin/recent
 " silent qmark h http://www.hatena.ne.jp/termin2/
 " silent qmark l http://reader.livedoor.com/
+" silent qmark L http://twitter.com/#!/termin/lists
 " silent qmark m https://mail.google.com/mail/?hl=ja&shva=1#inbox
 " silent qmark n https://notifo.com/user
-" silent qmark r http://www.rememberthemilk.com/home/terminal/#section.tasks
+" silent qmark p https://plus.google.com/
+" silent qmark r http://www.rememberthemilk.com
 " silent qmark s http://s.hatena.ne.jp/termin2/report
+" silent qmark T http://topsy.com/
 " silent qmark t http://twitter.com/
 " silent qmark v http://tv.yahoo.co.jp/listings/realtime/
+" silent qmark V http://voyurl.com/member/me
 " silent qmark y http://twitter.com/termin
 
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
-let g:plugin_loader_roots = "~/vimperator-plugins/"
-let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,google-translator,googlekanji,imageextender,ldrize_cooperation,lo,multi_requester,nextlink,pluginManager,removetabs,sl,stella,tabsort,toggler,walk-input,yetmappings,zip-de-download,reporter,sbmcommentsviewer,cookieManager,edit-vimperator-files,migemo_hint,migemo-find,statusline-toolbar,prevent-pseudo-domain"
+let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
+" let g:plugin_loader_plugins = "multi_requester,nextlink,tabsort,yetmappings,reporter,migemo_hint,migemo-find"
+let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,loginManager,tab-history"
 
 " google-translator.js
 nnoremap <Leader>gt :<C-u>gtrans<Space>
@@ -223,15 +229,42 @@ lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v
 " LDR Full Feed Key Settings
 " g = "load current entry" G,u = "load all entries"
 " RememberTheMilk 移動キーは小文字, 編集関連は大文字
-lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c T,t R,r D,d S,s ? F,f G,g L,l Y,y H,h M,m z <Tab> <Del> <Leader>1,1 <Leader>2,2 <Leader>3,3 <Leader>4,4
+lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c T,t R,r D,d S,s ? F,f G,g L,l Y,y H,h M,m z <Right>,<C-S-Right> <Left>,<C-S-Left> <Tab> <Del> <Leader>1,1 <Leader>2,2 <Leader>3,3 <Leader>4,4
 " Tumblr
 lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' e,t n,h
 " はてなブックマーク
 lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o e B,b
+" Picasa Web
+lazy fmaps -u='^https://picasaweb.google.com/' <Right> <Left>
 " Google Calendar
 " lazy fmaps -u='^http://www\.google\.com/calendar/' -events=keydown j k t a d w m x c e <Del> / + q s ?
 " New Twitter
 " lazy fmaps -u='^http://twitter.\com/#!' j k f <Space> ? .
+" Google+
+" lazy fmaps -u='^https://plus\.google\.com/' j k q <CR> <Tab> <Right> <Left>
+" lazy fmaps -u='^http://plus\.google\.com/' <Right>,i<Right> <Left>,i<Left>
+
+" Google+
+" google-plus-commando.js (requres: feedSomeKeys_3.js, x-hint.js)
+" http://vimperator.g.hatena.ne.jp/nokturnalmortum/20110712/1310475516
+let g:gplus_commando_map_next            = "j"
+let g:gplus_commando_map_prev            = "k"
+let g:gplus_commando_map_share           = "s"
+let g:gplus_commando_map_plusone         = "p"
+let g:gplus_commando_map_comment         = ",c"
+let g:gplus_commando_map_post            = ",p"
+let g:gplus_commando_map_yank            = "y"
+let g:gplus_commando_map_notification    = "n"
+let g:gplus_commando_map_submit          = "<C-CR>"
+let g:gplus_commando_map_cancel          = "<Esc>"
+let g:gplus_commando_map_unfold          = "e"
+let g:gplus_commando_map_menu            = "m"
+let g:gplus_commando_map_open            = "o"
+
+nnoremap -urls 'plus\.google\.com' gh gU
+nnoremap -urls 'plus\.google\.com' gp :open https://plus.google.com/me<CR>
+nnoremap -urls 'plus\.google\.com' gP :open https://plus.google.com/photos<CR>
+nnoremap -urls 'plus\.google\.com' gc :open https://plus.google.com/circles<CR>
 
 " removetabs.js
 " 左側にあるタブを閉じる
@@ -243,7 +276,7 @@ noremap <C-S-Right> :<C-u>removetabsright
 " command! urlsort tabsort -t=url
 
 " multi_requester.js
-noremap <Leader>mf :<C-u>mr<Space>favotter-new<Space>termin<CR>
+" noremap <Leader>mf :<C-u>mr<Space>favotter-new<Space>termin<CR>
 " noremap <Leader>my :<C-u>mr<Space>twitter-user<Space>termin<CR>
 
 " toggler.js
@@ -300,7 +333,10 @@ nnoremap c :<C-u>hbt<Space>
 " titleのみ対象
 " noremap <C-t> :<C-u>hbtti<Space>
 " urlのみ対象
-noremap <Leader>cu :<C-u>hbtu<Space>
+" noremap <Leader>cu :<C-u>hbtu<Space>
+
+" hatena-bookmark-search.js
+nnoremap <Leader>c :<C-u>bs<Space>
 
 " sbmcommentsviewer.js
 let g:def_sbms = "hdt"
@@ -329,6 +365,10 @@ let g:ldrc_captureMappings = "['j','k','p','o','?']"
 " lo.js
 noremap <S-C-f> :<C-u>fo<Space>
 noremap <S-C-l> :<C-u>lo<Space>
+
+" tab-history.js
+nnoremap < :tabh back<CR>
+nnoremap > :tabh forward<CR>
 
 " zip-de-download
 let g:zipDownloadDir = "~/Desktop"
