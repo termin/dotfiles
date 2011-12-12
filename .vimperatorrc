@@ -7,6 +7,12 @@
 " ----- Notice -----
 " migemo-findのハイライトしない仕様を回避したい時は, 同pluginの"\"を先頭にすると通常の検索を使う機能を使う.
 
+" greasemonkey 0.9.13対策 2011.12.09時点では
+" 『Greasemonkey0.9.12以降でMinibufferとLDRizeが動かない理由とか - tyoro.exe』
+" http://exe.tyo.ro/2011/11/greasemonkey0912minibufferldrize.html
+" の通りに.
+" play on tumblrはbardicheさんが書いていたので使わせて貰った. https://gist.github.com/1393449
+
 " ----- Main options -----
 set runtimepath=/Users/termin/.vimperator
 source! /Users/termin/.vimperatorrc.local
@@ -47,6 +53,8 @@ set showstatuslinks=2
 "Awesomebarの補完対象にBookmarkletを追加、件数を50件に変更
 set! browser.urlbar.filter.javascript=false
 " set! browser.urlbar.maxRichResults=50 
+set! browser.sessionstore.max_concurrent_tabs=0
+
 
 " ロケーションバーで表示する項目. vimpのcompleteオプションで"l"を選択すると本項が関連する.
 "0＝両方検索
@@ -69,6 +77,7 @@ set! ui.key.contentAccess=5
 
 " ---- Style Options ----
 colorscheme indigo
+" colorscheme vimpwhite
 
 " ビープ音を鳴らさずビジュアルベルを使用
 set visualbell
@@ -85,8 +94,8 @@ nnoremap ! :set invusermode<CR>
 nnoremap h <C-p>
 nnoremap l <C-n>
 " <S-M-Left>/<S-M-Right>で現在のタブの位置変更
-noremap <S-M-Left>  :<C-u>tabmove! -1<CR>:echo "うごうご・・・！"<CR>
-noremap <S-M-Right> :<C-u>tabmove! +1<CR>:echo "うごうご・・・！"<CR>
+noremap <S-M-Left>  :<C-u>tabmove! -1<CR>
+noremap <S-M-Right> :<C-u>tabmove! +1<CR>
 
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
 
@@ -123,7 +132,7 @@ nnoremap w <Nop>
 " qmarks
 " silent qmark b http://b.hatena.ne.jp/termin2/
 " silent qmark d http://www.tumblr.com/dashboard
-" silent qmark e http://www.tumblr.com/tumblelog/termin
+" silent qmark e http://www.tumblr.com/blog/termin
 " silent qmark E https://www.evernote.com/Login.action?targetUrl=%2FHome.action
 " silent qmark f http://favstar.fm/users/termin/recent
 " silent qmark h http://www.hatena.ne.jp/termin2/
@@ -144,7 +153,7 @@ nnoremap w <Nop>
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
 " let g:plugin_loader_plugins = "multi_requester,nextlink,tabsort,yetmappings,reporter,migemo_hint,migemo-find"
-let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,loginManager,tab-history"
+let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,loginManager,tab-history,unload-tab,slideshare"
 
 " google-translator.js
 nnoremap <Leader>gt :<C-u>gtrans<Space>
@@ -264,6 +273,11 @@ nnoremap -urls 'plus\.google\.com' gp :open https://plus.google.com/me<CR>
 nnoremap -urls 'plus\.google\.com' gP :open https://plus.google.com/photos<CR>
 nnoremap -urls 'plus\.google\.com' gc :open https://plus.google.com/circles<CR>
 
+" slideshare.js
+nnoremap -urls 'www\.slideshare\.net' j :slideshare next<CR>
+nnoremap -urls 'www\.slideshare\.net' k :slideshare prev<CR>
+nnoremap -urls 'www\.slideshare\.net' F :slideshare fullscreen<CR>
+
 " removetabs.js
 " 左側にあるタブを閉じる
 noremap <C-S-Left> :<C-u>removetabsleft
@@ -377,29 +391,51 @@ noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg
 " command -nargs=0 voy emenu ツール.VoyUrl Pref..Authenticate
 " noremap <Leader>va :<C-u>voy<CR>
 
-" LDRize patch
+" Greasemonkey 0.9.13 patch
+"『Greasemonkey0.9.12以降でMinibufferとLDRizeが動かない理由とか - tyoro.exe』 http://exe.tyo.ro/2011/11/greasemonkey0912minibufferldrize.html
+"cf.http://d.hatena.ne.jp/littlefolk/20110625p1
+
+js <<EOM
+autocommands.add(
+  'VimperatorEnter', '.*',
+  function () {
+    let Cc = Components.classes['@greasemonkey.mozdev.org/greasemonkey-service;1'];
+    if (Cc) {
+      Cc = Cc.getService().wrappedJSObject;
+      if (Cc.injectScripts.toSource().search('sharedObject') == -1) {
+        Cc.injectScripts = liberator.eval(
+          Cc.injectScripts.toSource()
+            .replace(/(?=(?:var|let) (?:firebugConsole))/,'var sharedObject = {};')
+            .replace(/(?=var requires)/, 'sandbox.sharedObject = sharedObject;')
+            .replace(/(?=}$)/, 'return sharedObject;'),
+        Cc.injectScripts);
+      };
+    };
+  });
+EOM
+
 " 『Firefox 4.0b10でGreasemonkey 0.9.1のユーザスクリプトのwindowを共通にする改造（開発者orVimper向け） - wltの日記』
 " http://d.hatena.ne.jp/wlt/20110130/1296359063
 " Greasemonkey 0.9.1でwindowを共通にする.
-js <<EOM
-autocommands.add('VimperatorEnter', '.*',
-		function() {
-		let gm = Components.classes['@greasemonkey.mozdev.org/greasemonkey-service;1'];
-		if (gm) {
-		gm = gm.getService().wrappedJSObject;
-		if (gm.injectScripts.toSource().search('sharedWindow') == -1) {
-		gm.injectScripts = liberator.eval(
-			gm.injectScripts.toSource()
-			.replace(/(?=var firebugConsole)/,
-				'var sharedWindow = {};' +
-				'sharedWindow.window = sharedWindow;' +
-				'sharedWindow.__proto__ = new XPCNativeWrapper(unsafeContentWin);')
-			.replace(/(?=sandbox\.__proto__)/, ' sandbox.window = sharedWindow;'),
-			gm.injectScripts);
-		}
-		}
-		});
-EOM
+" js <<EOM
+" autocommands.add('VimperatorEnter', '.*',
+" 		function() {
+" 		let gm = Components.classes['@greasemonkey.mozdev.org/greasemonkey-service;1'];
+" 		if (gm) {
+" 		gm = gm.getService().wrappedJSObject;
+" 		if (gm.injectScripts.toSource().search('sharedWindow') == -1) {
+" 		gm.injectScripts = liberator.eval(
+" 			gm.injectScripts.toSource()
+" 			.replace(/(?=var firebugConsole)/,
+" 				'var sharedWindow = {};' +
+" 				'sharedWindow.window = sharedWindow;' +
+" 				'sharedWindow.__proto__ = new XPCNativeWrapper(unsafeContentWin);')
+" 			.replace(/(?=sandbox\.__proto__)/, ' sandbox.window = sharedWindow;'),
+" 			gm.injectScripts);
+" 		}
+" 		}
+" 		});
+" EOM
 
 " yourfilehost cookie削除
 " cf.http://anond.hatelabo.jp/20100108213648
