@@ -240,8 +240,10 @@ inoremap <C-e> <Esc>A
 "----------------------------------------------------
 " vundle.vim
 filetype off
-set rtp& rtp+=~/.vim/vundle.git/ 
-call vundle#rc()
+if has('vim_starting')
+	set rtp& rtp+=~/.vim/vundle.git/ 
+	call vundle#rc()
+endif
 " My Bundles here:
 " original repos on github
 Bundle 'surround.vim'
@@ -250,13 +252,15 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/unite-outline'
+Bundle 'tsukkee/unite-help'
+Bundle 'thinca/vim-unite-history'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'thinca/vim-quickrun'
 "" Bundle 'ujihisa/quickrun'
 " Bundle 'thinca/vim-ref'
 Bundle 'Shougo/vimfiler'
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/vimshell'
+" Bundle 'Shougo/vimproc'
+" Bundle 'Shougo/vimshell'
 " ↑ 必要なもの / ↓ あんまり要らないもの
 " Bundle 'Lokaltog/vim-easymotion'
 Bundle 'kana/vim-grex'
@@ -296,11 +300,13 @@ filetype plugin indent on
 nnoremap [unite] <Nop>
 nnoremap su :map [unite]<CR>
 nmap U [unite]
+nnoremap <silent> [unite]U :<C-u>Unite<Space>
 nnoremap <silent> [unite]A :<C-u>Unite buffer bookmark file file_mru<CR>
 nnoremap <silent> [unite]B :<C-u>Unite bookmark file_mru<CR>
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]F :<C-u>Unite file file_mru -vertical -winwidth=70 -no-quit<CR>
 nnoremap <silent> [unite]f :<C-u>Unite file<CR>
+nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
 nnoremap <silent> [unite]M :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
