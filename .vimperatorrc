@@ -117,6 +117,7 @@ nnoremap <Leader>r :mapc<CR>:cmapc<CR>:imapc<CR>:comclear<CR>:so ~/.vimperatorrc
 " <M-c>が上手く動かない時があるのは何故だろう
 nnoremap <M-c> Y
 
+nnoremap <M-d> <Nop>
 " noremap ; :
 " noremap : ;
 
@@ -130,30 +131,33 @@ noremap <M-o> <Nop>
 nnoremap w <Nop>
 
 " qmarks
-" silent qmark b http://b.hatena.ne.jp/termin2/
+" silent qmark b http://b.hatena.ne.jp/termin2/bookmark
 " silent qmark d http://www.tumblr.com/dashboard
 " silent qmark e http://www.tumblr.com/blog/termin
 " silent qmark E https://www.evernote.com/Login.action?targetUrl=%2FHome.action
 " silent qmark f http://favstar.fm/users/termin/recent
-" silent qmark h http://www.hatena.ne.jp/termin2/
+" silent qmark h http://blog.hatena.ne.jp/
 " silent qmark l http://reader.livedoor.com/
 " silent qmark L http://twitter.com/#!/termin/lists
 " silent qmark m https://mail.google.com/mail/?hl=ja&shva=1#inbox
-" silent qmark n https://notifo.com/user
+" silent qmark n http://boxcar.io/inbox
 " silent qmark p https://plus.google.com/
 " silent qmark r http://www.rememberthemilk.com
 " silent qmark s http://s.hatena.ne.jp/termin2/report
 " silent qmark T http://topsy.com/
 " silent qmark t http://twitter.com/
-" silent qmark v http://tv.yahoo.co.jp/listings/realtime/
-" silent qmark V http://voyurl.com/member/me
+" silent qmark v http://192.168.1.23:8969/termin/
+" silent qmark V http://tv.yahoo.co.jp/listings/realtime/
 " silent qmark y http://twitter.com/termin
+
+" silent qmark V http://voyurl.com/member/me
+" silent qmark n https://notifo.com/user
 
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
 " let g:plugin_loader_plugins = "multi_requester,nextlink,tabsort,yetmappings,reporter,migemo_hint,migemo-find"
-let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,loginManager,tab-history,unload-tab,slideshare"
+let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,x-hint,loginManager,tab-history,unload-tab,slideshare"
 
 " google-translator.js
 nnoremap <Leader>gt :<C-u>gtrans<Space>
@@ -315,7 +319,7 @@ noremap <F2> :<C-u>toggle tb<CR>
 
 " statusline-toolbar.js
 " set statuslinetoolbars=feed-button,voyurl-button,voyurl-button-no
-lazy set statuslinetoolbars=feed-button
+lazy set statuslinetoolbars=feed-button,identity-box
 
 " はてなブックマーク拡張( http://subtech.g.hatena.ne.jp/secondlife/20090402/1238655382 )
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
@@ -351,7 +355,7 @@ nnoremap c :<C-u>hbt<Space>
 nnoremap <Leader>c :<C-u>bs<Space>
 
 " sbmcommentsviewer.js
-let g:def_sbms = "hdt"
+let g:def_sbms = "hdlt"
 nnoremap <Leader>vc :<C-u>viewSBMComments -t t<CR>
 nnoremap <Leader>vd :<C-u>viewSBMComments -t d<CR>
 
@@ -387,6 +391,22 @@ let g:zipDownloadDir = "~/Desktop"
 noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg
 
 " ----- Others -----
+" RequestPolicyを操作する cf. http://d.hatena.ne.jp/wlt/20101211/1292158609
+" cf. chrome/requestpolicy.jar/content/overlay.js : openStatusbarPopup()と_attachPopupStatusbar()
+javascript <<EOM
+mappings.addUserMap(
+	[modes.NORMAL],
+	["grr"],
+	"Open RequestPolicy Popup",
+	function(){
+		requestpolicy.overlay.openStatusbarPopup(document.getElementById('status-bar'));
+	}
+);
+EOM
+" リダイレクトの時の許可ボタンをgrrで、オプションをgroで
+nnoremap <silent> gry :js gBrowser.getNotificationBox().currentNotification.getElementsByAttribute('label', '許可')[0].click()<CR>
+nnoremap <silent> gro :js gBrowser.getNotificationBox().currentNotification.getElementsByAttribute('label', 'More...')[0].click()<CR>
+
 " voyurl
 " command -nargs=0 voy emenu ツール.VoyUrl Pref..Authenticate
 " noremap <Leader>va :<C-u>voy<CR>
