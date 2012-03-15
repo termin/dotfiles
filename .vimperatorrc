@@ -102,7 +102,6 @@ nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
 " <M-f>でvimpによる検索/
 " noremap <M-f> /\
 noremap <M-f> /
-" Toggleするようにしたい.
 cnoremap <M-f> <C-u>
 " d キーでも直前にフォーカスしていたタブに戻る様にする
 nnoremap d <M-w>
@@ -112,12 +111,14 @@ noremap U :<C-u>undo<Space>
 " noremap <Leader>s :saveas<CR>
 nnoremap <Leader>h :history!<Space>
 " .vimperatorrcをリロード.
-nnoremap <Leader>r :mapc<CR>:cmapc<CR>:imapc<CR>:comclear<CR>:so ~/.vimperatorrc<CR>
+nnoremap <Leader>R :mapc<CR>:cmapc<CR>:imapc<CR>:comclear<CR>:so ~/.vimperatorrc<CR>
 
 " <M-c>が上手く動かない時があるのは何故だろう
 nnoremap <M-c> Y
 
-nnoremap <M-d> <Nop>
+" (Secure Login)
+nnoremap <C-l> i<C-l>
+
 " noremap ; :
 " noremap : ;
 
@@ -129,6 +130,7 @@ noremap <M-k> <Nop>
 noremap <M-l> <Nop>
 noremap <M-o> <Nop>
 nnoremap w <Nop>
+nnoremap <M-d> <Nop>
 
 " qmarks
 " silent qmark b http://b.hatena.ne.jp/termin2/bookmark
@@ -160,7 +162,7 @@ let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
 let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,x-hint,loginManager,tab-history,unload-tab,slideshare"
 
 " google-translator.js
-nnoremap <Leader>gt :<C-u>gtrans<Space>
+" nnoremap <Leader>gt :<C-u>gtrans<Space>
 
 " nextlink.js
 " let g:nextlink_followlink = "true"
