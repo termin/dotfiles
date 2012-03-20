@@ -1,30 +1,31 @@
+# Path
+# export PATH=$PATH:/usr/local/sbin
 # Dev_android
-export PATH=/Developer/android-sdk-mac_x86/tools:$PATH
-export EDITOR=/opt/local/bin/vi
+# export PATH=$PATH:/Developer/android-sdk-mac_x86/tools:/Developer/android-sdk-mac_x86/platform-tools
 
-# MacPorts Installer addition on 2009-10-06_at_10:19:43: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
+export EDITOR=/usr/local/bin/vim
 
-# MacPorts用
-export MANPATH=/opt/local/man:$MANPATH
+# export ECLIPSE_HOME=/Applications/apps/eclipse
+# alias eclimd='$ECLIPSE_HOME/eclimd&'
 
+# source /usr/local/Cellar/coreutils/8.11/aliases
 alias less='less -MR'
 alias grep='grep --color'
 alias ls='gls -Fh --color'
 alias ll='ls -l'
 alias la='ls -A'
 
+alias sudo='sudo '
+alias sudi='sudo vi'
+
 shopt -s checkwinsize	# 端末のウィンドウサイズを${COLUMNS}と${LINES}に反映
 shopt -s histappend		# 履歴を上書きせず追加のみ行う
 
 # bash_completion
-if [ -f /opt/local/etc/bash_completion ]; then
-	. /opt/local/etc/bash_completion
+if [ -f `brew --prefix`/etc/bash_completion ]; then
+	. `brew --prefix`/etc/bash_completion
 fi
 
-# This loads RVM into a shell session.
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-#if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then source "$HOME/.rvm/scripts/rvm" ; fi
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+[[ -s "/Users/termin/.rvm/scripts/rvm" ]] && source "/Users/termin/.rvm/scripts/rvm"  # This loads RVM into a shell session.
 
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
