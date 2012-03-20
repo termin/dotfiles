@@ -30,6 +30,7 @@
 "----------------------------------------------------
 " Pre
 "----------------------------------------------------
+" 設定されているautocmdをクリア.
 autocmd!
 
 "----------------------------------------------------
@@ -256,6 +257,7 @@ Bundle 'tsukkee/unite-help'
 Bundle 'thinca/vim-unite-history'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'thinca/vim-quickrun'
+Bundle 'sudo.vim'
 "" Bundle 'ujihisa/quickrun'
 " Bundle 'thinca/vim-ref'
 Bundle 'Shougo/vimfiler'
