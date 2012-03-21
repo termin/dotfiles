@@ -341,6 +341,9 @@ function! s:unite_my_settings()"{{{
 	"let g:unite_enable_start_insert = 1
 endfunction"}}}
 
+" sudo.vim
+command! WS SudoWrite %
+
 " smartword.vim
 " map w  <Plug>(smartword-w)
 " map b  <Plug>(smartword-b)
