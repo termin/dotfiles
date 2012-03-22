@@ -1,4 +1,4 @@
-"for Terminal.app on Mac
+"for Terminal on Mac / Linux
 "----------------------------------------------------
 " Notice
 "----------------------------------------------------
@@ -172,7 +172,6 @@ set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
 " <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
  
-" *Mac専用としてその他環境で使う事を考えないKey Mapにするかどうか迷う.
 " *let mapleader = ";"だとUSキーボードで辛いのかも？
 " *後で何かに割り当てるKey
 " CTRL-G CTRL-K CTRL-N CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
@@ -257,7 +256,8 @@ Bundle 'tsukkee/unite-help'
 Bundle 'thinca/vim-unite-history'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'thinca/vim-quickrun'
-Bundle 'sudo.vim'
+Bundle 'chrisbra/SudoEdit.vim'
+" Bundle 'sudo.vim'
 "" Bundle 'ujihisa/quickrun'
 " Bundle 'thinca/vim-ref'
 Bundle 'Shougo/vimfiler'
@@ -341,7 +341,7 @@ function! s:unite_my_settings()"{{{
 	"let g:unite_enable_start_insert = 1
 endfunction"}}}
 
-" sudo.vim
+" SudoEdit.vim, sudo.vim
 command! WS SudoWrite %
 
 " smartword.vim
@@ -415,7 +415,7 @@ map <Leader>rr :<C-u>Ref<Space>refe<Space>
 map <Leader>rm :<C-u>Ref<Space>man<Space>
 
 " ctrlp.vim
-let g:ctrlp_map = '<C-^>'
+" let g:ctrlp_map = '<C-^>'
 
 " VTreeExplorer
 " let g:treeExplVertical=1
