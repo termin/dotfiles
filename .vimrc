@@ -263,6 +263,7 @@ Bundle 'sudo.vim'
 Bundle 'Shougo/vimfiler'
 " Bundle 'Shougo/vimproc'
 " Bundle 'Shougo/vimshell'
+Bundle 'kien/ctrlp.vim'
 " ↑ 必要なもの / ↓ あんまり要らないもの
 " Bundle 'Lokaltog/vim-easymotion'
 Bundle 'kana/vim-grex'
@@ -294,7 +295,6 @@ filetype plugin indent on
 " let g:EasyMotion_do_shade = 0
 
 " Unite.vim
-" nnoremap <Leader>u :<C-u>Unite file<CR>
 " あとで
 " -no-quit -vertical g:unite_winwidth -buffer-name
 " -auto-preview を上手く使えるシーンはあるか.
@@ -413,6 +413,9 @@ let NERDSpaceDelims = 1 " コメントの間にスペースを入れる
 map <Leader>R <Plug>(quickrun)
 map <Leader>rr :<C-u>Ref<Space>refe<Space>
 map <Leader>rm :<C-u>Ref<Space>man<Space>
+
+" ctrlp.vim
+let g:ctrlp_map = '<C-^>'
 
 " VTreeExplorer
 " let g:treeExplVertical=1
