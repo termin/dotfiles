@@ -4,6 +4,7 @@
 # export PATH=$PATH:/Developer/android-sdk-mac_x86/tools:/Developer/android-sdk-mac_x86/platform-tools
 
 export EDITOR=/usr/local/bin/vim
+export SUDO_EDITOR=/usr/local/bin/vim
 
 # export ECLIPSE_HOME=/Applications/apps/eclipse
 # alias eclimd='$ECLIPSE_HOME/eclimd&'
@@ -16,7 +17,7 @@ alias ll='ls -l'
 alias la='ls -A'
 
 alias sudo='sudo '
-alias sudi='sudo vi'
+alias sude='sudo -e'
 
 shopt -s checkwinsize	# 端末のウィンドウサイズを${COLUMNS}と${LINES}に反映
 shopt -s histappend		# 履歴を上書きせず追加のみ行う
