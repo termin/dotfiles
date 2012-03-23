@@ -205,7 +205,9 @@ nnoremap <silent> <Esc>h :<C-u>execute 'tabmove' tabpagenr() -2<CR>
 nnoremap <silent> <Esc>l :<C-u>execute 'tabmove' tabpagenr()<CR>
 nnoremap <silent> g0 :<C-u>tabfirst<CR>
 nnoremap <silent> g9 :<C-u>tablast<CR>
-nnoremap <silent> <C-w><C-t> :<C-u>tabnew<CR>
+" tmuxで<C-t>をprefix keyに使う様になったので退避
+" nnoremap <silent> <C-w><C-t> :<C-u>tabnew<CR>
+nnoremap <silent> <C-w>t :<C-u>tabnew<CR>
 noremap <C-j> 5j
 noremap <C-k> 5k
 
@@ -264,6 +266,7 @@ Bundle 'Shougo/vimfiler'
 " Bundle 'Shougo/vimproc'
 " Bundle 'Shougo/vimshell'
 Bundle 'kien/ctrlp.vim'
+" Bundle 'mattn/benchvimrc-vim'
 " ↑ 必要なもの / ↓ あんまり要らないもの
 " Bundle 'Lokaltog/vim-easymotion'
 Bundle 'kana/vim-grex'
