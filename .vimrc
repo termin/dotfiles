@@ -2,30 +2,27 @@
 "----------------------------------------------------
 " Notice
 "----------------------------------------------------
+" ss で:registersとか:marksとか色々表示する系のkey mapを一覧する.  上手くuniteと使い分けたい.
+" CUIでは*レジスタが使えない. "*yとか出来ない...
+" <Leader>he で.vimrcをすぐに表示する. ToDoとかささっと見てささっと解決したい.
 "----------------------------------------------------
 " ToDo
 "----------------------------------------------------
-" *Tab, Window関連のKey Mappingをまとめたい.
-" *wildemodeで目当ての項目に到達した後, 更に下位の項目を選択させたい時に, そのままTabではダメなのが不満.
-" *何か上手い手は無いか.
-
-" *helpを:splitじゃなくて:onlyで開きたい.
-
-" *set mouse+=aだと, terminal.appの機能での選択, コピーが出来ない.
-" 何か良い設定は無いか. 今は"*yでごまかしてる.
-
-" *surround.vimのキーバインドをまともにしたい気がする.
-" *『Vimの極め方』
-" http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
-
-" *outliner的な記述が出来るpluginを試す.(howm-mode.vim, QFixHowm, VimOrganizer, vim-orgmode)
-
-" あとで調べる
-" *bufferについて
-" *autocmdの使い方
-" *Diff関連について. savevers.vimとか.
-" *Sessionの使い方を確認し, キーバインドを考える.
-" *i_CTRL-X_CTRL_{x} なキーバインドについて.
+" :e dir1/dir2/txt などとしたいときに, dir1を選択した後に直下のファイルを一覧させたいが良い方法はあるか. 今は<Space><BS><Tab>してる.
+" helpを:splitじゃなくて:onlyで開きたい.
+" set mouse=a 環境でのyank
+" set mouse=してマウスで範囲選択+<D-c>
+" surround.vimのキーバインドをまともにしたい気がする. 『Vimの極め方』 http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
+" outliner的な記述が出来るpluginで使えるものはないか.(howm-mode.vim, QFixHowm, VimOrganizer, vim-orgmode)
+"
+" *unite
+" もっと積極的に使っていきたいが, uniteに頼るようになるのはそれはそれで不安な気もしてくる.
+" ノーマルモード lでディレクトリを潜りたい.
+"
+" neocomplcacheのカラー設定
+" sudo関連の扱い
+" Diff関連について. savevers.vimとか.
+" Sessionの使い方を確認し, キーバインドを考える.
 
 "----------------------------------------------------
 " Pre
@@ -172,17 +169,19 @@ set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
 " <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
  
-" *let mapleader = ";"だとUSキーボードで辛いのかも？
 " *後で何かに割り当てるKey
 " CTRL-G CTRL-K CTRL-N CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
 " c C
 
-" *omapを使って整理したい様な気がする.
+" omapを使って整理したい様な気がする.
 
-" *CTRL-s はttyでstopとして使われてた. 同様にCTRL-qはstart
+" CTRL-s はttyでstopとして使われてた. 同様にCTRL-qはstart
+
+" *確認したい
+" i_CTRL-X_CTRL_{x} なキーバインドについて確認.
 
 " *使う
-" i_CTRL-W i_CTRL-X_CTRL-L i_CTRL-M
+" i_CTRL-X_CTRL-L i_CTRL-M
 " mark: m{a-zA-Z} , call: '{a-zA-Z}
 " Exモード(連続コマンド): Q or gQ :vi[sual]で抜ける.
 
@@ -223,9 +222,8 @@ nnoremap sT :<C-u>map <C-T><CR>
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " Yでクリップボードにコピー
 noremap Y "*y
-" nnoremap <Space>m :<C-u>marks<CR>
-" nnoremap <Space>r :<C-u>registers<CR>
 nnoremap s <Nop>
+nnoremap ss :<C-u>nmap s<CR>
 nnoremap sm :<C-u>marks<CR>
 nnoremap sr :<C-u>registers<CR>
 nnoremap sc :<C-u>changes<CR>
@@ -238,7 +236,7 @@ inoremap <C-e> <Esc>A
 " nnoremap <C-p> :cprevious<CR>
 
 "----------------------------------------------------
-" Scripts
+" Plugins
 "----------------------------------------------------
 " vundle.vim
 filetype off
@@ -331,6 +329,7 @@ function! s:unite_my_settings()"{{{
 	" CTRL-hをhで代替したい
 	imap <buffer> jj <Plug>(unite_insert_leave)
 	nmap <buffer> h <Plug>(unite_delete_backward_path)
+	" ノーマルモード lでディレクトリを潜りたい. あとで.
 	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
 	nmap <buffer> <C-h> :tabprevious<CR>
 	nmap <buffer> <C-l> :tabnext<CR>
