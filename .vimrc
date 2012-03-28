@@ -23,6 +23,8 @@
 " sudo関連の扱い
 " Diff関連について. savevers.vimとか.
 " Sessionの使い方を確認し, キーバインドを考える.
+" 
+" augroupを上手く使いたい.
 
 "----------------------------------------------------
 " Pre
@@ -119,8 +121,9 @@ set history=100 " コマンド、検索パターンを100個まで履歴に残�
 "--------------------
 filetype plugin indent on " ファイルタイプ判定をon
 autocmd BufNewFile *.rb 0r ~/.vim/template/skeleton.ruby
-autocmd FileType ruby set ts=2 | set sw=2 | set expandtab | let ruby_space_errors = 1
-autocmd BufNewFile,BufRead *.yaml set filetype=ruby
+autocmd FileType ruby setlocal ts=2 | set sw=2 | set expandtab | let ruby_space_errors = 1
+" autocmd BufNewFile,BufRead *.yaml set filetype=ruby
+autocmd FileType yaml setlocal filetype=ruby
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
@@ -221,7 +224,7 @@ nnoremap sT :<C-u>map <C-T><CR>
 
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " Yでクリップボードにコピー
-noremap Y "*y
+noremap Y "*yy
 nnoremap s <Nop>
 nnoremap ss :<C-u>nmap s<CR>
 nnoremap sm :<C-u>marks<CR>
@@ -249,14 +252,16 @@ endif
 Bundle 'surround.vim'
 Bundle 'renamer.vim'
 Bundle 'Shougo/neocomplcache'
-Bundle 'scrooloose/nerdcommenter'
+" Bundle 'Shougo/neocomplcache-snippets-complete'
 Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'tsukkee/unite-help'
 Bundle 'thinca/vim-unite-history'
 Bundle 'vim-ruby/vim-ruby'
+Bundle 'scrooloose/nerdcommenter'
 Bundle 'thinca/vim-quickrun'
 Bundle 'chrisbra/SudoEdit.vim'
+Bundle 'nathanaelkane/vim-indent-guides'
 " Bundle 'sudo.vim'
 "" Bundle 'ujihisa/quickrun'
 " Bundle 'thinca/vim-ref'
@@ -370,9 +375,14 @@ let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
 
 " 日本語をキャッシュしない.
 if !exists('g:neocomplcache_keyword_patterns')
-  let g:neocomplcache_keyword_patterns = {}
+	let g:neocomplcache_keyword_patterns = {}
 endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" let g:neocomplcache_omni_functions = {
+	" \ 'python' : 'pythoncomplete#Complete',
+	" \ 'ruby' : 'rubycomplete#Complete',
+	" \ }
 
 " <CR>: close popup
 inoremap <expr><CR> pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
@@ -384,31 +394,39 @@ inoremap <expr><CR> pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
 " inoremap <expr><C-e> neocomplcache#cancel_popup()
 " <C-u>で補完をキャンセルしてから行頭まで削除する. 上手く動かない.
 " inoremap <expr><C-u> neocomplcache#cancel_popup() . "\<C-u>"
- 
+
 " Snippets
-imap <C-k> <Plug>(neocomplcache_snippets_expand)
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
+" imap <C-k> <Plug>(neocomplcache_snippets_expand)
+" smap <C-k> <Plug>(neocomplcache_snippets_expand)
 
 " inoremap <expr><C-g> neocomplcache#undo_completion()
 " inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 " Snippetsを編集する
-command! -nargs=* Nes NeoComplCacheEditSnippets
+" command! -nargs=* Nes NeoComplCacheEditSnippets
 
 " FileType別のOmni Completion設定
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-" autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-" autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType ruby set omnifunc=rubycomplete#Complete
- 
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+autocmd FileType c setlocal omnifunc=ccomplete#Complete
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+
 " NERD_commenter.vim
 let g:NERDCreateDefaultMappings = 0 " 自由にMappingを設定する
 map <Leader>c <plug>NERDCommenterToggle
 let NERDSpaceDelims = 1 " コメントの間にスペースを入れる
+
+" vim-indent-guides
+" default mapping for ":IndentGuidestoggle"is <Leader>ig
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_guide_size = 1
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 
 " QuickRun.vim
 " let g:quickrun_no_default_key_mappings = 1
@@ -417,7 +435,7 @@ map <Leader>rr :<C-u>Ref<Space>refe<Space>
 map <Leader>rm :<C-u>Ref<Space>man<Space>
 
 " ctrlp.vim
-" let g:ctrlp_map = '<C-^>'
+let g:ctrlp_map = '<C-^>'
 
 " VTreeExplorer
 " let g:treeExplVertical=1
