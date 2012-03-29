@@ -6,9 +6,12 @@
 " CUIでは*レジスタが使えない. "*yとか出来ない...
 " <Leader>he で.vimrcをすぐに表示する. ToDoとかささっと見てささっと解決したい.
 " Uniteを積極的に使いたい. qflist(Quickfix), file etc...
+" 
+" Mac標準のvimはhas('mac'), has('macunix')が0だが自前でbuildすれば1.
 "----------------------------------------------------
-" TODO
+" TODO:
 "----------------------------------------------------
+" 『Vim-users.jp - Vim Hacks Project』 http://vim-users.jp/vim-hacks-project/
 " 必要な時に重い設定行を読まない様に出来ると良い様なそうでも無い様な.
 " :e dir1/dir2/txt などとしたいときに, dir1を選択した後に直下のファイルを一覧させたいが良い方法はあるか. 今は<Space><BS><Tab>してる.
 " helpを:splitじゃなくて:onlyで開きたい.
@@ -28,11 +31,14 @@
 " 
 " augroupを上手く使いたい.
 " Quickfix周り
+"
+" uniteの-verticalでファイル名が長い場合に末尾が見切れてしまう.
 
 "----------------------------------------------------
 " Pre
 "----------------------------------------------------
 " 設定されているautocmdをクリア.
+" TODO: augroupで書き換えたい.
 autocmd!
 
 "----------------------------------------------------
@@ -78,13 +84,13 @@ endif
 " Backup
 "----------------------------------------------------
 " バックアップをとる
-"set backup
+" set backup
 " ファイルの上書きの前にバックアップを作る. ただし, backup がオンでない限り、バックアップは上書きに成功した後削除される.
-"set writebackup
+" set writebackup
 " バックアップファイルを作るディレクトリ
-"set backupdir=~/backup
+" set backupdir=~/backup
 " スワップファイルを作るディレクトリ
-"set directory=~/swap
+" set directory=~/swap
 
 "----------------------------------------------------
 " Appearance
@@ -138,7 +144,7 @@ autocmd FileType yaml setlocal filetype=ruby
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
-autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
+" autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
 
 "----------------------------------------------------
 " Indent
@@ -146,11 +152,10 @@ autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
 set autoindent
 set smartindent
 " set paste " ペースト時にindent関連をoffにする他様々色々それぞれ。
-
-" tabstop: タブが対応する空白の数
-" softtabstop: タブやバックスペースの使用等の編集操作をするときに、タブが対応する空白の数
-" shiftwidth: インデントの各段階に使われる空白の数
-set ts=4 sw=4 sts=0
+" set expandtab
+set tabstop=4
+set shiftwidth=4
+" set softtabstop=0
 
 "----------------------------------------------------
 " Encoding
@@ -161,7 +166,7 @@ set ts=4 sw=4 sts=0
 set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
-"set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,ucs-2le,ucs-2,utf-8
+" set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,ucs-2le,ucs-2,utf-8
 set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
 
 " au BufWritePost * call SetUTF8Xattr(expand("<afile>"))
@@ -182,7 +187,7 @@ set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
 
 " CTRL-s はttyでstopとして使われてた. 同様にCTRL-qはstart
 "
-" TODO
+" TODO:
 " <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
  
@@ -247,8 +252,8 @@ nnoremap sb :<C-u>buffers<CR>
 inoremap <C-a> <Esc>I
 inoremap <C-e> <Esc>A
 
-" nnoremap <C-n> :cnext<CR>
-" nnoremap <C-p> :cprevious<CR>
+" nnoremap <C-n> :<C-u> cnext<CR>
+" nnoremap <C-p> :<C-u> cprevious<CR>
 
 "----------------------------------------------------
 " Plugins
@@ -259,33 +264,37 @@ if has('vim_starting')
 	set rtp& rtp+=~/.vim/vundle.git/ 
 	call vundle#rc()
 endif
-" My Bundles here:
-" original repos on github
+" github repos
 Bundle 'surround.vim'
+Bundle 'scrooloose/nerdcommenter'
 Bundle 'renamer.vim'
 Bundle 'Shougo/neocomplcache'
 " Bundle 'Shougo/neocomplcache-snippets-complete'
 Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'tsukkee/unite-help'
+" 必要かどうかよくわからない "{{{
 Bundle 'thinca/vim-unite-history'
+Bundle 'kien/ctrlp.vim'
+Bundle 'Shougo/vimfiler'
+Bundle 'oppara/vim-unite-cake'
+"}}}
 Bundle 'soh335/unite-qflist'
+" Bundle 'sgur/unite-qf'
 Bundle 'vim-ruby/vim-ruby'
-Bundle 'scrooloose/nerdcommenter'
 Bundle 'thinca/vim-quickrun'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'chrisbra/SudoEdit.vim'
 " Bundle 'sudo.vim'
 "" Bundle 'ujihisa/quickrun'
 Bundle 'thinca/vim-ref'
-Bundle 'Shougo/vimfiler'
-" Bundle 'Shougo/vimproc'
+" vimshell, unite-source-grep の使用にvimprocが必要.
+Bundle 'Shougo/vimproc'
 " Bundle 'Shougo/vimshell'
-Bundle 'kien/ctrlp.vim'
 " Bundle 'mattn/benchvimrc-vim'
 " ↑ 必要なもの / ↓ あんまり要らないもの
+" Bundle 'kana/vim-grex'
 " Bundle 'Lokaltog/vim-easymotion'
-Bundle 'kana/vim-grex'
 " Bundle 'kana/vim-operator-user'
 " Bundle 'kana/vim-operator-replace'
 " Bundle 'thinca/vim-visualstar'
@@ -294,7 +303,7 @@ Bundle 'kana/vim-grex'
 " Bundle 'tyru/caw.vim'
 "" Bundle 'vim-fugitive'
 
-"" vim-scripts repos
+"" vim.org/scripts
 " Bundle 'smartword'
 " Bundle 'smartchr'
 " Bundle 'hsitz/VimOrganizer'
@@ -308,18 +317,24 @@ Bundle 'kana/vim-grex'
 filetype plugin indent on 
 
 " Unite.vim
+" 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
 " -auto-preview はそれなりに重いので慎重に.
 " -no-quit -vertical g:unite_winwidth -buffer-name
 " dotfileを表示するには
 nnoremap su :map [unite]<CR>
-nmap U [unite]
 nnoremap [unite] <Nop>
-nnoremap <silent> [unite]U :<C-u>Unite<Space>
+nmap U [unite]
+nnoremap [unite]U :<C-u>Unite<Space>
 nnoremap <silent> [unite]S :<C-u>Unite source<CR>
 nnoremap <silent> [unite]F :<C-u>Unite file file_mru -vertical -winwidth=70 -no-quit<CR>
 nnoremap <silent> [unite]f :<C-u>Unite file<CR>
+nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
+" TODO: -auto-preview で新たなwindowを表示するのが邪魔. 既に開いているbufferを使いたい.
+nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview -winheight=15<CR>
+" nnoremap <silent> /  :<C-u>Unite -buffer-name=search line -start-insert -no-quit<CR>
 nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
+nnoremap <silent> [unite]h :<C-u>Unite history/
 nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit -auto-preview<CR>
 
@@ -345,8 +360,8 @@ function! s:unite_my_settings()"{{{
 	nmap <buffer> h <Plug>(unite_delete_backward_path)
 	" TODO: ノーマルモード lでディレクトリを潜りたい.
 	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-	nmap <buffer> <C-h> :tabprevious<CR>
-	nmap <buffer> <C-l> :tabnext<CR>
+	nmap <buffer> <C-h> :<C-u>tabprevious<CR>
+	nmap <buffer> <C-l> :<C-u>tabnext<CR>
 	" nmap <silent> <buffer> <expr> <C-p> unite#do_action('vsplit')
 	" imap <silent> <buffer> <expr> <C-p> unite#do_action('vsplit')
 
@@ -366,9 +381,9 @@ let g:neocomplcache_enable_smart_case = 1
 " let g:neocomplcache_enable_camel_case_completion = 1
 " _を入力したときに、それを単語の区切りとしてあいまい検索を行うかどうか制御する。例えば p_h と入力したとき、public_html とマッチするようになる。1ならば有効になる。副作用があるので、初期値は0となっている。
 " let g:neocomplcache_enable_underbar_completion = 1
-"let g:neocomplcache_dictionary_filetype_lists =
+" let g:neocomplcache_dictionary_filetype_lists =
 let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
-"let g:neocomplcache_enable_quick_match = 1 " -入力による候補番号の表示 上手く動かない
+" let g:neocomplcache_enable_quick_match = 1 " -入力による候補番号の表示 上手く動かない
 
 " 日本語をキャッシュしない.
 if !exists('g:neocomplcache_keyword_patterns')
@@ -389,8 +404,8 @@ inoremap <expr><CR> pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
 " inoremap <expr><C-y> neocomplcache#close_popup()
 " 補完をキャンセルしpopupを閉じる
 " inoremap <expr><C-e> neocomplcache#cancel_popup()
-" <C-u>で補完をキャンセルしてから行頭まで削除する. 上手く動かない.
-" inoremap <expr><C-u> neocomplcache#cancel_popup() . "\<C-u>"
+" 補完をキャンセルしてから行頭まで削除する.
+" inoremap <expr><C-g> neocomplcache#cancel_popup() . "\<C-u>"
 
 " Snippets
 " imap <C-k> <Plug>(neocomplcache_snippets_expand)
