@@ -40,6 +40,9 @@
 " 設定されているautocmdをクリア.
 " TODO: augroupで書き換えたい.
 autocmd!
+" augroup MyAutoCmd
+	" autocmd!
+" augroup END
 
 "----------------------------------------------------
 " Basic
@@ -96,6 +99,7 @@ endif
 " Appearance
 "----------------------------------------------------
 colorscheme default
+set background=light
 set number							" 行番号表示
 set showmode						"モード表示
 set title							"編集中のファイル名を表示
@@ -248,6 +252,7 @@ nnoremap sm :<C-u>marks<CR>
 nnoremap sr :<C-u>registers<CR>
 nnoremap sc :<C-u>changes<CR>
 nnoremap sb :<C-u>buffers<CR>
+nnoremap s<Leader> :<C-u>map <Leader><CR>
 
 inoremap <C-a> <Esc>I
 inoremap <C-e> <Esc>A
@@ -265,11 +270,12 @@ if has('vim_starting')
 	call vundle#rc()
 endif
 " github repos
-Bundle 'surround.vim'
+Bundle 'tpope/vim-surround'
+Bundle 't9md/vim-surround_custom_mapping'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'renamer.vim'
 Bundle 'Shougo/neocomplcache'
-" Bundle 'Shougo/neocomplcache-snippets-complete'
+Bundle 'Shougo/neocomplcache-snippets-complete'
 Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'tsukkee/unite-help'
@@ -281,6 +287,7 @@ Bundle 'oppara/vim-unite-cake'
 "}}}
 Bundle 'soh335/unite-qflist'
 " Bundle 'sgur/unite-qf'
+" Bundle 'ujihisa/unite-colorscheme'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'thinca/vim-quickrun'
 Bundle 'nathanaelkane/vim-indent-guides'
@@ -290,16 +297,16 @@ Bundle 'chrisbra/SudoEdit.vim'
 Bundle 'thinca/vim-ref'
 " vimshell, unite-source-grep の使用にvimprocが必要.
 Bundle 'Shougo/vimproc'
-" Bundle 'Shougo/vimshell'
 " Bundle 'mattn/benchvimrc-vim'
 " ↑ 必要なもの / ↓ あんまり要らないもの
+" Bundle 'Shougo/vimshell'
+" Bundle 'Shougo/echodoc'
 " Bundle 'kana/vim-grex'
 " Bundle 'Lokaltog/vim-easymotion'
 " Bundle 'kana/vim-operator-user'
 " Bundle 'kana/vim-operator-replace'
 " Bundle 'thinca/vim-visualstar'
 " Bundle 'tyru/operator-star.vim' " dependent for: visualstar, operator-user
-" Bundle 'Shougo/echodoc'
 " Bundle 'tyru/caw.vim'
 "" Bundle 'vim-fugitive'
 
@@ -358,7 +365,9 @@ function! s:unite_my_settings()"{{{
 	" CTRL-hをhで代替したい
 	imap <buffer> jj <Plug>(unite_insert_leave)
 	nmap <buffer> h <Plug>(unite_delete_backward_path)
-	" TODO: ノーマルモード lでディレクトリを潜りたい.
+	nmap <buffer> l <Plug>(unite_narrowing_path)
+	" TODO: nmap l "ディレクトリ掘る" をしてみたけれど使いづらいかも...
+	" <S-m>も使いたいかも.
 	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
 	nmap <buffer> <C-h> :<C-u>tabprevious<CR>
 	nmap <buffer> <C-l> :<C-u>tabnext<CR>
@@ -372,9 +381,6 @@ function! s:unite_my_settings()"{{{
 	"let g:unite_enable_start_insert = 1
 endfunction"}}}
 
-" SudoEdit.vim, sudo.vim
-command! WS SudoWrite %
-
 " neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
@@ -382,7 +388,6 @@ let g:neocomplcache_enable_smart_case = 1
 " _を入力したときに、それを単語の区切りとしてあいまい検索を行うかどうか制御する。例えば p_h と入力したとき、public_html とマッチするようになる。1ならば有効になる。副作用があるので、初期値は0となっている。
 " let g:neocomplcache_enable_underbar_completion = 1
 " let g:neocomplcache_dictionary_filetype_lists =
-let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
 " let g:neocomplcache_enable_quick_match = 1 " -入力による候補番号の表示 上手く動かない
 
 " 日本語をキャッシュしない.
@@ -401,43 +406,88 @@ inoremap <expr><CR> pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
 " <TAB>: completion.
 " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " 補完を選択しポップアップを閉じる
-" inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><C-y> neocomplcache#close_popup()
 " 補完をキャンセルしpopupを閉じる
-" inoremap <expr><C-e> neocomplcache#cancel_popup()
+inoremap <expr><C-e> neocomplcache#cancel_popup()
 " 補完をキャンセルしてから行頭まで削除する.
-" inoremap <expr><C-g> neocomplcache#cancel_popup() . "\<C-u>"
-
-" Snippets
-" imap <C-k> <Plug>(neocomplcache_snippets_expand)
-" smap <C-k> <Plug>(neocomplcache_snippets_expand)
+" inoremap <expr><C-u> neocomplcache#cancel_popup() . "\<C-u>"
 
 " inoremap <expr><C-g> neocomplcache#undo_completion()
 " inoremap <expr><C-l> neocomplcache#complete_common_string()
 
-" Snippetsを編集する
-" command! -nargs=* Nes NeoComplCacheEditSnippets
+" ポップアップメニューの表示
+autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
+autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
+autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
 
 " FileType別のOmni Completion設定
 " Vimに対して設定
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Enable heavy omni completion.
 if !exists('g:neocomplcache_omni_patterns')
 	let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+
+" neocomplcache-snippets-complete.vim
+let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
+imap <C-k> <Plug>(neocomplcache_snippets_expand)
+smap <C-k> <Plug>(neocomplcache_snippets_expand)
+" Snippetsを編集する
+command! -nargs=* Nes NeoComplCacheEditSnippets
+
+" SudoEdit.vim, sudo.vim
+command! WS SudoWrite %
+
+" vim-surround.vim
+let g:surround_no_mappings = 1
+" ds:  delete a surrounding.
+" cs:  change a surrounding.
+" ys:  add a surrounding.
+" yS:  add a surrounding. 改行とインデントを含む.
+" yss: ただの行囲み.
+" {
+	" ySS: 行囲み. 改行とインデントを含む. こんなかんじ.
+	" ySs: ySSと同じ.
+" }
+nmap ds <Plug>Dsurround
+nmap cs <Plug>Csurround
+nmap ys <Plug>Ysurround
+nmap yS <Plug>YSurround
+nmap yss <Plug>Yssurround
+" ySSと同じ.
+" nmap ySs <Plug>YSsurround
+nmap ySS <Plug>YSsurround
+vmap S <Plug>VSurround
+
+" vim-surround_custom_mapping.vim
+" 『t9md/vim-surround_custom_mapping · GitHub』 https://github.com/t9md/vim-surround_custom_mapping
+" "\r"に中身が入る.
+let g:surround_custom_mapping = {}
+" filetypeに共通の設定
+let g:surround_custom_mapping._ = {
+            \ 'w':  "%w(\r)",
+            \ }
+let g:surround_custom_mapping.ruby = {
+            \ '%':  "%(\r)",
+            \ '#':  "#{\r}",
+            \ }
 
 " NERD_commenter.vim
-let g:NERDCreateDefaultMappings = 0 " 自由にMappingを設定する
-map <Leader>c <plug>NERDCommenterToggle
-let NERDSpaceDelims = 1 " コメントの間にスペースを入れる
+let g:NERDCreateDefaultMappings = 0
+nmap <Leader>c <plug>NERDCommenterToggle
+vmap <Leader>c <plug>NERDCommenterToggle
+" コメントの間にスペースを入れる
+let NERDSpaceDelims = 1
 
 " vim-indent-guides
 " default mapping for ":IndentGuidestoggle"is <Leader>ig
@@ -448,10 +498,10 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 
 " QuickRun.vim
-" let g:quickrun_no_default_key_mappings = 1
-map <Leader>R <Plug>(quickrun)
-map <Leader>rr :<C-u>Ref<Space>refe<Space>
-map <Leader>rm :<C-u>Ref<Space>man<Space>
+let g:quickrun_no_default_key_mappings = 1
+nmap <Leader>R <Plug>(quickrun)
+nnoremap <Leader>rr :<C-u>Ref<Space>refe<Space>
+nnoremap <Leader>rm :<C-u>Ref<Space>man<Space>
 
 " ctrlp.vim
 let g:ctrlp_map = '<C-^>'
