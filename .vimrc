@@ -5,9 +5,11 @@
 " ss で:registersとか:marksとか色々表示する系のkey mapを一覧する.  上手くuniteと使い分けたい.
 " CUIでは*レジスタが使えない. "*yとか出来ない...
 " <Leader>he で.vimrcをすぐに表示する. ToDoとかささっと見てささっと解決したい.
+" Uniteを積極的に使いたい. qflist(Quickfix), file etc...
 "----------------------------------------------------
-" ToDo
+" TODO
 "----------------------------------------------------
+" 必要な時に重い設定行を読まない様に出来ると良い様なそうでも無い様な.
 " :e dir1/dir2/txt などとしたいときに, dir1を選択した後に直下のファイルを一覧させたいが良い方法はあるか. 今は<Space><BS><Tab>してる.
 " helpを:splitじゃなくて:onlyで開きたい.
 " set mouse=a 環境でのyank
@@ -25,6 +27,7 @@
 " Sessionの使い方を確認し, キーバインドを考える.
 " 
 " augroupを上手く使いたい.
+" Quickfix周り
 
 "----------------------------------------------------
 " Pre
@@ -35,15 +38,22 @@ autocmd!
 "----------------------------------------------------
 " Basic
 "----------------------------------------------------
-set nocompatible "vi非互換モード
-set vb t_vb= " ビープ音を鳴らさない
+" vi非互換モード
+set nocompatible
+" ビープ音を鳴らさない
+set vb t_vb=
 " バックスペースキーで削除できるものを指定
-set backspace=indent,eol,start " バックスペースで削除出来るものを選択
-" set clipboard+=unnamed " 共有クリップボードを使う
-set helplang=ja " ヘルプドキュメントの検索順
-set hidden " バッファを切替えてもundoの効力を失わない
-set fileformats=unix,dos,mac " 改行コードの自動認識
-set shortmess& shortmess+=m " [変更あり]" の代わりに "[+]" を表示
+set backspace=indent,eol,start
+" 共有クリップボードを使う
+" set clipboard+=unnamed
+" ヘルプドキュメントの検索順
+set helplang=ja
+" バッファを切替えてもundoの効力を失わない
+set hidden
+" 改行コードの自動認識
+set fileformats=unix,dos,mac
+" [変更あり]" の代わりに "[+]" を表示
+set shortmess& shortmess+=m
 
 " K でVim helpを検索する
 set keywordprg=:help
@@ -80,17 +90,17 @@ endif
 " Appearance
 "----------------------------------------------------
 colorscheme default
-set number " 行番号表示
-set showmode "モード表示
-set title "編集中のファイル名を表示
-set ruler "ルーラーを表示
-set showcmd "入力中のコマンドをステータスに表示する
-set showmatch "括弧入力時の対応する括弧を表示
-set laststatus=2 "ステータスラインを常に表示
-set wildmenu " コマンドライン補完拡張
+set number							" 行番号表示
+set showmode						"モード表示
+set title							"編集中のファイル名を表示
+set ruler							"ルーラーを表示
+set showcmd							"入力中のコマンドをステータスに表示する
+set showmatch						"括弧入力時の対応する括弧を表示
+set laststatus=2					"ステータスラインを常に表示
+set wildmenu						" コマンドライン補完拡張
 set wildmode=list:longest,full
-set matchtime=2 " 対応する括弧の表示時間を2にする
-syntax on " シンタックスハイライト
+set matchtime=2						" 対応する括弧の表示時間を2にする
+syntax on							" シンタックスハイライト
 
 " 全角スペースを明示
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
@@ -110,16 +120,16 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 "----------------------------------------------------
 " Search
 "----------------------------------------------------
-set ignorecase " 検索の時に大文字小文字を区別しない
-set smartcase " 検索の時に大文字が含まれている場合は区別して検索する
-set wrapscan " 最後まで検索したら先頭に戻る
-set incsearch " インクリメンタルサーチを使う
-set hlsearch "検索結果文字列のハイライト表示
-set history=100 " コマンド、検索パターンを100個まで履歴に残す
+set ignorecase						" 検索の時に大文字小文字を区別しない
+set smartcase						" 検索の時に大文字が含まれている場合は区別して検索する
+set wrapscan						" 最後まで検索したら先頭に戻る
+set incsearch						" インクリメンタルサーチを使う
+set hlsearch						" 検索結果文字列のハイライト表示
+set history=100						" コマンド、検索パターンを100個まで履歴に残す
 
-"--------------------
-" コーディングの為の協奏曲
-"--------------------
+"----------------------------------------------------
+" べんり
+"----------------------------------------------------
 filetype plugin indent on " ファイルタイプ判定をon
 autocmd BufNewFile *.rb 0r ~/.vim/template/skeleton.ruby
 autocmd FileType ruby setlocal ts=2 | set sw=2 | set expandtab | let ruby_space_errors = 1
@@ -128,7 +138,7 @@ autocmd FileType yaml setlocal filetype=ruby
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
-autocmd QuickfixCmdPost vimgrep cw
+autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
 
 "----------------------------------------------------
 " Indent
@@ -170,6 +180,9 @@ set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
 " 『ぼちぼち散歩 ku source:
 " mrufileとmrucommand続き，およびMac上のVimでOptionキーを扱う方法』 http://relaxedcolumn.blog8.fc2.com/blog-entry-152.html
 
+" CTRL-s はttyでstopとして使われてた. 同様にCTRL-qはstart
+"
+" TODO
 " <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
  
@@ -178,8 +191,6 @@ set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
 " c C
 
 " omapを使って整理したい様な気がする.
-
-" CTRL-s はttyでstopとして使われてた. 同様にCTRL-qはstart
 
 " *確認したい
 " i_CTRL-X_CTRL_{x} なキーバインドについて確認.
@@ -204,8 +215,8 @@ nnoremap <silent> <C-l> :<C-u>tabnext<CR>
 " nnoremap <silent> <C-n> :<C-u>tabnext<CR>
 " tabmうごかない
 " nnoremap gr gT
-nnoremap <silent> <Esc>h :<C-u>execute 'tabmove' tabpagenr() -2<CR>
-nnoremap <silent> <Esc>l :<C-u>execute 'tabmove' tabpagenr()<CR>
+nnoremap <silent> <Esc><C-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
+nnoremap <silent> <Esc><C-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
 nnoremap <silent> g0 :<C-u>tabfirst<CR>
 nnoremap <silent> g9 :<C-u>tablast<CR>
 " tmuxで<C-t>をprefix keyに使う様になったので退避
@@ -258,6 +269,7 @@ Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'tsukkee/unite-help'
 Bundle 'thinca/vim-unite-history'
+Bundle 'soh335/unite-qflist'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'thinca/vim-quickrun'
@@ -295,36 +307,32 @@ Bundle 'kana/vim-grex'
 
 filetype plugin indent on 
 
-" operator-replace
-" map _ <Plug>(operator-replace)
-
-" vim-easymotion.vim
-" let g:EasyMotion_do_shade = 0
-
 " Unite.vim
-" あとで
+" -auto-preview はそれなりに重いので慎重に.
 " -no-quit -vertical g:unite_winwidth -buffer-name
-" -auto-preview を上手く使えるシーンはあるか.
 " dotfileを表示するには
-nnoremap [unite] <Nop>
 nnoremap su :map [unite]<CR>
 nmap U [unite]
+nnoremap [unite] <Nop>
 nnoremap <silent> [unite]U :<C-u>Unite<Space>
+nnoremap <silent> [unite]S :<C-u>Unite source<CR>
+nnoremap <silent> [unite]F :<C-u>Unite file file_mru -vertical -winwidth=70 -no-quit<CR>
+nnoremap <silent> [unite]f :<C-u>Unite file<CR>
+nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
+nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit -auto-preview<CR>
+
 nnoremap <silent> [unite]A :<C-u>Unite buffer bookmark file file_mru<CR>
 nnoremap <silent> [unite]B :<C-u>Unite bookmark file_mru<CR>
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]F :<C-u>Unite file file_mru -vertical -winwidth=70 -no-quit<CR>
-nnoremap <silent> [unite]f :<C-u>Unite file<CR>
-nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
 nnoremap <silent> [unite]M :<C-u>Unite file_mru<CR>
-nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]S :<C-u>Unite source<CR>
 nnoremap <silent> [unite]T :<C-u>Unite tab<CR>
-nnoremap [unite]U :<C-u>Unite<Space>
 
-nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir -vertical -winwidth=70 -no-quit file file_mru<CR>
+nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=70 -no-quit<CR>
 nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
+nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=70 -no-quit<CR>
+nnoremap <silent> [unite]Wb :<C-u>UniteWithBufferDir file file_mru<CR>
 " nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir -prompt=%\  buffer file_mru bookmark file<CR>
 
 let g:unite_cursor_line_highlight = 'TabLineSel'
@@ -335,7 +343,7 @@ function! s:unite_my_settings()"{{{
 	" CTRL-hをhで代替したい
 	imap <buffer> jj <Plug>(unite_insert_leave)
 	nmap <buffer> h <Plug>(unite_delete_backward_path)
-	" ノーマルモード lでディレクトリを潜りたい. あとで.
+	" TODO: ノーマルモード lでディレクトリを潜りたい.
 	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
 	nmap <buffer> <C-h> :tabprevious<CR>
 	nmap <buffer> <C-l> :tabnext<CR>
@@ -351,18 +359,6 @@ endfunction"}}}
 
 " SudoEdit.vim, sudo.vim
 command! WS SudoWrite %
-
-" smartword.vim
-" map w  <Plug>(smartword-w)
-" map b  <Plug>(smartword-b)
-" map e  <Plug>(smartword-e)
-" map ge  <Plug>(smartword-ge)
-
-" smartchr.vim
-" inoremap <expr> = smartchr#one_of(' = ', ' == ', '=')
-
-" echodoc.vim
-" let g:echodoc_enable_at_startup = 1
 
 " neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1
@@ -448,4 +444,22 @@ let g:ctrlp_map = '<C-^>'
 " VTreeExplorer
 " let g:treeExplVertical=1
 " let g:treeExplWinSize=30
+
+" operator-replace
+" map _ <Plug>(operator-replace)
+
+" vim-easymotion.vim
+" let g:EasyMotion_do_shade = 0
+
+" smartchr.vim
+" inoremap <expr> = smartchr#one_of(' = ', ' == ', '=')
+
+" echodoc.vim
+" let g:echodoc_enable_at_startup = 1
+
+" smartword.vim
+" map w  <Plug>(smartword-w)
+" map b  <Plug>(smartword-b)
+" map e  <Plug>(smartword-e)
+" map ge  <Plug>(smartword-ge)
 
