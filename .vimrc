@@ -79,6 +79,7 @@ endif
 "----------------------------------------------------
 " Appearance
 "----------------------------------------------------
+colorscheme default
 set number " 行番号表示
 set showmode "モード表示
 set title "編集中のファイル名を表示
@@ -260,11 +261,11 @@ Bundle 'thinca/vim-unite-history'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'thinca/vim-quickrun'
-Bundle 'chrisbra/SudoEdit.vim'
 Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'chrisbra/SudoEdit.vim'
 " Bundle 'sudo.vim'
 "" Bundle 'ujihisa/quickrun'
-" Bundle 'thinca/vim-ref'
+Bundle 'thinca/vim-ref'
 Bundle 'Shougo/vimfiler'
 " Bundle 'Shougo/vimproc'
 " Bundle 'Shougo/vimshell'
@@ -406,6 +407,7 @@ inoremap <expr><CR> pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
 " command! -nargs=* Nes NeoComplCacheEditSnippets
 
 " FileType別のOmni Completion設定
+" Vimに対して設定
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
@@ -414,6 +416,12 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+	let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
 " NERD_commenter.vim
 let g:NERDCreateDefaultMappings = 0 " 自由にMappingを設定する
