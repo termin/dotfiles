@@ -284,6 +284,7 @@ Bundle 'thinca/vim-unite-history'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Shougo/vimfiler'
 Bundle 'oppara/vim-unite-cake'
+Bundle 'scrooloose/syntastic'
 "}}}
 Bundle 'soh335/unite-qflist'
 " Bundle 'sgur/unite-qf'
@@ -384,11 +385,12 @@ endfunction"}}}
 " neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
+" 副作用があって作者推奨ではないという話だけどよくわからない...
+let g:neocomplcache_enable_prefetch=1
 " let g:neocomplcache_enable_camel_case_completion = 1
 " _を入力したときに、それを単語の区切りとしてあいまい検索を行うかどうか制御する。例えば p_h と入力したとき、public_html とマッチするようになる。1ならば有効になる。副作用があるので、初期値は0となっている。
 " let g:neocomplcache_enable_underbar_completion = 1
 " let g:neocomplcache_dictionary_filetype_lists =
-" let g:neocomplcache_enable_quick_match = 1 " -入力による候補番号の表示 上手く動かない
 
 " 日本語をキャッシュしない.
 if !exists('g:neocomplcache_keyword_patterns')
@@ -475,12 +477,12 @@ vmap S <Plug>VSurround
 let g:surround_custom_mapping = {}
 " filetypeに共通の設定
 let g:surround_custom_mapping._ = {
-            \ 'w':  "%w(\r)",
-            \ }
+					\ 'w':  "%w(\r)",
+					\ }
 let g:surround_custom_mapping.ruby = {
-            \ '%':  "%(\r)",
-            \ '#':  "#{\r}",
-            \ }
+					\ '%':  "%(\r)",
+					\ '#':  "#{\r}",
+					\ }
 
 " NERD_commenter.vim
 let g:NERDCreateDefaultMappings = 0
@@ -521,6 +523,11 @@ let g:ctrlp_map = '<C-^>'
 
 " echodoc.vim
 " let g:echodoc_enable_at_startup = 1
+
+
+" let g:syntastic_mode_map = { 'mode': 'active',
+			" \ 'active_filetypes': ['ruby', 'php'],
+			" \ 'passive_filetypes': ['puppet'] }
 
 " smartword.vim
 " map w  <Plug>(smartword-w)
