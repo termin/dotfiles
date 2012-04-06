@@ -33,6 +33,8 @@
 " Quickfix周り
 "
 " uniteの-verticalでファイル名が長い場合に末尾が見切れてしまう.
+"
+" :h の時にvertical
 
 "----------------------------------------------------
 " Pre
@@ -192,12 +194,16 @@ set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
 " CTRL-s はttyでstopとして使われてた. 同様にCTRL-qはstart
 "
 " TODO:
-" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
+" Mac Terminal.appの場合
+" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする. → 今は再現しないけど...
+" <Right>, <Left> 等はどうやっても使えない感じ.
+" <M-x>は, <Esc>x でもイケる！ <Esc><C-x>とか.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
- 
+
+" TODO: Metaを使いたくて出来なかったキーを<Esc>で記述する.
+
 " *後で何かに割り当てるKey
 " CTRL-G CTRL-K CTRL-N CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
-" c C
 
 " omapを使って整理したい様な気がする.
 
@@ -205,7 +211,7 @@ set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
 " i_CTRL-X_CTRL_{x} なキーバインドについて確認.
 
 " *使う
-" i_CTRL-X_CTRL-L i_CTRL-M
+" i_CTRL-X_CTRL-L
 " mark: m{a-zA-Z} , call: '{a-zA-Z}
 " Exモード(連続コマンド): Q or gQ :vi[sual]で抜ける.
 
@@ -220,12 +226,9 @@ nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
 " Window, Tab関連
 nnoremap <silent> <C-h> :<C-u>tabprevious<CR>
 nnoremap <silent> <C-l> :<C-u>tabnext<CR>
-" nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
-" nnoremap <silent> <C-n> :<C-u>tabnext<CR>
-" tabmうごかない
 " nnoremap gr gT
-nnoremap <silent> <Esc><C-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
-nnoremap <silent> <Esc><C-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
+nnoremap <silent> <Esc><S-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
+nnoremap <silent> <Esc><S-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
 nnoremap <silent> g0 :<C-u>tabfirst<CR>
 nnoremap <silent> g9 :<C-u>tablast<CR>
 " tmuxで<C-t>をprefix keyに使う様になったので退避
@@ -235,13 +238,13 @@ noremap <C-j> 5j
 noremap <C-k> 5k
 
 " tagsearch
-nnoremap <C-t> <Nop>
-nnoremap <C-t><C-t> <C-]>
-nnoremap <C-t><C-j> :<C-u>tag<CR>
-nnoremap <C-t><C-k> :<C-u>pop<CR>
-nnoremap <C-t><C-h> :<C-u>tags<CR>
+nnoremap <Esc>t <Nop>
+nnoremap <Esc>t<Esc>t <C-]>
+nnoremap <Esc>t<Esc>j :<C-u>tag<CR>
+nnoremap <Esc>t<Esc>k :<C-u>pop<CR>
+nnoremap <Esc>t<Esc>h :<C-u>tags<CR>
 nnoremap st :<C-u>tags<CR>
-nnoremap sT :<C-u>map <C-T><CR>
+nnoremap sT :<C-u>map<C-T><CR>
 
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " Yでクリップボードにコピー
@@ -256,9 +259,6 @@ nnoremap s<Leader> :<C-u>map <Leader><CR>
 
 inoremap <C-a> <Esc>I
 inoremap <C-e> <Esc>A
-
-" nnoremap <C-n> :<C-u> cnext<CR>
-" nnoremap <C-p> :<C-u> cprevious<CR>
 
 "----------------------------------------------------
 " Plugins
@@ -285,6 +285,7 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'Shougo/vimfiler'
 Bundle 'oppara/vim-unite-cake'
 Bundle 'scrooloose/syntastic'
+Bundle 'vim-jp/vimdoc-ja'
 "}}}
 Bundle 'soh335/unite-qflist'
 " Bundle 'sgur/unite-qf'
@@ -385,8 +386,7 @@ endfunction"}}}
 " neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
-" 副作用があって作者推奨ではないという話だけどよくわからない...
-let g:neocomplcache_enable_prefetch=1
+" let g:neocomplcache_enable_prefetch=0
 " let g:neocomplcache_enable_camel_case_completion = 1
 " _を入力したときに、それを単語の区切りとしてあいまい検索を行うかどうか制御する。例えば p_h と入力したとき、public_html とマッチするようになる。1ならば有効になる。副作用があるので、初期値は0となっている。
 " let g:neocomplcache_enable_underbar_completion = 1
