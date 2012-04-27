@@ -1,17 +1,14 @@
 " for Vimperator 3.1 on Mac
-" ----- ToDo -----
-" *はてなブックマーク拡張のコメント表示, ブクマ追加キーが上手く設定できない. ブクマ追加に<S-c>などを割り当ててもcでブクマ追加されてしまう. 拡張の方の設定では上手く割り当てられてる.
-" *サイトが設定しているキーボードショートカットを無視したい
-" *pluginのhelpが上手く表示されない.地味に困る. liberator://help/plugins
-
 " ----- Notice -----
 " migemo-findのハイライトしない仕様を回避したい時は, 同pluginの"\"を先頭にすると通常の検索を使う機能を使う.
-
-" greasemonkey 0.9.13対策 2011.12.09時点では
-" 『Greasemonkey0.9.12以降でMinibufferとLDRizeが動かない理由とか - tyoro.exe』
-" http://exe.tyo.ro/2011/11/greasemonkey0912minibufferldrize.html
-" の通りに.
 " play on tumblrはbardicheさんが書いていたので使わせて貰った. https://gist.github.com/1393449
+
+" ----- ToDo -----
+" はてなブックマーク拡張のコメント表示, ブクマ追加キーが上手く設定できない. ブクマ追加に<S-c>などを割り当ててもcでブクマ追加されてしまう. 拡張の方の設定では上手く割り当てられてる.
+" サイトが設定しているキーボードショートカットを無視したい
+" pluginのhelpが上手く表示されない.地味に困る. liberator://help/plugins
+" タイトルは表示されているがページの中身はabout:blank, リロードするとタイトルもそうなって何開いていたのか分からなくなる, という状態のタブが出来る事がある.
+" Vimpのキーが全く効かなくなる事がある.
 
 " ----- Main options -----
 set runtimepath=/Users/termin/.vimperator
@@ -38,7 +35,7 @@ set hintchars="HJKLASDFGYUIOPQWERTNMZXCVB"
 " 新しいタブで開く
 set newtab=all
 
-set focuscontent
+" set focuscontent
 
 set complete=slS
 " リンク先の表示位置
@@ -321,6 +318,7 @@ noremap <F2> :<C-u>toggle tb<CR>
 
 " statusline-toolbar.js
 " set statuslinetoolbars=feed-button,voyurl-button,voyurl-button-no
+" lazy set statuslinetoolbars=cookiemonster-status,feed-button,identity-box
 lazy set statuslinetoolbars=feed-button,identity-box
 
 " はてなブックマーク拡張( http://subtech.g.hatena.ne.jp/secondlife/20090402/1238655382 )
@@ -388,9 +386,12 @@ noremap <S-C-l> :<C-u>lo<Space>
 nnoremap < :tabh back<CR>
 nnoremap > :tabh forward<CR>
 
-" zip-de-download
+" zip-de-download.js
 let g:zipDownloadDir = "~/Desktop"
 noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg
+
+" loginManager.js
+nnoremap <Leader>l :login<Space>
 
 " ----- Others -----
 " RequestPolicyを操作する cf. http://d.hatena.ne.jp/wlt/20101211/1292158609
@@ -457,20 +458,6 @@ EOM
 " 		}
 " 		}
 " 		});
-" EOM
-
-" yourfilehost cookie削除
-" cf.http://anond.hatelabo.jp/20100108213648
-" js <<EOM
-" commands.addUserCommand(
-"   ['removeCookieOfYourfile'],
-"   'removeCookieOfYourfile',
-"   function() {
-"     liberator.execute('cookiemanager remove yourfilehostdatabase.com/');
-"     liberator.execute('cookiemanager remove yourfilehost.com/');
-"     liberator.execute('cookiemanager remove yourlifehost.jp/');
-"         }
-" );
 " EOM
 
 " set editor=''
