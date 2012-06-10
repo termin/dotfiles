@@ -34,7 +34,7 @@
 "
 " uniteの-verticalでファイル名が長い場合に末尾が見切れてしまう.
 "
-" :h の時にvertical
+" :h の時に垂直分割で表示させたい.
 
 "----------------------------------------------------
 " Pre
@@ -335,17 +335,9 @@ nnoremap [unite] <Nop>
 nmap U [unite]
 nnoremap [unite]U :<C-u>Unite<Space>
 nnoremap <silent> [unite]S :<C-u>Unite source<CR>
-nnoremap <silent> [unite]F :<C-u>Unite file file_mru -vertical -winwidth=70 -no-quit<CR>
+nnoremap <silent> [unite]F :<C-u>Unite file -vertical -winwidth=60 -no-quit<CR>
+nnoremap [unite]IF :<C-u>Unite file -vertical -no-quit -winwidth=
 nnoremap <silent> [unite]f :<C-u>Unite file<CR>
-nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
-" TODO: -auto-preview で新たなwindowを表示するのが邪魔. 既に開いているbufferを使いたい.
-nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview -winheight=15<CR>
-" nnoremap <silent> /  :<C-u>Unite -buffer-name=search line -start-insert -no-quit<CR>
-nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
-nnoremap <silent> [unite]h :<C-u>Unite history/
-nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit -auto-preview<CR>
 
 nnoremap <silent> [unite]A :<C-u>Unite buffer bookmark file file_mru<CR>
 nnoremap <silent> [unite]B :<C-u>Unite bookmark file_mru<CR>
@@ -353,9 +345,19 @@ nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]M :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]T :<C-u>Unite tab<CR>
 
-nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=70 -no-quit<CR>
+nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
+" TODO: -auto-preview で新たなwindowを表示するのが邪魔. 既に開いているbufferを使いたい.
+nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview -winheight=15<CR>
+" nnoremap <silent> /  :<C-u>Unite -buffer-name=search line -start-insert -no-quit<CR>
+nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
+" nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
+nnoremap [unite]h :<C-u>Unite history/
+nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit -auto-preview<CR>
+
+nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=60 -no-quit<CR>
 nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
-nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=70 -no-quit<CR>
+nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=60 -no-quit<CR>
 nnoremap <silent> [unite]Wb :<C-u>UniteWithBufferDir file file_mru<CR>
 " nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir -prompt=%\  buffer file_mru bookmark file<CR>
 
@@ -502,6 +504,11 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 " QuickRun.vim
 let g:quickrun_no_default_key_mappings = 1
 nmap <Leader>R <Plug>(quickrun)
+
+" vim-ref
+if has('mac')
+	let g:ref_refe_cmd = "/Users/termin/refm/refe-1_9_2"
+endif
 nnoremap <Leader>rr :<C-u>Ref<Space>refe<Space>
 nnoremap <Leader>rm :<C-u>Ref<Space>man<Space>
 
@@ -534,4 +541,12 @@ let g:ctrlp_map = '<C-^>'
 " map b  <Plug>(smartword-b)
 " map e  <Plug>(smartword-e)
 " map ge  <Plug>(smartword-ge)
+
+"----------------------------------------------------
+" Post
+"----------------------------------------------------
+" 環境依存の設定
+if filereadable(expand('~/.vimrc.local'))
+	source ~/.vimrc.local
+endif
 
