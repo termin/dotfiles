@@ -1,4 +1,4 @@
-" for Vimperator 3.1 on Mac
+" for Vimperator 3.4 on Mac
 " ----- Notice -----
 " migemo-findのハイライトしない仕様を回避したい時は, 同pluginの"\"を先頭にすると通常の検索を使う機能を使う.
 " play on tumblrはbardicheさんが書いていたので使わせて貰った. https://gist.github.com/1393449
@@ -396,19 +396,19 @@ nnoremap <Leader>l :login<Space>
 " ----- Others -----
 " RequestPolicyを操作する cf. http://d.hatena.ne.jp/wlt/20101211/1292158609
 " cf. chrome/requestpolicy.jar/content/overlay.js : openStatusbarPopup()と_attachPopupStatusbar()
-javascript <<EOM
-mappings.addUserMap(
-	[modes.NORMAL],
-	["grr"],
-	"Open RequestPolicy Popup",
-	function(){
-		requestpolicy.overlay.openStatusbarPopup(document.getElementById('status-bar'));
-	}
-);
-EOM
+" javascript <<EOM
+" mappings.addUserMap(
+	" [modes.NORMAL],
+	" ["grr"],
+	" "Open RequestPolicy Popup",
+	" function(){
+		" requestpolicy.overlay.openStatusbarPopup(document.getElementById('status-bar'));
+	" }
+" );
+" EOM
 " リダイレクトの時の許可ボタンをgrrで、オプションをgroで
-nnoremap <silent> gry :js gBrowser.getNotificationBox().currentNotification.getElementsByAttribute('label', '許可')[0].click()<CR>
-nnoremap <silent> gro :js gBrowser.getNotificationBox().currentNotification.getElementsByAttribute('label', 'More...')[0].click()<CR>
+" nnoremap <silent> gry :js gBrowser.getNotificationBox().currentNotification.getElementsByAttribute('label', '許可')[0].click()<CR>
+" nnoremap <silent> gro :js gBrowser.getNotificationBox().currentNotification.getElementsByAttribute('label', 'More...')[0].click()<CR>
 
 " voyurl
 " command -nargs=0 voy emenu ツール.VoyUrl Pref..Authenticate
