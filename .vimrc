@@ -11,6 +11,7 @@
 "----------------------------------------------------
 " TODO:
 "----------------------------------------------------
+" ctrlp.vim が有効活用出来るかどうか確認.
 " 『Vim-users.jp - Vim Hacks Project』 http://vim-users.jp/vim-hacks-project/
 " 必要な時に重い設定行を読まない様に出来ると良い様なそうでも無い様な.
 " :e dir1/dir2/txt などとしたいときに, dir1を選択した後に直下のファイルを一覧させたいが良い方法はあるか. 今は<Space><BS><Tab>してる.
@@ -19,10 +20,6 @@
 " set mouse=してマウスで範囲選択+<D-c>
 " surround.vimのキーバインドをまともにしたい気がする. 『Vimの極め方』 http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
 " outliner的な記述が出来るpluginで使えるものはないか.(howm-mode.vim, QFixHowm, VimOrganizer, vim-orgmode)
-"
-" *unite
-" もっと積極的に使っていきたいが, uniteに頼るようになるのはそれはそれで不安な気もしてくる.
-" ノーマルモード lでディレクトリを潜りたい.
 "
 " neocomplcacheのカラー設定
 " sudo関連の扱い
@@ -257,8 +254,9 @@ nnoremap sc :<C-u>changes<CR>
 nnoremap sb :<C-u>buffers<CR>
 nnoremap s<Leader> :<C-u>map <Leader><CR>
 
-inoremap <C-a> <Esc>I
-inoremap <C-e> <Esc>A
+inoremap <silent> <C-a> <Esc>I
+" neocomplcacheと被ってる.でもどっちのキーバインドも使って無い.
+" inoremap <silent> <C-e> <Esc>A
 
 "----------------------------------------------------
 " Plugins
@@ -279,26 +277,26 @@ Bundle 'Shougo/neocomplcache-snippets-complete'
 Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'tsukkee/unite-help'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'thinca/vim-quickrun'
+"" Bundle 'ujihisa/quickrun'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'thinca/vim-ref'
+" vimshell, unite-source-grep の使用にvimprocが必要.
+Bundle 'Shougo/vimproc'
 " 必要かどうかよくわからない "{{{
 Bundle 'thinca/vim-unite-history'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Shougo/vimfiler'
-Bundle 'oppara/vim-unite-cake'
+" Bundle 'oppara/vim-unite-cake'
 Bundle 'scrooloose/syntastic'
 Bundle 'vim-jp/vimdoc-ja'
 "}}}
 Bundle 'soh335/unite-qflist'
 " Bundle 'sgur/unite-qf'
 " Bundle 'ujihisa/unite-colorscheme'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'thinca/vim-quickrun'
-Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'chrisbra/SudoEdit.vim'
 " Bundle 'sudo.vim'
-"" Bundle 'ujihisa/quickrun'
-Bundle 'thinca/vim-ref'
-" vimshell, unite-source-grep の使用にvimprocが必要.
-Bundle 'Shougo/vimproc'
 " Bundle 'mattn/benchvimrc-vim'
 " ↑ 必要なもの / ↓ あんまり要らないもの
 " Bundle 'Shougo/vimshell'
@@ -345,6 +343,8 @@ nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]M :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]T :<C-u>Unite tab<CR>
 
+" TODO: Unite grepでファイルを開くとnewfileとなってしまう場合が多い(というかほとんど).困る.
+nnoremap <silent> [unite]G :<C-u>Unite grep -no-quit<CR>
 nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
 " TODO: -auto-preview で新たなwindowを表示するのが邪魔. 既に開いているbufferを使いたい.
 nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview -winheight=15<CR>
@@ -353,7 +353,7 @@ nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
 " nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
 nnoremap [unite]h :<C-u>Unite history/
 nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit -auto-preview<CR>
+nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit<CR>
 
 nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=60 -no-quit<CR>
 nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
@@ -479,9 +479,9 @@ vmap S <Plug>VSurround
 let g:surround_custom_mapping = {}
 " filetypeに共通の設定
 let g:surround_custom_mapping._ = {
-					\ 'w':  "%w(\r)",
 					\ }
 let g:surround_custom_mapping.ruby = {
+					\ 'w':  "%w(\r)",
 					\ '%':  "%(\r)",
 					\ '#':  "#{\r}",
 					\ }
