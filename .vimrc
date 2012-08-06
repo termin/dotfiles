@@ -100,12 +100,12 @@ endif
 colorscheme default
 set background=light
 set number							" 行番号表示
-set showmode						"モード表示
-set title							"編集中のファイル名を表示
-set ruler							"ルーラーを表示
-set showcmd							"入力中のコマンドをステータスに表示する
-set showmatch						"括弧入力時の対応する括弧を表示
-set laststatus=2					"ステータスラインを常に表示
+set showmode						" モード表示
+set title							" 編集中のファイル名を表示
+set ruler							" ルーラーを表示
+set showcmd							" 入力中のコマンドをステータスに表示する
+set showmatch						" 括弧入力時の対応する括弧を表示
+set laststatus=2					" ステータスラインを常に表示
 set wildmenu						" コマンドライン補完拡張
 set wildmode=list:longest,full
 set matchtime=2						" 対応する括弧の表示時間を2にする
@@ -169,8 +169,7 @@ set shiftwidth=4
 set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
-" set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,ucs-2le,ucs-2,utf-8
-set fileencodings=ucs-bom,iso-2022-jp,euc-jp,sjis,cp932,utf-8
+set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 
 " au BufWritePost * call SetUTF8Xattr(expand("<afile>"))
 
