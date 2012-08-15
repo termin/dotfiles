@@ -379,8 +379,8 @@ let g:ldrc_captureMappings = "['j','k','p','o','?']"
 " let g:autopagerize_nextmap = "J"
 
 " lo.js
-noremap <S-C-f> :<C-u>fo<Space>
-noremap <S-C-l> :<C-u>lo<Space>
+" noremap <S-C-f> :<C-u>fo<Space>
+" noremap <S-C-l> :<C-u>lo<Space>
 
 " tab-history.js
 nnoremap < :tabh back<CR>
@@ -388,7 +388,7 @@ nnoremap > :tabh forward<CR>
 
 " zip-de-download.js
 let g:zipDownloadDir = "~/Desktop"
-noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg
+noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg,jpeg
 
 " loginManager.js
 nnoremap <Leader>l :login<Space>
