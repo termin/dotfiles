@@ -284,6 +284,7 @@ Bundle 'thinca/vim-ref'
 " vimshell, unite-source-grep の使用にvimprocが必要.
 Bundle 'Shougo/vimproc'
 " 必要かどうかよくわからない "{{{
+Bundle 'basyura/unite-rails'
 Bundle 'thinca/vim-unite-history'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Shougo/vimfiler'
@@ -351,9 +352,13 @@ nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview
 nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
 " nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
 nnoremap [unite]h :<C-u>Unite history/
-nnoremap <silent> [unite]R :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+" unite rails
+nnoremap [unite]RR :<C-u>Unite rails/
+nnoremap <silent>[unite]RM :<C-u>Unite rails/model<CR>
+nnoremap <silent>[unite]RC :<C-u>Unite rails/controller<CR>
+nnoremap <silent>[unite]RV :<C-u>Unite rails/view<CR>
 nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit<CR>
-
 nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=60 -no-quit<CR>
 nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
 nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=60 -no-quit<CR>
