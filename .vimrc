@@ -263,63 +263,70 @@ inoremap <silent> <C-a> <Esc>I
 " vundle.vim
 filetype off
 if has('vim_starting')
-	set rtp& rtp+=~/.vim/vundle.git/ 
-	call vundle#rc()
+	set rtp& rtp+=~/.vim/neobundle.vim/ 
+	call neobundle#rc(expand('~/.vim/bundle'))
 endif
 " github repos
-Bundle 'tpope/vim-surround'
-Bundle 't9md/vim-surround_custom_mapping'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'renamer.vim'
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neosnippet'
-Bundle 'Shougo/unite.vim'
-Bundle 'h1mesuke/unite-outline'
-Bundle 'tsukkee/unite-help'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'thinca/vim-quickrun'
-"" Bundle 'ujihisa/quickrun'
-Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'thinca/vim-ref'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 't9md/vim-surround_custom_mapping'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'renamer.vim'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'tsukkee/unite-help'
+NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'thinca/vim-quickrun'
+"" NeoBundle 'ujihisa/quickrun'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'thinca/vim-ref'
 " vimshell, unite-source-grep の使用にvimprocが必要.
-Bundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimproc', {
+	  \ 'build' : {
+	  \     'windows' : 'make -f make_mingw32.mak',
+	  \     'cygwin' : 'make -f make_cygwin.mak',
+	  \     'mac' : 'make -f make_mac.mak',
+	  \     'unix' : 'make -f make_unix.mak',
+	  \    },
+	  \ }
 " 必要かどうかよくわからない "{{{
-Bundle 'basyura/unite-rails'
-Bundle 'thinca/vim-unite-history'
-Bundle 'kien/ctrlp.vim'
-Bundle 'Shougo/vimfiler'
-" Bundle 'oppara/vim-unite-cake'
-Bundle 'scrooloose/syntastic'
-Bundle 'vim-jp/vimdoc-ja'
+NeoBundle 'basyura/unite-rails'
+NeoBundle 'thinca/vim-unite-history'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'Shougo/vimfiler'
+" NeoBundle 'oppara/vim-unite-cake'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'vim-jp/vimdoc-ja'
 "}}}
-Bundle 'soh335/unite-qflist'
-" Bundle 'sgur/unite-qf'
-" Bundle 'ujihisa/unite-colorscheme'
-Bundle 'chrisbra/SudoEdit.vim'
-" Bundle 'sudo.vim'
-" Bundle 'mattn/benchvimrc-vim'
+NeoBundle 'soh335/unite-qflist'
+" NeoBundle 'sgur/unite-qf'
+" NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'chrisbra/SudoEdit.vim'
+" NeoBundle 'sudo.vim'
+" NeoBundle 'mattn/benchvimrc-vim'
 " ↑ 必要なもの / ↓ あんまり要らないもの
-" Bundle 'Shougo/vimshell'
-" Bundle 'Shougo/echodoc'
-" Bundle 'kana/vim-grex'
-" Bundle 'Lokaltog/vim-easymotion'
-" Bundle 'kana/vim-operator-user'
-" Bundle 'kana/vim-operator-replace'
-" Bundle 'thinca/vim-visualstar'
-" Bundle 'tyru/operator-star.vim' " dependent for: visualstar, operator-user
-" Bundle 'tyru/caw.vim'
-"" Bundle 'vim-fugitive'
+" NeoBundle 'Shougo/vimshell'
+" NeoBundle 'Shougo/echodoc'
+" NeoBundle 'kana/vim-grex'
+" NeoBundle 'Lokaltog/vim-easymotion'
+" NeoBundle 'kana/vim-operator-user'
+" NeoBundle 'kana/vim-operator-replace'
+" NeoBundle 'thinca/vim-visualstar'
+" NeoBundle 'tyru/operator-star.vim' " dependent for: visualstar, operator-user
+" NeoBundle 'tyru/caw.vim'
+"" NeoBundle 'vim-fugitive'
 
 "" vim.org/scripts
-" Bundle 'smartword'
-" Bundle 'smartchr'
-" Bundle 'hsitz/VimOrganizer'
-" Bundle 'jceb/vim-orgmode'
-" Bundle 'hz_ja.vim'
-"" Bundle 'grep.vim'
-"" Bundle 'taglist.vim'
+" NeoBundle 'smartword'
+" NeoBundle 'smartchr'
+" NeoBundle 'hsitz/VimOrganizer'
+" NeoBundle 'jceb/vim-orgmode'
+" NeoBundle 'hz_ja.vim'
+"" NeoBundle 'grep.vim'
+"" NeoBundle 'taglist.vim'
 " non github repos
-" Bundle 'git://git.wincent.com/command-t.git'
+" NeoBundle 'git://git.wincent.com/command-t.git'
 
 filetype plugin indent on 
 
