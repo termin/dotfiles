@@ -272,7 +272,7 @@ Bundle 't9md/vim-surround_custom_mapping'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'renamer.vim'
 Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neocomplcache-snippets-complete'
+Bundle 'Shougo/neosnippet'
 Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'tsukkee/unite-help'
@@ -354,10 +354,10 @@ nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
 nnoremap [unite]h :<C-u>Unite history/
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 " unite rails
-nnoremap [unite]RR :<C-u>Unite rails/
-nnoremap <silent>[unite]RM :<C-u>Unite rails/model<CR>
-nnoremap <silent>[unite]RC :<C-u>Unite rails/controller<CR>
-nnoremap <silent>[unite]RV :<C-u>Unite rails/view<CR>
+nnoremap [unite]RR :<C-u>Unite -vertical -winwidth=60 -no-quit rails/
+nnoremap <silent>[unite]RM :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/model<CR>
+nnoremap <silent>[unite]RC :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/controller<CR>
+nnoremap <silent>[unite]RV :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/view<CR>
 nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit<CR>
 nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=60 -no-quit<CR>
 nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
@@ -446,12 +446,12 @@ endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
-" neocomplcache-snippets-complete.vim
-let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
-imap <C-k> <Plug>(neocomplcache_snippets_expand)
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
+" neosnippet
+let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets'
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
 " Snippetsを編集する
-command! -nargs=* Nes NeoComplCacheEditSnippets
+command! -nargs=* Nse NeoSnippetEdit
 
 " SudoEdit.vim, sudo.vim
 command! WS SudoWrite %
@@ -545,6 +545,8 @@ let g:ctrlp_map = '<C-^>'
 " map b  <Plug>(smartword-b)
 " map e  <Plug>(smartword-e)
 " map ge  <Plug>(smartword-ge)
+
+" autocmd CursorMovedI * :call vimproc#system_bg($HOME . "/bin/vim-key-sound.rb '" . getline('.')[col('.') - 2] . "'")
 
 "----------------------------------------------------
 " Post
