@@ -9,6 +9,7 @@
 " pluginのhelpが上手く表示されない.地味に困る. liberator://help/plugins
 " タイトルは表示されているがページの中身はabout:blank, リロードするとタイトルもそうなって何開いていたのか分からなくなる, という状態のタブが出来る事がある.
 " Vimpのキーが全く効かなくなる事がある.
+" 『:ignorekeys コマンドについて - Vimple Star Sprites - vimperatorグループ』 http://vimperator.g.hatena.ne.jp/teramako/20120527/1338101792
 
 " ----- Main options -----
 set runtimepath=/Users/termin/.vimperator
@@ -99,7 +100,8 @@ nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
 " <M-f>でvimpによる検索/
 " noremap <M-f> /\
 noremap <M-f> /
-cnoremap <M-f> <C-u>
+" XUL/Migemoで通常の検索をする
+cnoremap <M-f> <C-u>\
 " d キーでも直前にフォーカスしていたタブに戻る様にする
 nnoremap d <M-w>
 
@@ -155,8 +157,8 @@ nnoremap <M-d> <Nop>
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
-" let g:plugin_loader_plugins = "multi_requester,nextlink,tabsort,yetmappings,reporter,migemo_hint,migemo-find"
-let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,x-hint,loginManager,tab-history,unload-tab,slideshare"
+" let g:plugin_loader_plugins = "multi_requester,nextlink,tabsort,yetmappings,reporter"
+let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,x-hint,loginManager,tab-history,unload-tab,slideshare,migemo_hint,migemo-find"
 
 " google-translator.js
 " nnoremap <Leader>gt :<C-u>gtrans<Space>
@@ -175,7 +177,7 @@ noremap <M-S-c> :<C-u>copy tw<CR>
 js <<EOM
 liberator.globalVariables.copy_templates = [
   { label: 'titleAndURL',    value: '%TITLE%\n%URL%' },
-  { label: 'tw',			 value: '『%TITLE%』\n%URL%' },
+  { label: 'tw',			 value: '『%TITLE%』 %URL%' },
   { label: 'title',          value: '%TITLE%', map: ',y' },
   { label: 'anchor',         value: '<a href="%URL%">%TITLE%</a>' },
   { label: 'selanchor',      value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' },
@@ -242,10 +244,13 @@ lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v
 lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c T,t R,r D,d S,s ? F,f G,g L,l Y,y H,h M,m z <Right>,<C-S-Right> <Left>,<C-S-Left> <Tab> <Del> <Leader>1,1 <Leader>2,2 <Leader>3,3 <Leader>4,4
 " Tumblr
 lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' e,t n,h
+" lazy fmaps -e=vkeydown -u='^http://[^\./]*\.tumblr\.com/' j k e,t n
 " はてなブックマーク
 lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o e B,b
 " Picasa Web
-lazy fmaps -u='^https://picasaweb.google.com/' <Right> <Left>
+lazy fmaps -u='^https://picasaweb\.google\.com/' <Right> <Left>
+" speakerdeck.com
+lazy fmaps -u='^https://speakerdeck\.com/' -events=keydown j,<Right> k,<Left>
 " Google Calendar
 " lazy fmaps -u='^http://www\.google\.com/calendar/' -events=keydown j k t a d w m x c e <Del> / + q s ?
 " New Twitter
