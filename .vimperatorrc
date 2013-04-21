@@ -157,8 +157,8 @@ nnoremap <M-d> <Nop>
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
-" let g:plugin_loader_plugins = "multi_requester,nextlink,tabsort,yetmappings,reporter"
-let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,pluginManager,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,google-plus-commando,x-hint,loginManager,tab-history,unload-tab,slideshare,migemo_hint,migemo-find"
+" let g:plugin_loader_plugins = "multi_requester,nextlink,tabsort,yetmappings,reporter,google-plus-commando,pluginManager"
+let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,x-hint,loginManager,tab-history,unload-tab,slideshare,migemo_hint,migemo-find"
 
 " google-translator.js
 " nnoremap <Leader>gt :<C-u>gtrans<Space>
@@ -260,21 +260,21 @@ lazy fmaps -u='^https://speakerdeck\.com/' -events=keydown j,<Right> k,<Left>
 " lazy fmaps -u='^http://plus\.google\.com/' <Right>,i<Right> <Left>,i<Left>
 
 " Google+
-" google-plus-commando.js (requres: feedSomeKeys_3.js, x-hint.js)
+" google-plus-commando.js (requires: feedSomeKeys_3.js, x-hint.js)
 " http://vimperator.g.hatena.ne.jp/nokturnalmortum/20110712/1310475516
-let g:gplus_commando_map_next            = "j"
-let g:gplus_commando_map_prev            = "k"
-let g:gplus_commando_map_share           = "s"
-let g:gplus_commando_map_plusone         = "p"
-let g:gplus_commando_map_comment         = ",c"
-let g:gplus_commando_map_post            = ",p"
-let g:gplus_commando_map_yank            = "y"
-let g:gplus_commando_map_notification    = "n"
-let g:gplus_commando_map_submit          = "<C-CR>"
-let g:gplus_commando_map_cancel          = "<Esc>"
-let g:gplus_commando_map_unfold          = "e"
-let g:gplus_commando_map_menu            = "m"
-let g:gplus_commando_map_open            = "o"
+" let g:gplus_commando_map_next            = "j"
+" let g:gplus_commando_map_prev            = "k"
+" let g:gplus_commando_map_share           = "s"
+" let g:gplus_commando_map_plusone         = "p"
+" let g:gplus_commando_map_comment         = ",c"
+" let g:gplus_commando_map_post            = ",p"
+" let g:gplus_commando_map_yank            = "y"
+" let g:gplus_commando_map_notification    = "n"
+" let g:gplus_commando_map_submit          = "<C-CR>"
+" let g:gplus_commando_map_cancel          = "<Esc>"
+" let g:gplus_commando_map_unfold          = "e"
+" let g:gplus_commando_map_menu            = "m"
+" let g:gplus_commando_map_open            = "o"
 
 nnoremap -urls 'plus\.google\.com' gh gU
 nnoremap -urls 'plus\.google\.com' gp :open https://plus.google.com/me<CR>
@@ -361,7 +361,7 @@ nnoremap <Leader>c :<C-u>bs<Space>
 
 " sbmcommentsviewer.js
 let g:def_sbms = "hdlt"
-nnoremap <Leader>vc :<C-u>viewSBMComments -t t<CR>
+nnoremap <Leader>vc :<C-u>viewSBMComments -t T<CR>
 nnoremap <Leader>vd :<C-u>viewSBMComments -t d<CR>
 
 " entry_pageを表示する( exopen.js )

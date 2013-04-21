@@ -12,16 +12,22 @@ set autoindent
 
 noremap <C-j> 5j
 noremap <C-k> 5k
+nnoremap gr gT
+nnoremap <C-h> gT
+nnoremap <C-l> gt
 
-" Eclipse側え^Hを要変更
+" Eclipse側で^Hを要変更
 inoremap <C-h> <BS>
 inoremap <C-k> <Esc><Right>:DeleteLineToEnd<CR>a
 " <C-g>uでUndoのポイントを作ってから何かする.
-" inoremap <C-u> <C-g>u<Esc>:DeleteLineToBeginning<CR>i
-" inoremap <C-w> <C-g>u<ESC>:DeletePreviousWord<CR>i
-inoremap <C-u> <Esc>:DeleteLineToBeginning<CR>i
-inoremap <C-w> <ESC>:DeletePreviousWord<CR>i
+" inoremap <C-u> <Space><C-g>u<Esc>:DeleteLineToBeginning<CR>i
+" inoremap <C-w> <Space><C-g>u<ESC>:DeletePreviousWord<CR>i
+inoremap <C-u> <Space><Esc>:DeleteLineToBeginning<CR>i
+inoremap <C-w> <Space><ESC>:DeletePreviousWord<CR>i
 vnoremap = :Format<CR>
+
+inoremap <C-e> <Esc>:LineEnd<CR>a
+inoremap <C-a> <Esc>0i
 
 "definition ID of the source -> format action 
 eclipseaction Format org.eclipse.jdt.ui.edit.text.java.format
@@ -34,5 +40,11 @@ eclipseaction DeleteLineToEnd org.eclipse.ui.edit.text.delete.line.to.end
 
 "Action definition id of the edit delete previous word action.
 eclipseaction DeletePreviousWord org.eclipse.ui.edit.text.deletePreviousWord
+
+"Action definition id of the navigate goto line end action.
+eclipseaction LineEnd org.eclipse.ui.edit.text.goto.lineEnd
+
+"Action definition id of the navigate goto line start action. 
+eclipseaction LineEnd org.eclipse.ui.edit.text.goto.lineStart
 
 " vim: set ft=vim:
