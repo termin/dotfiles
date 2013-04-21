@@ -20,6 +20,7 @@
 " set mouse=してマウスで範囲選択+<D-c>
 " surround.vimのキーバインドをまともにしたい気がする. 『Vimの極め方』 http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
 " outliner的な記述が出来るpluginで使えるものはないか.(howm-mode.vim, QFixHowm, VimOrganizer, vim-orgmode)
+" 検索で一番下まで検索したので上に戻るよ、メッセージを一定時間経過後に消したい
 "
 " neocomplcacheのカラー設定
 " sudo関連の扱い
@@ -32,6 +33,7 @@
 " uniteの-verticalでファイル名が長い場合に末尾が見切れてしまう.
 "
 " :h の時に垂直分割で表示させたい.
+" set mouse=, set mouse=a のtoggle
 
 "----------------------------------------------------
 " Pre
@@ -42,6 +44,9 @@ autocmd!
 " augroup MyAutoCmd
 	" autocmd!
 " augroup END
+
+" mapping削除
+mapclear
 
 "----------------------------------------------------
 " Basic
@@ -143,6 +148,7 @@ filetype plugin indent on " ファイルタイプ判定をon
 autocmd BufNewFile *.rb 0r ~/.vim/template/skeleton.ruby
 autocmd FileType ruby setlocal ts=2 | set sw=2 | set expandtab | let ruby_space_errors = 1
 " autocmd BufNewFile,BufRead *.yaml set filetype=ruby
+autocmd BufNewFile,BufRead *.erb setlocal ts=2 | set sw=2 | set expandtab
 autocmd FileType yaml setlocal filetype=ruby
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
@@ -154,7 +160,9 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm
 "----------------------------------------------------
 set autoindent
 set smartindent
-" set paste " ペースト時にindent関連をoffにする他様々色々それぞれ。
+set pastetoggle=<F2>
+" インサートモードを抜けたときにpaste解除
+autocmd InsertLeave * set nopaste
 " set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -278,6 +286,11 @@ NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'tsukkee/unite-help'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'thinca/vim-quickrun'
+" おためし {{{
+NeoBundle 'tpope/vim-rails'
+" NeoBundle 'tpope/vim-endwise'
+NeoBundle 'vim-scripts/ruby-matchit'
+" }}}
 "" NeoBundle 'ujihisa/quickrun'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'thinca/vim-ref'
@@ -290,15 +303,15 @@ NeoBundle 'Shougo/vimproc', {
 	  \     'unix' : 'make -f make_unix.mak',
 	  \    },
 	  \ }
-" 必要かどうかよくわからない "{{{
 NeoBundle 'basyura/unite-rails'
+" 必要かどうかよくわからない "{{{
 NeoBundle 'thinca/vim-unite-history'
-NeoBundle 'kien/ctrlp.vim'
+" NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'Shougo/vimfiler'
 " NeoBundle 'oppara/vim-unite-cake'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'vim-jp/vimdoc-ja'
-"}}}
+" }}}
 NeoBundle 'soh335/unite-qflist'
 " NeoBundle 'sgur/unite-qf'
 " NeoBundle 'ujihisa/unite-colorscheme'
@@ -364,7 +377,9 @@ nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 nnoremap [unite]RR :<C-u>Unite -vertical -winwidth=60 -no-quit rails/
 nnoremap <silent>[unite]RM :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/model<CR>
 nnoremap <silent>[unite]RC :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/controller<CR>
+nnoremap <silent>[unite]Rc :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/config<CR>
 nnoremap <silent>[unite]RV :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/view<CR>
+nnoremap <silent>[unite]RH :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/helper<CR>
 nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit<CR>
 nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=60 -no-quit<CR>
 nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
@@ -395,6 +410,11 @@ function! s:unite_my_settings()"{{{
 	" Start insert.
 	"let g:unite_enable_start_insert = 1
 endfunction"}}}
+
+" vim-rails
+nnoremap <leader>rc :<C-u>Rcontroller<Space>
+nnoremap <leader>rm :<C-u>Rmodel<Space>
+nnoremap <leader>rv :<C-u>Rview<Space>
 
 " neocomplcache.vim
 let g:neocomplcache_enable_at_startup = 1
@@ -486,7 +506,6 @@ vmap S <Plug>VSurround
 
 " vim-surround_custom_mapping.vim
 " 『t9md/vim-surround_custom_mapping · GitHub』 https://github.com/t9md/vim-surround_custom_mapping
-" "\r"に中身が入る.
 let g:surround_custom_mapping = {}
 " filetypeに共通の設定
 let g:surround_custom_mapping._ = {
@@ -495,6 +514,7 @@ let g:surround_custom_mapping.ruby = {
 					\ 'w':  "%w(\r)",
 					\ '%':  "%(\r)",
 					\ '#':  "#{\r}",
+					\ 'e':  "<%= \r %>",
 					\ }
 
 " NERD_commenter.vim
