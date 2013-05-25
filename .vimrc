@@ -11,6 +11,9 @@
 "----------------------------------------------------
 " TODO:
 "----------------------------------------------------
+"coffee script用の設定
+"
+" tmuxを介すとwindowの区切りをマウスで移動出来ない. tmuxの設定？
 " ctrlp.vim が有効活用出来るかどうか確認.
 " 『Vim-users.jp - Vim Hacks Project』 http://vim-users.jp/vim-hacks-project/
 " 必要な時に重い設定行を読まない様に出来ると良い様なそうでも無い様な.
@@ -147,11 +150,10 @@ set history=100						" コマンド、検索パターンを100個まで履歴に
 filetype plugin indent on " ファイルタイプ判定をon
 autocmd BufNewFile *.rb 0r ~/.vim/template/skeleton.ruby
 autocmd FileType ruby setlocal ts=2 | set sw=2 | set expandtab | let ruby_space_errors = 1
-" autocmd BufNewFile,BufRead *.yaml set filetype=ruby
 autocmd BufNewFile,BufRead *.erb setlocal ts=2 | set sw=2 | set expandtab
-autocmd FileType yaml setlocal filetype=ruby
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
+autocmd FileType php setlocal ts=4 sw=4 sts=4 noexpandtab
 
 " autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
 
@@ -290,6 +292,12 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tpope/vim-rails'
 " NeoBundle 'tpope/vim-endwise'
 NeoBundle 'vim-scripts/ruby-matchit'
+NeoBundle 'taichouchou2/alpaca_complete', {
+      \ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
+      \ 'build' : {
+      \     'mac' : 'gem install alpaca_complete',
+      \     'unix' : 'gem install alpaca_complete',
+      \}}
 " }}}
 "" NeoBundle 'ujihisa/quickrun'
 NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -306,7 +314,7 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'basyura/unite-rails'
 " 必要かどうかよくわからない "{{{
 NeoBundle 'thinca/vim-unite-history'
-" NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'Shougo/vimfiler'
 " NeoBundle 'oppara/vim-unite-cake'
 NeoBundle 'scrooloose/syntastic'
@@ -539,9 +547,9 @@ nmap <Leader>R <Plug>(quickrun)
 " vim-ref
 if has('mac')
 	let g:ref_refe_cmd = "/Users/termin/refm/refe-1_9_2"
+    nnoremap <Leader>Rr :<C-u>Ref<Space>refe<Space>
+    nnoremap <Leader>Rm :<C-u>Ref<Space>man<Space>
 endif
-nnoremap <Leader>rr :<C-u>Ref<Space>refe<Space>
-nnoremap <Leader>rm :<C-u>Ref<Space>man<Space>
 
 " ctrlp.vim
 let g:ctrlp_map = '<C-^>'
