@@ -253,11 +253,10 @@ lazy fmaps -u='^https://picasaweb\.google\.com/' <Right> <Left>
 lazy fmaps -u='^https://speakerdeck\.com/' -events=keydown j,<Right> k,<Left>
 " Google Calendar
 " lazy fmaps -u='^http://www\.google\.com/calendar/' -events=keydown j k t a d w m x c e <Del> / + q s ?
-" New Twitter
-" lazy fmaps -u='^http://twitter.\com/#!' j k f <Space> ? .
+" Twitter
+lazy fmaps -u='^https?://twitter\.com/' -events=vkeydown j k <Enter> ? .
 " Google+
-" lazy fmaps -u='^https://plus\.google\.com/' j k q <CR> <Tab> <Right> <Left>
-" lazy fmaps -u='^http://plus\.google\.com/' <Right>,i<Right> <Left>,i<Left>
+lazy fmaps -u='^https://plus\.google\.com/' j k o <C-j>,n <C-k>,p <C-r>,r ? <CR> <Right> <Left>
 
 " Google+
 " google-plus-commando.js (requires: feedSomeKeys_3.js, x-hint.js)
@@ -393,7 +392,7 @@ nnoremap > :tabh forward<CR>
 
 " zip-de-download.js
 let g:zipDownloadDir = "~/Desktop"
-noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg,jpeg
+noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg,jpeg,png
 
 " loginManager.js
 nnoremap <Leader>l :login<Space>
