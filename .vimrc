@@ -11,7 +11,8 @@
 "----------------------------------------------------
 " TODO:
 "----------------------------------------------------
-"coffee script用の設定
+" coffee script用の設定
+" keymappingで<Space>を上手く使いたい
 "
 " tmuxを介すとwindowの区切りをマウスで移動出来ない. tmuxの設定？
 " ctrlp.vim が有効活用出来るかどうか確認.
@@ -225,6 +226,30 @@ let mapleader = ";"
 nnoremap <SLeader> <Nop>
 nmap , <SLeader>
 
+noremap <F1> <Nop>
+inoremap <F1> <Nop>
+
+" c.f. 『端末の Vim でも Alt キーを使う - 永遠に未完成』 http://d.hatena.ne.jp/thinca/20101215/1292340358
+if has('unix') && !has('gui_running')
+  " Use meta keys in console.
+  function! s:use_meta_keys()  " {{{
+    for i in map(
+    \   range(char2nr('a'), char2nr('z'))
+    \ + range(char2nr('A'), char2nr('Z'))
+    \ + range(char2nr('0'), char2nr('9'))
+    \ , 'nr2char(v:val)')
+      " <ESC>O do not map because used by arrow keys.
+      if i != 'O'
+        execute 'nmap <ESC>' . i '<M-' . i . '>'
+      endif
+    endfor
+  endfunction  " }}}
+
+  call s:use_meta_keys()
+  " map <NUL> <C-Space>
+  " map! <NUL> <C-Space>
+endif
+
 nnoremap <Leader>hh :<C-u>tabnew<CR>:h<Space>
 nnoremap <Leader>he :<C-u>tabnew<CR>:e $MYVIMRC<CR>
 nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
@@ -237,8 +262,6 @@ nnoremap <silent> <Esc><S-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
 nnoremap <silent> <Esc><S-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
 nnoremap <silent> g0 :<C-u>tabfirst<CR>
 nnoremap <silent> g9 :<C-u>tablast<CR>
-" tmuxで<C-t>をprefix keyに使う様になったので退避
-" nnoremap <silent> <C-w><C-t> :<C-u>tabnew<CR>
 nnoremap <silent> <C-w>t :<C-u>tabnew<CR>
 noremap <C-j> 5j
 noremap <C-k> 5k
@@ -292,6 +315,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tpope/vim-rails'
 " NeoBundle 'tpope/vim-endwise'
 NeoBundle 'vim-scripts/ruby-matchit'
+" Rails completion
 NeoBundle 'taichouchou2/alpaca_complete', {
       \ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
       \ 'build' : {
@@ -314,7 +338,7 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'basyura/unite-rails'
 " 必要かどうかよくわからない "{{{
 NeoBundle 'thinca/vim-unite-history'
-NeoBundle 'kien/ctrlp.vim'
+" NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'Shougo/vimfiler'
 " NeoBundle 'oppara/vim-unite-cake'
 NeoBundle 'scrooloose/syntastic'
@@ -552,7 +576,7 @@ if has('mac')
 endif
 
 " ctrlp.vim
-let g:ctrlp_map = '<C-^>'
+" let g:ctrlp_map = '<C-^>'
 
 " VTreeExplorer
 " let g:treeExplVertical=1
