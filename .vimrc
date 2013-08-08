@@ -154,6 +154,7 @@ autocmd FileType ruby setlocal ts=2 | set sw=2 | set expandtab | let ruby_space_
 autocmd BufNewFile,BufRead *.erb setlocal ts=2 | set sw=2 | set expandtab
 " ファイルを開いた際に、前回終了時の行で起動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
+autocmd BufNewFile,BufRead *.ctp set filetype=php
 autocmd FileType php setlocal ts=4 sw=4 sts=4 noexpandtab
 
 " autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
@@ -230,7 +231,7 @@ noremap <F1> <Nop>
 inoremap <F1> <Nop>
 
 " c.f. 『端末の Vim でも Alt キーを使う - 永遠に未完成』 http://d.hatena.ne.jp/thinca/20101215/1292340358
-if has('unix') && !has('gui_running')
+if has('mac') && !has('gui_running')
   " Use meta keys in console.
   function! s:use_meta_keys()  " {{{
     for i in map(
@@ -250,6 +251,7 @@ if has('unix') && !has('gui_running')
   " map! <NUL> <C-Space>
 endif
 
+" let $MYVIMRC = ""
 nnoremap <Leader>hh :<C-u>tabnew<CR>:h<Space>
 nnoremap <Leader>he :<C-u>tabnew<CR>:e $MYVIMRC<CR>
 nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
@@ -536,6 +538,14 @@ nmap yss <Plug>Yssurround
 nmap ySS <Plug>YSsurround
 vmap S <Plug>VSurround
 
+" let g:surround_{char2nr("p")} = "<?php \r ?>"
+" let g:surround_{char2nr("[")} = "['\r']"
+" let g:surround_{char2nr("a")} = "array('\r')"
+" let g:surround_{char2nr("v")} = "var_dump(\r);"
+" let g:surround_{char2nr("d")} = "debug(\r);"
+" let g:surround_{char2nr("c")} = "<!-- \r -->"
+" let g:surround_{char2nr("C")} = "/* \r */"
+
 " vim-surround_custom_mapping.vim
 " 『t9md/vim-surround_custom_mapping · GitHub』 https://github.com/t9md/vim-surround_custom_mapping
 let g:surround_custom_mapping = {}
@@ -606,6 +616,31 @@ endif
 " map ge  <Plug>(smartword-ge)
 
 " autocmd CursorMovedI * :call vimproc#system_bg($HOME . "/bin/vim-key-sound.rb '" . getline('.')[col('.') - 2] . "'")
+
+" php 構文チェック
+function! PHPLint()
+	let result = system( &ft . ' -l ' . bufname(""))
+	echo result
+endfunction
+au FileType php :nnoremap <Leader>s <ESC>:call PHPLint()<CR>
+
+" cake.vim
+" let g:cakephp_enable_fix_mode = 1
+" "let g:cakephp_app = ""
+" let g:cakephp_enable_auto_mode = 1
+" nnoremap <Leader>cc :<C-u>Ccontroller<Space>
+" nnoremap <Leader>cC :<C-u>Ccomponent<Space>
+" nnoremap <Leader>cm :<C-u>Cmodel<Space>
+" nnoremap <Leader>cV :<C-u>Cviewtab<Space>
+" nnoremap <Leader>cv :<C-u>Ccontrollerview<Space>
+" nnoremap <Leader>cov :<C-u>Cview<Space>
+" nnoremap <Leader>cnV :<C-u>Ccontrollerviewtab<Space>
+" nnoremap <Leader>ch :<C-u>Chelper<Space>
+" nnoremap <Leader>cth :<C-u>Ctesthelper<Space>
+" nnoremap <Leader>ctm :<C-u>Ctestmodel<Space>
+" nnoremap <Leader>ctc :<C-u>Ctestcontroller<Space>
+" nnoremap <Leader>ctC :<C-u>Ctestcomponent<Space>
+" nnoremap <Leader>cf :<C-u>Cfixture<Space>
 
 "----------------------------------------------------
 " Post
