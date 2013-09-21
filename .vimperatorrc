@@ -36,7 +36,7 @@ set hintchars="HJKLASDFGYUIOPQWERTNMZXCVB"
 " 新しいタブで開く
 set newtab=all
 
-" set focuscontent
+set focuscontent
 
 set complete=slS
 " リンク先の表示位置
@@ -141,18 +141,12 @@ nnoremap <M-d> <Nop>
 " silent qmark l http://reader.livedoor.com/
 " silent qmark L http://twitter.com/#!/termin/lists
 " silent qmark m https://mail.google.com/mail/?hl=ja&shva=1#inbox
-" silent qmark n http://boxcar.io/inbox
 " silent qmark p https://plus.google.com/
 " silent qmark r http://www.rememberthemilk.com
 " silent qmark s http://s.hatena.ne.jp/termin2/report
 " silent qmark T http://topsy.com/
 " silent qmark t http://twitter.com/
-" silent qmark v http://192.168.1.23:8969/termin/
-" silent qmark V http://tv.yahoo.co.jp/listings/realtime/
 " silent qmark y http://twitter.com/termin
-
-" silent qmark V http://voyurl.com/member/me
-" silent qmark n https://notifo.com/user
 
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
@@ -243,8 +237,8 @@ lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v
 " RememberTheMilk 移動キーは小文字, 編集関連は大文字
 lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c T,t R,r D,d S,s ? F,f G,g L,l Y,y H,h M,m z <Right>,<C-S-Right> <Left>,<C-S-Left> <Tab> <Del> <Leader>1,1 <Leader>2,2 <Leader>3,3 <Leader>4,4
 " Tumblr
-lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' e,t n,h
-" lazy fmaps -e=vkeydown -u='^http://[^\./]*\.tumblr\.com/' j k e,t n
+" lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' e,t n,h
+lazy fmaps -e=vkeydown -u='^http://[^\./]*\.tumblr\.com/' j k e,t n
 " はてなブックマーク
 lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o e B,b
 " Picasa Web
@@ -257,6 +251,8 @@ lazy fmaps -u='^https://speakerdeck\.com/' -events=keydown j,<Right> k,<Left>
 lazy fmaps -u='^https?://twitter\.com/' -events=vkeydown j k <Enter> ? .
 " Google+
 lazy fmaps -u='^https://plus\.google\.com/' j k o <C-j>,n <C-k>,p <C-r>,r ? <CR> <Right> <Left>
+" Facebook
+lazy fmaps -u='^https://www\.facebook\.com/' -events=vkeydown j k
 
 " Google+
 " google-plus-commando.js (requires: feedSomeKeys_3.js, x-hint.js)
