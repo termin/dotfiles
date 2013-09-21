@@ -6,7 +6,7 @@
 " CUIでは*レジスタが使えない. "*yとか出来ない...
 " <Leader>he で.vimrcをすぐに表示する. ToDoとかささっと見てささっと解決したい.
 " Uniteを積極的に使いたい. qflist(Quickfix), file etc...
-" 
+"
 " Mac標準のvimはhas('mac'), has('macunix')が0だが自前でbuildすれば1.
 "----------------------------------------------------
 " TODO:
@@ -30,7 +30,7 @@
 " sudo関連の扱い
 " Diff関連について. savevers.vimとか.
 " Sessionの使い方を確認し, キーバインドを考える.
-" 
+"
 " augroupを上手く使いたい.
 " Quickfix周り
 "
@@ -298,7 +298,7 @@ inoremap <silent> <C-a> <Esc>I
 " vundle.vim
 filetype off
 if has('vim_starting')
-	set rtp& rtp+=~/.vim/neobundle.vim/ 
+	set rtp& rtp+=~/.vim/bundle/neobundle.vim/
 	call neobundle#rc(expand('~/.vim/bundle'))
 endif
 " github repos
@@ -319,24 +319,24 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-scripts/ruby-matchit'
 " Rails completion
 NeoBundle 'taichouchou2/alpaca_complete', {
-      \ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
-      \ 'build' : {
-      \     'mac' : 'gem install alpaca_complete',
-      \     'unix' : 'gem install alpaca_complete',
-      \}}
+			\ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
+			\ 'build' : {
+			\     'mac' : 'gem install alpaca_complete',
+			\     'unix' : 'gem install alpaca_complete',
+			\}}
 " }}}
 "" NeoBundle 'ujihisa/quickrun'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'thinca/vim-ref'
 " vimshell, unite-source-grep の使用にvimprocが必要.
 NeoBundle 'Shougo/vimproc', {
-	  \ 'build' : {
-	  \     'windows' : 'make -f make_mingw32.mak',
-	  \     'cygwin' : 'make -f make_cygwin.mak',
-	  \     'mac' : 'make -f make_mac.mak',
-	  \     'unix' : 'make -f make_unix.mak',
-	  \    },
-	  \ }
+			\ 'build' : {
+			\     'windows' : 'make -f make_mingw32.mak',
+			\     'cygwin' : 'make -f make_cygwin.mak',
+			\     'mac' : 'make -f make_mac.mak',
+			\     'unix' : 'make -f make_unix.mak',
+			\    },
+			\ }
 NeoBundle 'basyura/unite-rails'
 " 必要かどうかよくわからない "{{{
 NeoBundle 'thinca/vim-unite-history'
@@ -345,6 +345,9 @@ NeoBundle 'Shougo/vimfiler'
 " NeoBundle 'oppara/vim-unite-cake'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'vim-jp/vimdoc-ja'
+NeoBundle "osyo-manga/vim-textobj-multiblock", {
+			\ 'depends' : "kana/vim-textobj-user"
+			\ }
 " }}}
 NeoBundle 'soh335/unite-qflist'
 " NeoBundle 'sgur/unite-qf'
@@ -375,7 +378,7 @@ NeoBundle 'chrisbra/SudoEdit.vim'
 " non github repos
 " NeoBundle 'git://git.wincent.com/command-t.git'
 
-filetype plugin indent on 
+filetype plugin indent on
 
 " Unite.vim
 " 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
@@ -559,6 +562,12 @@ let g:surround_custom_mapping.ruby = {
 					\ 'e':  "<%= \r %>",
 					\ }
 
+" osyo-manga/vim-textobj-multiblock
+omap ab <Plug>(textobj-multiblock-a)
+omap ib <Plug>(textobj-multiblock-i)
+vmap ab <Plug>(textobj-multiblock-a)
+vmap ib <Plug>(textobj-multiblock-i)
+
 " NERD_commenter.vim
 let g:NERDCreateDefaultMappings = 0
 nmap <Leader>c <plug>NERDCommenterToggle
@@ -577,13 +586,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 " QuickRun.vim
 let g:quickrun_no_default_key_mappings = 1
 nmap <Leader>R <Plug>(quickrun)
-
-" vim-ref
-if has('mac')
-	let g:ref_refe_cmd = "/Users/termin/refm/refe-1_9_2"
-    nnoremap <Leader>Rr :<C-u>Ref<Space>refe<Space>
-    nnoremap <Leader>Rm :<C-u>Ref<Space>man<Space>
-endif
 
 " ctrlp.vim
 " let g:ctrlp_map = '<C-^>'
