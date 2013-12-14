@@ -11,6 +11,7 @@
 "----------------------------------------------------
 " TODO:
 "----------------------------------------------------
+" indent-guidesのカラー設定. もう少し目に優しい配色にしたい. 但しtmux環境下でも表示される様に.
 " coffee script用の設定
 " keymappingで<Space>を上手く使いたい
 "
@@ -27,7 +28,6 @@
 " 検索で一番下まで検索したので上に戻るよ、メッセージを一定時間経過後に消したい
 "
 " neocomplcacheのカラー設定
-" sudo関連の扱い
 " Diff関連について. savevers.vimとか.
 " Sessionの使い方を確認し, キーバインドを考える.
 "
@@ -210,7 +210,7 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 
 " TODO: Metaを使いたくて出来なかったキーを<Esc>で記述する.
 
-" *後で何かに割り当てるKey
+" *後で何かに割り当てたい気がする
 " CTRL-G CTRL-K CTRL-N CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
 
 " omapを使って整理したい様な気がする.
@@ -295,39 +295,33 @@ inoremap <silent> <C-a> <Esc>I
 "----------------------------------------------------
 " Plugins
 "----------------------------------------------------
-" vundle.vim
+" neobundle.vim
 filetype off
 if has('vim_starting')
 	set rtp& rtp+=~/.vim/bundle/neobundle.vim/
 	call neobundle#rc(expand('~/.vim/bundle'))
 endif
-" github repos
+
 NeoBundle 'tpope/vim-surround'
 NeoBundle 't9md/vim-surround_custom_mapping'
 NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'renamer.vim'
+" TODO: neocomplete移行
+" NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'Shougo/unite-outline'
 NeoBundle 'tsukkee/unite-help'
-NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'thinca/vim-quickrun'
-" おためし {{{
-NeoBundle 'tpope/vim-rails'
-" NeoBundle 'tpope/vim-endwise'
-NeoBundle 'vim-scripts/ruby-matchit'
-" Rails completion
-NeoBundle 'taichouchou2/alpaca_complete', {
-			\ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
-			\ 'build' : {
-			\     'mac' : 'gem install alpaca_complete',
-			\     'unix' : 'gem install alpaca_complete',
-			\}}
-" }}}
-"" NeoBundle 'ujihisa/quickrun'
+NeoBundle 'soh335/unite-qflist'
+" NeoBundle 'sgur/unite-qf'
+" NeoBundle 'ujihisa/quickrun'
+NeoBundle 'tyru/current-func-info.vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'thinca/vim-ref'
+NeoBundle 'chrisbra/SudoEdit.vim'
+NeoBundle 'renamer.vim'
 " vimshell, unite-source-grep の使用にvimprocが必要.
 NeoBundle 'Shougo/vimproc', {
 			\ 'build' : {
@@ -337,45 +331,56 @@ NeoBundle 'Shougo/vimproc', {
 			\     'unix' : 'make -f make_unix.mak',
 			\    },
 			\ }
+" NeoBundle 'Shougo/vimshell'
+
+NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'basyura/unite-rails'
-" 必要かどうかよくわからない "{{{
+" NeoBundle 'violetyk/cake.vim'
+
+" おためし {{{
+NeoBundle 'rhysd/migemo-search.vim'
+NeoBundle 'tacroe/unite-mark'
+NeoBundle 'tpope/vim-rails'
+" NeoBundle 'tpope/vim-endwise'
+NeoBundle 'vim-scripts/ruby-matchit'
+" Rails completion
+NeoBundle 'taichouchou2/alpaca_complete', {
+			\ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
+			\	 'build' : {
+			\	 'mac' : 'gem install alpaca_complete',
+			\	 'unix' : 'gem install alpaca_complete',
+			\}}
 NeoBundle 'thinca/vim-unite-history'
 " NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'Shougo/vimfiler'
 " NeoBundle 'oppara/vim-unite-cake'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle "osyo-manga/vim-textobj-multiblock", {
 			\ 'depends' : "kana/vim-textobj-user"
 			\ }
+NeoBundle 'thinca/vim-ref'
 " }}}
-NeoBundle 'soh335/unite-qflist'
-" NeoBundle 'sgur/unite-qf'
-" NeoBundle 'ujihisa/unite-colorscheme'
-NeoBundle 'chrisbra/SudoEdit.vim'
-" NeoBundle 'sudo.vim'
-" NeoBundle 'mattn/benchvimrc-vim'
-" ↑ 必要なもの / ↓ あんまり要らないもの
-" NeoBundle 'Shougo/vimshell'
-" NeoBundle 'Shougo/echodoc'
-" NeoBundle 'kana/vim-grex'
-" NeoBundle 'Lokaltog/vim-easymotion'
-" NeoBundle 'kana/vim-operator-user'
-" NeoBundle 'kana/vim-operator-replace'
-" NeoBundle 'thinca/vim-visualstar'
-" NeoBundle 'tyru/operator-star.vim' " dependent for: visualstar, operator-user
-" NeoBundle 'tyru/caw.vim'
-"" NeoBundle 'vim-fugitive'
 
-"" vim.org/scripts
-" NeoBundle 'smartword'
-" NeoBundle 'smartchr'
+" NeoBundle 'AndrewRadev/switch.vim'
+" NeoBundle 'Lokaltog/vim-easymotion'
+" NeoBundle 'Shougo/echodoc'
+" NeoBundle 'grep.vim'
 " NeoBundle 'hsitz/VimOrganizer'
-" NeoBundle 'jceb/vim-orgmode'
 " NeoBundle 'hz_ja.vim'
-"" NeoBundle 'grep.vim'
-"" NeoBundle 'taglist.vim'
-" non github repos
+" NeoBundle 'jceb/vim-orgmode'
+" NeoBundle 'kana/vim-grex'
+" NeoBundle 'kana/vim-operator-replace'
+" NeoBundle 'kana/vim-operator-user'
+" NeoBundle 'mattn/benchvimrc-vim'
+" NeoBundle 'smartchr'
+" NeoBundle 'smartword'
+" NeoBundle 'sudo.vim'
+" NeoBundle 'taglist.vim'
+" NeoBundle 'thinca/vim-visualstar'
+" NeoBundle 'tyru/caw.vim'
+" NeoBundle 'tyru/operator-star.vim' " dependent for: visualstar, operator-user
+" NeoBundle 'ujihisa/unite-colorscheme'
+" NeoBundle 'vim-fugitive'
+
 " NeoBundle 'git://git.wincent.com/command-t.git'
 
 filetype plugin indent on
@@ -428,7 +433,7 @@ let g:unite_cursor_line_highlight = 'TabLineSel'
 " let g:unite_winwidth = 60
 " let g:unite_abbr_highlight = 'TabLine'
 autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()"{{{
+function! s:unite_my_settings() "{{{
 	" CTRL-hをhで代替したい
 	imap <buffer> jj <Plug>(unite_insert_leave)
 	nmap <buffer> h <Plug>(unite_delete_backward_path)
@@ -446,76 +451,89 @@ function! s:unite_my_settings()"{{{
 
 	" Start insert.
 	"let g:unite_enable_start_insert = 1
-endfunction"}}}
+endfunction "}}}
 
 " vim-rails
-nnoremap <leader>rc :<C-u>Rcontroller<Space>
-nnoremap <leader>rm :<C-u>Rmodel<Space>
-nnoremap <leader>rv :<C-u>Rview<Space>
+if neobundle#is_installed('vim-rails')
+	nnoremap <leader>rc :<C-u>Rcontroller<Space>
+	nnoremap <leader>rm :<C-u>Rmodel<Space>
+	nnoremap <leader>rv :<C-u>Rview<Space>
+endif
 
 " neocomplcache.vim
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-" let g:neocomplcache_enable_prefetch=0
-" let g:neocomplcache_enable_camel_case_completion = 1
-" _を入力したときに、それを単語の区切りとしてあいまい検索を行うかどうか制御する。例えば p_h と入力したとき、public_html とマッチするようになる。1ならば有効になる。副作用があるので、初期値は0となっている。
-" let g:neocomplcache_enable_underbar_completion = 1
-" let g:neocomplcache_dictionary_filetype_lists =
+if neobundle#is_installed('neocomplcache')
+	let g:neocomplcache_enable_at_startup = 1
+	let g:neocomplcache_enable_smart_case = 1
+	" let g:neocomplcache_enable_prefetch=0
+	" let g:neocomplcache_enable_camel_case_completion = 1
+	" _を入力したときに、それを単語の区切りとしてあいまい検索を行うかどうか制御する。例えば p_h と入力したとき、public_html とマッチするようになる。1ならば有効になる。副作用があるので、初期値は0となっている。
+	" let g:neocomplcache_enable_underbar_completion = 1
+	" let g:neocomplcache_dictionary_filetype_lists =
 
-" 日本語をキャッシュしない.
-if !exists('g:neocomplcache_keyword_patterns')
-	let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+	" 日本語をキャッシュしない.
+	if !exists('g:neocomplcache_keyword_patterns')
+		let g:neocomplcache_keyword_patterns = {}
+	endif
+	let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
-" let g:neocomplcache_omni_functions = {
+	" let g:neocomplcache_omni_functions = {
 	" \ 'python' : 'pythoncomplete#Complete',
 	" \ 'ruby' : 'rubycomplete#Complete',
 	" \ }
 
-" <CR>: close popup
-inoremap <expr><CR> pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
-" <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" 補完を選択しポップアップを閉じる
-inoremap <expr><C-y> neocomplcache#close_popup()
-" 補完をキャンセルしpopupを閉じる
-inoremap <expr><C-e> neocomplcache#cancel_popup()
-" 補完をキャンセルしてから行頭まで削除する.
-" inoremap <expr><C-u> neocomplcache#cancel_popup() . "\<C-u>"
+	" <CR>: close popup
+	inoremap <expr><CR> pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
+	" <TAB>: completion.
+	" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+	" 補完を選択しポップアップを閉じる
+	inoremap <expr><C-y> neocomplcache#close_popup()
+	" 補完をキャンセルしpopupを閉じる
+	inoremap <expr><C-e> neocomplcache#cancel_popup()
+	" 補完をキャンセルしてから行頭まで削除する.
+	" inoremap <expr><C-u> neocomplcache#cancel_popup() . "\<C-u>"
 
-" inoremap <expr><C-g> neocomplcache#undo_completion()
-" inoremap <expr><C-l> neocomplcache#complete_common_string()
+	" inoremap <expr><C-g> neocomplcache#undo_completion()
+	" inoremap <expr><C-l> neocomplcache#complete_common_string()
 
-" ポップアップメニューの表示
-autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
-autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
-autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
+	" ポップアップメニューの表示
+	autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
+	autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
+	autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
 
-" FileType別のOmni Completion設定
-" Vimに対して設定
-autocmd FileType c setlocal omnifunc=ccomplete#Complete
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+	" FileType別のOmni Completion設定
+	" Vimに対して設定
+	autocmd FileType c setlocal omnifunc=ccomplete#Complete
+	autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+	autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+	autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+	autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+	autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+	autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+	autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-	let g:neocomplcache_omni_patterns = {}
+	" Enable heavy omni completion.
+	if !exists('g:neocomplcache_omni_patterns')
+		let g:neocomplcache_omni_patterns = {}
+	endif
+	let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+	let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+
 endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
 " neosnippet
-let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets'
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" Snippetsを編集する
-command! -nargs=* Nse NeoSnippetEdit
+if neobundle#is_installed('neosnippet')
+	let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets'
+	imap <S-C-k> <Plug>(neosnippet_expand_or_jump)
+	smap <S-C-k> <Plug>(neosnippet_expand_or_jump)
+	xmap <S-C-k> <Plug>(neosnippet_expand_target)
+	" TODO: neosnippetがC-kを使ってる.
+	vnoremap <C-k> 5k
+	" Snippetsを編集する
+	command! -nargs=* Nse NeoSnippetEdit
+	if has('conceal')
+		set conceallevel=2 concealcursor=i
+	endif
+endif
 
 " SudoEdit.vim, sudo.vim
 command! WS SudoWrite %
@@ -580,12 +598,26 @@ let NERDSpaceDelims = 1
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_guide_size = 1
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=gray
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
 
 " QuickRun.vim
 let g:quickrun_no_default_key_mappings = 1
 nmap <Leader>R <Plug>(quickrun)
+
+" migemo-search.vim
+if neobundle#is_installed('migemo-search.vim') && executable('cmigemo')
+	cnoremap <expr><CR> migemosearch#replace_search_word()."\<CR>"
+endif
+
+" current-func-info.vim
+if neobundle#is_installed('current-func-info.vim')
+	" 現在のカーソル位置の関数名を表示する
+	set statusline=%n\:%y%F\ %{cfi#format('%s()','')}\|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>
+	" let &statusline = '[%{cfi#get_func_name()}()]'
+endif
 
 " ctrlp.vim
 " let g:ctrlp_map = '<C-^>'
