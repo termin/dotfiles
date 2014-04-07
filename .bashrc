@@ -15,7 +15,10 @@ export SUDO_EDITOR=/usr/local/bin/vim
 # PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 export LESS="-MR"
 alias grep='grep --color'
-alias ls='gls -Fh --color=always'
+if which gls > /dev/null; then
+	alias ls='gls -Fh --color=always'
+fi
+alias l='ls'
 alias ll='ls -l'
 alias la='ls -A'
 
