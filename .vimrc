@@ -320,7 +320,8 @@ NeoBundle 'Shougo/vimproc', {
 
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'basyura/unite-rails'
-" NeoBundle 'violetyk/cake.vim'
+NeoBundle 'violetyk/cake.vim'
+NeoBundle 'oppara/vim-unite-cake'
 
 " おためし {{{
 NeoBundle 'rhysd/migemo-search.vim'
@@ -338,7 +339,6 @@ NeoBundle 'taichouchou2/alpaca_complete', {
 NeoBundle 'thinca/vim-unite-history'
 " NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'Shougo/vimfiler'
-" NeoBundle 'oppara/vim-unite-cake'
 NeoBundle "osyo-manga/vim-textobj-multiblock", {
 			\ 'depends' : "kana/vim-textobj-user"
 			\ }
@@ -612,30 +612,23 @@ endif
 			" \ 'active_filetypes': ['ruby', 'php'],
 			" \ 'passive_filetypes': ['puppet'] }
 
-" php 構文チェック
-" function! PHPLint()
-	" let result = system( &ft . ' -l ' . bufname(""))
-	" echo result
-" endfunction
-" au FileType php :nnoremap <Leader>s <ESC>:call PHPLint()<CR>
-
 " cake.vim
-" let g:cakephp_enable_fix_mode = 1
-" "let g:cakephp_app = ""
-" let g:cakephp_enable_auto_mode = 1
-" nnoremap <Leader>cc :<C-u>Ccontroller<Space>
-" nnoremap <Leader>cC :<C-u>Ccomponent<Space>
-" nnoremap <Leader>cm :<C-u>Cmodel<Space>
-" nnoremap <Leader>cV :<C-u>Cviewtab<Space>
-" nnoremap <Leader>cv :<C-u>Ccontrollerview<Space>
-" nnoremap <Leader>cov :<C-u>Cview<Space>
-" nnoremap <Leader>cnV :<C-u>Ccontrollerviewtab<Space>
-" nnoremap <Leader>ch :<C-u>Chelper<Space>
-" nnoremap <Leader>cth :<C-u>Ctesthelper<Space>
-" nnoremap <Leader>ctm :<C-u>Ctestmodel<Space>
-" nnoremap <Leader>ctc :<C-u>Ctestcontroller<Space>
-" nnoremap <Leader>ctC :<C-u>Ctestcomponent<Space>
-" nnoremap <Leader>cf :<C-u>Cfixture<Space>
+let g:cakephp_enable_fix_mode = 1
+"let g:cakephp_app = ""
+let g:cakephp_enable_auto_mode = 1
+nnoremap <Leader>cc :<C-u>Ccontroller<Space>
+nnoremap <Leader>cC :<C-u>Ccomponent<Space>
+nnoremap <Leader>cm :<C-u>Cmodel<Space>
+nnoremap <Leader>cV :<C-u>Cviewtab<Space>
+nnoremap <Leader>cv :<C-u>Ccontrollerview<Space>
+nnoremap <Leader>cov :<C-u>Cview<Space>
+nnoremap <Leader>cnV :<C-u>Ccontrollerviewtab<Space>
+nnoremap <Leader>ch :<C-u>Chelper<Space>
+nnoremap <Leader>cth :<C-u>Ctesthelper<Space>
+nnoremap <Leader>ctm :<C-u>Ctestmodel<Space>
+nnoremap <Leader>ctc :<C-u>Ctestcontroller<Space>
+nnoremap <Leader>ctC :<C-u>Ctestcomponent<Space>
+nnoremap <Leader>cf :<C-u>Cfixture<Space>
 
 "----------------------------------------------------
 " Post
