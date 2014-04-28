@@ -290,7 +290,6 @@ endif
 NeoBundle 'tpope/vim-surround'
 NeoBundle 't9md/vim-surround_custom_mapping'
 NeoBundle 'scrooloose/nerdcommenter'
-" TODO: neocomplete移行
 NeoBundle 'Shougo/neocomplete'
 " NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
@@ -481,9 +480,9 @@ if neobundle#is_installed('neocomplete')
 	" inoremap <expr><C-l> neocomplete#complete_common_string()
 
 	" ポップアップメニューの表示
-	autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
-	autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
-	autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
+	" autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
+	" autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
+	" autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
 
 	" FileType別のOmni Completion設定
 	" Vimに対して設定
