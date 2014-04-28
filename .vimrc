@@ -513,9 +513,9 @@ endif
 " neosnippet
 if neobundle#is_installed('neosnippet')
 	let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets'
-	imap <C-k> <Plug>(neosnippet_expand_or_jump)
-	smap <C-k> <Plug>(neosnippet_expand_or_jump)
-	xmap <C-k> <Plug>(neosnippet_expand_target)
+	imap <C-l> <Plug>(neosnippet_expand_or_jump)
+	smap <C-l> <Plug>(neosnippet_expand_or_jump)
+	xmap <C-l> <Plug>(neosnippet_expand_target)
 	" TODO: neosnippetがC-kを使ってる.
 	" vnoremap <C-k> 5k
 	" Snippetsを編集する
