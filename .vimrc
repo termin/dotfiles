@@ -293,6 +293,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'Shougo/neocomplete'
 " NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'tsukkee/unite-help'
@@ -512,11 +513,11 @@ endif
 " neosnippet
 if neobundle#is_installed('neosnippet')
 	let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets'
-	imap <S-C-k> <Plug>(neosnippet_expand_or_jump)
-	smap <S-C-k> <Plug>(neosnippet_expand_or_jump)
-	xmap <S-C-k> <Plug>(neosnippet_expand_target)
+	" imap <S-C-k> <Plug>(neosnippet_expand_or_jump)
+	" smap <S-C-k> <Plug>(neosnippet_expand_or_jump)
+	" xmap <S-C-k> <Plug>(neosnippet_expand_target)
 	" TODO: neosnippetがC-kを使ってる.
-	vnoremap <C-k> 5k
+	" vnoremap <C-k> 5k
 	" Snippetsを編集する
 	command! -nargs=* Nse NeoSnippetEdit
 	if has('conceal')
