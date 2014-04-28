@@ -2,8 +2,7 @@
 "----------------------------------------------------
 " Notice
 "----------------------------------------------------
-" ss で:registersとか:marksとか色々表示する系のkey mapを一覧する.  上手くuniteと使い分けたい.
-" CUIでは*レジスタが使えない. "*yとか出来ない...
+" ss で:registersとか:marksとか色々表示する系のkey mapを一覧する.
 " <Leader>he で.vimrcをすぐに表示する. ToDoとかささっと見てささっと解決したい.
 " Uniteを積極的に使いたい. qflist(Quickfix), file etc...
 "
@@ -12,31 +11,17 @@
 " TODO:
 "----------------------------------------------------
 " indent-guidesのカラー設定. もう少し目に優しい配色にしたい. 但しtmux環境下でも表示される様に.
-" coffee script用の設定
 " keymappingで<Space>を上手く使いたい
 "
 " tmuxを介すとwindowの区切りをマウスで移動出来ない. tmuxの設定？
-" ctrlp.vim が有効活用出来るかどうか確認.
 " 『Vim-users.jp - Vim Hacks Project』 http://vim-users.jp/vim-hacks-project/
-" 必要な時に重い設定行を読まない様に出来ると良い様なそうでも無い様な.
 " :e dir1/dir2/txt などとしたいときに, dir1を選択した後に直下のファイルを一覧させたいが良い方法はあるか. 今は<Space><BS><Tab>してる.
 " helpを:splitじゃなくて:onlyで開きたい.
-" set mouse=a 環境でのyank
-" set mouse=してマウスで範囲選択+<D-c>
 " surround.vimのキーバインドをまともにしたい気がする. 『Vimの極め方』 http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
 " outliner的な記述が出来るpluginで使えるものはないか.(howm-mode.vim, QFixHowm, VimOrganizer, vim-orgmode)
-" 検索で一番下まで検索したので上に戻るよ、メッセージを一定時間経過後に消したい
-"
-" neocomplcacheのカラー設定
-" Diff関連について. savevers.vimとか.
-" Sessionの使い方を確認し, キーバインドを考える.
-"
+" 検索で一番下まで検索したので上に戻るよ、メッセージを一定時間経過後に消せないか
 " augroupを上手く使いたい.
 " Quickfix周り
-"
-" uniteの-verticalでファイル名が長い場合に末尾が見切れてしまう.
-"
-" :h の時に垂直分割で表示させたい.
 " set mouse=, set mouse=a のtoggle
 
 "----------------------------------------------------
@@ -183,8 +168,9 @@ set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 
-" au BufWritePost * call SetUTF8Xattr(expand("<afile>"))
 
+" 『Vimで 保存した UTF-8 なファイルが Quick Look で見られない問題に対処する - ヤルキデナイズドだった』 http://d.hatena.ne.jp/uasi/20110523/1306079612
+" au BufWritePost * call SetUTF8Xattr(expand("<afile>"))
 " function! SetUTF8Xattr(file)
 	" let isutf8 = &fileencoding == "utf-8" || ( &fileencoding == "" && &encoding == "utf-8")
 	" if has("unix") && match(system("uname"),'Darwin') != -1
@@ -203,22 +189,21 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 "
 " TODO:
 " Mac Terminal.appの場合
-" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする. → 今は再現しないけど...
+" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " <Right>, <Left> 等はどうやっても使えない感じ.
-" <M-x>は, <Esc>x でもイケる！ <Esc><C-x>とか.
+" <M-x>は, <Esc>x で代用. <Esc><C-x>とか.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
 
 " TODO: Metaを使いたくて出来なかったキーを<Esc>で記述する.
-
-" *後で何かに割り当てたい気がする
-" CTRL-G CTRL-K CTRL-N CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
-
+"
+" 後で何かに割り当てたい気がする
+" CTRL-G CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
 " omapを使って整理したい様な気がする.
 
-" *確認したい
+" 確認したい
 " i_CTRL-X_CTRL_{x} なキーバインドについて確認.
 
-" *使う
+" 使う
 " i_CTRL-X_CTRL-L
 " mark: m{a-zA-Z} , call: '{a-zA-Z}
 " Exモード(連続コマンド): Q or gQ :vi[sual]で抜ける.
@@ -578,6 +563,7 @@ let g:surround_custom_mapping.ruby = {
 					\ '%':  "%(\r)",
 					\ '#':  "#{\r}",
 					\ 'e':  "<%= \r %>",
+					\ 'p':  "<% \r %>",
 					\ }
 
 " osyo-manga/vim-textobj-multiblock
@@ -622,41 +608,16 @@ endif
 " ctrlp.vim
 " let g:ctrlp_map = '<C-^>'
 
-" VTreeExplorer
-" let g:treeExplVertical=1
-" let g:treeExplWinSize=30
-
-" operator-replace
-" map _ <Plug>(operator-replace)
-
-" vim-easymotion.vim
-" let g:EasyMotion_do_shade = 0
-
-" smartchr.vim
-" inoremap <expr> = smartchr#one_of(' = ', ' == ', '=')
-
-" echodoc.vim
-" let g:echodoc_enable_at_startup = 1
-
-
 " let g:syntastic_mode_map = { 'mode': 'active',
 			" \ 'active_filetypes': ['ruby', 'php'],
 			" \ 'passive_filetypes': ['puppet'] }
 
-" smartword.vim
-" map w  <Plug>(smartword-w)
-" map b  <Plug>(smartword-b)
-" map e  <Plug>(smartword-e)
-" map ge  <Plug>(smartword-ge)
-
-" autocmd CursorMovedI * :call vimproc#system_bg($HOME . "/bin/vim-key-sound.rb '" . getline('.')[col('.') - 2] . "'")
-
 " php 構文チェック
-function! PHPLint()
-	let result = system( &ft . ' -l ' . bufname(""))
-	echo result
-endfunction
-au FileType php :nnoremap <Leader>s <ESC>:call PHPLint()<CR>
+" function! PHPLint()
+	" let result = system( &ft . ' -l ' . bufname(""))
+	" echo result
+" endfunction
+" au FileType php :nnoremap <Leader>s <ESC>:call PHPLint()<CR>
 
 " cake.vim
 " let g:cakephp_enable_fix_mode = 1

@@ -147,12 +147,13 @@ nnoremap <M-d> <Nop>
 " silent qmark T http://topsy.com/
 " silent qmark t http://twitter.com/
 " silent qmark y http://twitter.com/termin
+" silent qmark n https://twitter.com/i/notifications
 
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
-" let g:plugin_loader_plugins = "multi_requester,nextlink,tabsort,yetmappings,reporter,google-plus-commando,pluginManager"
-let g:plugin_loader_plugins = "_libly,autopagerize_controll,bitly,copy,exopen,feedSomeKeys_3,imageextender,ldrize_cooperation,lo,removetabs,stella,tabsort,toggler,walk-input,zip-de-download,reporter,sbmcommentsviewer,cookieManager,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,x-hint,loginManager,tab-history,unload-tab,slideshare,migemo_hint,migemo-find"
+" let g:plugin_loader_plugins = "unload-tab,loginManager,cookieManager,sbmcommentsviewer,tabsort,reporter,ldrize_cooperation,imageextender,multi_requester,nextlink,tabsort,yetmappings,reporter,google-plus-commando,pluginManager"
+let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,lo,stella,removetabs,toggler,walk-input,zip-de-download,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,x-hint,tab-history,slideshare,migemo_hint,migemo-find"
 
 " google-translator.js
 " nnoremap <Leader>gt :<C-u>gtrans<Space>
@@ -355,9 +356,9 @@ nnoremap c :<C-u>hbt<Space>
 nnoremap <Leader>c :<C-u>bs<Space>
 
 " sbmcommentsviewer.js
-let g:def_sbms = "hdlt"
-nnoremap <Leader>vc :<C-u>viewSBMComments -t T<CR>
-nnoremap <Leader>vd :<C-u>viewSBMComments -t d<CR>
+" let g:def_sbms = "hdlt"
+" nnoremap <Leader>vc :<C-u>viewSBMComments -t T<CR>
+" nnoremap <Leader>vd :<C-u>viewSBMComments -t d<CR>
 
 " entry_pageを表示する( exopen.js )
 javascript <<EOM
@@ -372,7 +373,7 @@ EOM
 noremap <S-x> :<C-u>exopen hatenaep<CR>
 
 " ldrize_cooperation.js
-let g:ldrc_captureMappings = "['j','k','p','o','?']"
+" let g:ldrc_captureMappings = "['j','k','p','o','?']"
 
 " autopagerize_control.js
 " let g:autopagerize_prevmap = "K" 
@@ -391,7 +392,7 @@ let g:zipDownloadDir = "~/Desktop"
 noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg,jpeg,png
 
 " loginManager.js
-nnoremap <Leader>l :login<Space>
+" nnoremap <Leader>l :login<Space>
 
 " ----- Others -----
 " RequestPolicyを操作する cf. http://d.hatena.ne.jp/wlt/20101211/1292158609
@@ -418,24 +419,24 @@ nnoremap <Leader>l :login<Space>
 "『Greasemonkey0.9.12以降でMinibufferとLDRizeが動かない理由とか - tyoro.exe』 http://exe.tyo.ro/2011/11/greasemonkey0912minibufferldrize.html
 "cf.http://d.hatena.ne.jp/littlefolk/20110625p1
 
-js <<EOM
-autocommands.add(
-  'VimperatorEnter', '.*',
-  function () {
-    let Cc = Components.classes['@greasemonkey.mozdev.org/greasemonkey-service;1'];
-    if (Cc) {
-      Cc = Cc.getService().wrappedJSObject;
-      if (Cc.injectScripts.toSource().search('sharedObject') == -1) {
-        Cc.injectScripts = liberator.eval(
-          Cc.injectScripts.toSource()
-            .replace(/(?=(?:var|let) (?:firebugConsole))/,'var sharedObject = {};')
-            .replace(/(?=var requires)/, 'sandbox.sharedObject = sharedObject;')
-            .replace(/(?=}$)/, 'return sharedObject;'),
-        Cc.injectScripts);
-      };
-    };
-  });
-EOM
+" js <<EOM
+" autocommands.add(
+"   'VimperatorEnter', '.*',
+"   function () {
+"     let Cc = Components.classes['@greasemonkey.mozdev.org/greasemonkey-service;1'];
+"     if (Cc) {
+"       Cc = Cc.getService().wrappedJSObject;
+"       if (Cc.injectScripts.toSource().search('sharedObject') == -1) {
+"         Cc.injectScripts = liberator.eval(
+"           Cc.injectScripts.toSource()
+"             .replace(/(?=(?:var|let) (?:firebugConsole))/,'var sharedObject = {};')
+"             .replace(/(?=var requires)/, 'sandbox.sharedObject = sharedObject;')
+"             .replace(/(?=}$)/, 'return sharedObject;'),
+"         Cc.injectScripts);
+"       };
+"     };
+"   });
+" EOM
 
 " 『Firefox 4.0b10でGreasemonkey 0.9.1のユーザスクリプトのwindowを共通にする改造（開発者orVimper向け） - wltの日記』
 " http://d.hatena.ne.jp/wlt/20110130/1296359063
