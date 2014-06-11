@@ -105,9 +105,18 @@ set wildmode=list:longest,full
 set matchtime=2						" 対応する括弧の表示時間を2にする
 syntax on							" シンタックスハイライト
 
-" 全角スペースを明示
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-match ZenkakuSpace /　/
+augroup HilightZenkakuSpace
+	" 全角スペースを明示
+	autocmd!
+	highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+	autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+augroup END
+
+augroup HilightTrailingSpace
+	autocmd!
+	highlight TrailingSpace ctermbg=darkred guibg=darkred
+	autocmd VimEnter,WinEnter * match TrailingSpace /\s\+$/
+augroup END
 
 " ステータスラインに表示する情報の指定
 set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>
@@ -119,6 +128,9 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 
 " ステータスラインの色
 " highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
+
+" autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
+" set foldmethod=marker
 
 "----------------------------------------------------
 " Search
@@ -141,8 +153,6 @@ autocmd BufNewFile,BufRead *.erb setlocal ts=2 | set sw=2 | set expandtab
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 autocmd BufNewFile,BufRead *.ctp set filetype=php
 autocmd FileType php setlocal ts=4 sw=4 sts=4 noexpandtab
-
-" autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
 
 "----------------------------------------------------
 " Indent
@@ -331,7 +341,7 @@ NeoBundle 'oppara/vim-unite-cake'
 NeoBundle 'tacroe/unite-mark'
 NeoBundle 'tpope/vim-rails'
 " NeoBundle 'tpope/vim-endwise'
-NeoBundle 'vim-scripts/ruby-matchit'
+" NeoBundle 'vim-scripts/ruby-matchit'
 " Rails completion
 " NeoBundle 'taichouchou2/alpaca_complete', {
 			" \ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
