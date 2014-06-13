@@ -152,8 +152,8 @@ nnoremap <M-d> <Nop>
 " ----- Plugin Options  -----
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
-" let g:plugin_loader_plugins = "unload-tab,loginManager,cookieManager,sbmcommentsviewer,tabsort,reporter,ldrize_cooperation,imageextender,multi_requester,nextlink,tabsort,yetmappings,reporter,google-plus-commando,pluginManager"
-let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,lo,stella,removetabs,toggler,walk-input,zip-de-download,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,x-hint,tab-history,slideshare,migemo_hint,migemo-find"
+" let g:plugin_loader_plugins = "stella,unload-tab,loginManager,cookieManager,sbmcommentsviewer,tabsort,reporter,ldrize_cooperation,imageextender,multi_requester,nextlink,tabsort,yetmappings,reporter,google-plus-commando,pluginManager"
+let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,lo,removetabs,toggler,walk-input,zip-de-download,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,x-hint,tab-history,slideshare,migemo_hint,migemo-find"
 
 " google-translator.js
 " nnoremap <Leader>gt :<C-u>gtrans<Space>
@@ -184,47 +184,47 @@ liberator.globalVariables.copy_templates = [
 EOM
 
 " stella.js
-js <<EOM
-function addLocalMappings(buffer, maps) {
-  maps.forEach(
-    function (map) {
-      let [cmd, action, extra] = map;
-      let actionFunc = action;
-      extra || (extra = {});
+" js <<EOM
+" function addLocalMappings(buffer, maps) {
+  " maps.forEach(
+    " function (map) {
+      " let [cmd, action, extra] = map;
+      " let actionFunc = action;
+      " extra || (extra = {});
 
-      if (typeof action == "string") {
-        if (action.charAt(0) == ':')
-          actionFunc = extra.open ? function () commandline.open("", action, modes.EX)
-                                  : function () liberator.execute(action);
-        else
-          actionFunc = function () events.feedkeys(action, extra.noremap, true);
-      }
-      extra.matchingUrls = buffer;
-      mappings.addUserMap(
-        [modes.NORMAL],
-        [cmd],
-        "Local mapping for " + buffer,
-        actionFunc,
-        extra
-      );
-    }
-  );
-}
+      " if (typeof action == "string") {
+        " if (action.charAt(0) == ':')
+          " actionFunc = extra.open ? function () commandline.open("", action, modes.EX)
+                                  " : function () liberator.execute(action);
+        " else
+          " actionFunc = function () events.feedkeys(action, extra.noremap, true);
+      " }
+      " extra.matchingUrls = buffer;
+      " mappings.addUserMap(
+        " [modes.NORMAL],
+        " [cmd],
+        " "Local mapping for " + buffer,
+        " actionFunc,
+        " extra
+      " );
+    " }
+  " );
+" }
 
-addLocalMappings(
-  /^(http:\/\/(es|www).nicovideo.jp\/(watch|playlist\/mylist)|http:\/\/(jp|www)\.youtube\.com\/watch|http:\/\/(www\.)?vimeo\.com\/(channels\/(hd)?#)?\d+)/,
-  [
-	['p',			':stplay',					],
-	['m',			':stmute',					],
-	['v',			':stcomment',				],
-	['s',			':stseek! +10',				],
-	['S',			':stseek! -10',				],
-	['z',			':stlarge',					],
-	['<Leader>d',	':stfetch',					],
-	['Q',			':stquality ',	{open: true}],
-  ]
-);
-EOM
+" addLocalMappings(
+  " /^(http:\/\/(es|www).nicovideo.jp\/(watch|playlist\/mylist)|http:\/\/(jp|www)\.youtube\.com\/watch|http:\/\/(www\.)?vimeo\.com\/(channels\/(hd)?#)?\d+)/,
+  " [
+	" ['p',			':stplay',					],
+	" ['m',			':stmute',					],
+	" ['v',			':stcomment',				],
+	" ['s',			':stseek! +10',				],
+	" ['S',			':stseek! -10',				],
+	" ['z',			':stlarge',					],
+	" ['<Leader>d',	':stfetch',					],
+	" ['Q',			':stquality ',	{open: true}],
+  " ]
+" );
+" EOM
 
 " feedSomekeys_3.js
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
@@ -236,7 +236,7 @@ lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v
 " LDR Full Feed Key Settings
 " g = "load current entry" G,u = "load all entries"
 " RememberTheMilk 移動キーは小文字, 編集関連は大文字
-lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c T,t R,r D,d S,s ? F,f G,g L,l Y,y H,h M,m z <Right>,<C-S-Right> <Left>,<C-S-Left> <Tab> <Del> <Leader>1,1 <Leader>2,2 <Leader>3,3 <Leader>4,4
+" lazy fmaps -u='^https?://www\.rememberthemilk\.com/home/' j k m i n a x c T,t R,r D,d S,s ? F,f G,g L,l Y,y H,h M,m z <Right>,<C-S-Right> <Left>,<C-S-Left> <Tab> <Del> <Leader>1,1 <Leader>2,2 <Leader>3,3 <Leader>4,4
 " Tumblr
 " lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' e,t n,h
 lazy fmaps -e=vkeydown -u='^http://[^\./]*\.tumblr\.com/' j k e,t n
