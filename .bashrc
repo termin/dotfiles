@@ -61,10 +61,10 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # git
 GIT_PS1_SHOWDIRTYSTATE=true
-# PS1='\[\033[32m\]\[\033[00m\]\[\033[34m\]\w\[\033[31m\]$(__git_ps1 " [%s]")\[\033[00m\]\$ '
 case "$TERM" in
 	xterm*|rxvt*|putty*|screen*)
-		PS1='${debian_chroot:+($debian_chroot)}\[\e[1;32m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)\$ '
+		# PS1='${debian_chroot:+($debian_chroot)}\[\e[1;32m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)\$ '
+		PS1='${debian_chroot:+($debian_chroot)}\[\e[1;34m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)$(if [ `jobs|wc -l` -ne 0 ]; then echo "["`jobs|wc -l`"]"|tr -d " "; fi) \$ '
 		;;
 	*)
 		PS1='${debian_chroot:+($debian_chroot)}[$(date +%H:%M:%S)(\#)]\u@\h:\w\$ '
