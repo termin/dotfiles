@@ -11,10 +11,10 @@ export SUDO_EDITOR=/usr/local/bin/vim
 # source /usr/local/Cellar/coreutils/8.15/aliases
 # PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 export LESS="-MR"
-if which gls > /dev/null; then
-	alias ls='gls -F --color=always'
-fi
-# alias ls='ls -FG'
+# if which gls > /dev/null; then
+	# alias ls='gls -F --color=always'
+# fi
+alias ls='ls -FG'
 alias l='ls'
 alias ll='ls -lh'
 alias la='ls -A'
