@@ -30,6 +30,11 @@
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
 
+" let s:tmp = &runtimepath
+" set all&
+" let &runtimepath = s:tmp
+" unlet s:tmp
+
 " 設定されているautocmdをクリア.
 " TODO: augroupで書き換えたい.
 autocmd!
