@@ -5,8 +5,10 @@ export PATH=~/bin:$PATH
 # readlineのC-sを使える様に
 stty stop undef
 
-export EDITOR=/usr/local/bin/vim
-export SUDO_EDITOR=/usr/local/bin/vim
+if [ -x /usr/local/bin/vim ]; then
+	export EDITOR=/usr/local/bin/vim
+	export SUDO_EDITOR=/usr/local/bin/vim
+fi
 
 # source /usr/local/Cellar/coreutils/8.15/aliases
 # PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
@@ -39,15 +41,32 @@ if which brew > /dev/null; then
 		# . $(brew --prefix)/etc/bash_completion
 	# fi
 
+	# bash_completion2
+	if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+		. $(brew --prefix)/share/bash-completion/bash_completion
+	fi
+
 	# cf. 『bash_completionで「-bash: __git_ps1: command not found」となった時の対処法 - くりにっき』 http://sue445.hatenablog.com/entry/2012/08/30/005627
 	# if [ -f $(brew --prefix)/etc/bash_completion.d/git-prompt.sh ]; then
 		# source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
 	# fi
 
-	# bash_completion2
-	if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
-		. $(brew --prefix)/share/bash-completion/bash_completion
-	fi
+	# if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+		# GIT_PROMPT_THEME=Default
+		# source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+	# fi
+
+	# git
+	# GIT_PS1_SHOWDIRTYSTATE=true
+	# case "$TERM" in
+		# xterm*|rxvt*|putty*|screen*)
+			# # PS1='${debian_chroot:+($debian_chroot)}\[\e[1;32m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)\$ '
+			# PS1='${debian_chroot:+($debian_chroot)}\[\e[1;34m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)$(if [ \j -ne 0 ]; then echo "[\j]"; fi)\$ '
+			# ;;
+		# *)
+			# PS1='${debian_chroot:+($debian_chroot)}[$(date +%H:%M:%S)(\#)]\u@\h:\w\$ '
+			# ;;
+	# esac
 
 	# z.sh
 	_Z_CMD=j
@@ -59,24 +78,12 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 # To use Homebrew's directories rather than ~/.rbenv add to your profile:
 # export RBENV_ROOT=/usr/local/opt/rbenv
 
-# git
-GIT_PS1_SHOWDIRTYSTATE=true
-case "$TERM" in
-	xterm*|rxvt*|putty*|screen*)
-		# PS1='${debian_chroot:+($debian_chroot)}\[\e[1;32m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)\$ '
-		PS1='${debian_chroot:+($debian_chroot)}\[\e[1;34m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)$(if [ \j -ne 0 ]; then echo "[\j]"; fi)\$ '
-		;;
-	*)
-		PS1='${debian_chroot:+($debian_chroot)}[$(date +%H:%M:%S)(\#)]\u@\h:\w\$ '
-		;;
-esac
-
 # golang
 export GOPATH="$HOME/gocode"
 export PATH=$PATH:$GOPATH/bin
 
 # Android Development Tools
-export PATH=$PATH:~/Dev/adt/sdk/platform-tools
+export PATH=$HOME/Dev/adt/sdk/tools:$HOME/Dev/adt/sdk/platform-tools:$HOME/Dev/android-ndk-r10b:$PATH
 
 # docker
 export DOCKER_HOST=tcp://:2375
