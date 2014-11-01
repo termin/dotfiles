@@ -153,7 +153,7 @@ nnoremap <M-d> <Nop>
 " let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-plugins_more/"
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
 " let g:plugin_loader_plugins = "stella,unload-tab,loginManager,cookieManager,sbmcommentsviewer,tabsort,reporter,ldrize_cooperation,imageextender,multi_requester,nextlink,tabsort,yetmappings,reporter,google-plus-commando,pluginManager"
-let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,lo,removetabs,toggler,walk-input,zip-de-download,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,x-hint,tab-history,slideshare,migemo_hint,migemo-find"
+let g:plugin_loader_plugins = "_libly,bitly,copy,exopen,feedSomeKeys_3,lo,removetabs,toggler,walk-input,zip-de-download-mod,statusline-toolbar,prevent-pseudo-domain,hatena-bookmark-search,x-hint,tab-history,slideshare,migemo_hint,migemo-find,unload-tab"
 
 " google-translator.js
 " nnoremap <Leader>gt :<C-u>gtrans<Space>
@@ -230,7 +230,7 @@ EOM
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 " Gmail
 lazy fmaps -u='mail\.google\.com/mail' -events=vkeydown,keypress,vkeyup j k
-lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c * / n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb
+lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c * / n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb <C-h>,~ <C-l>,`
 " Livedoor Reader
 lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v c z r f J K < > <Space> <S-Space> <Del> g G,u
 " LDR Full Feed Key Settings
@@ -251,7 +251,7 @@ lazy fmaps -u='^https://speakerdeck\.com/' -events=keydown j,<Right> k,<Left>
 " Twitter
 lazy fmaps -u='^https?://twitter\.com/' -events=vkeydown j k <Enter> ? .
 " Google+
-lazy fmaps -u='^https://plus\.google\.com/' j k o <C-j>,n <C-k>,p <C-r>,r ? <CR> <Right> <Left>
+lazy fmaps -u='^https://plus\.(google|googleapis)\.com/' j k o <C-j>,n <C-k>,p <C-r>,r ? <CR> <Right> <Left>
 " Facebook
 lazy fmaps -u='^https://www\.facebook\.com/' -events=vkeydown j k
 
@@ -320,7 +320,7 @@ noremap <F2> :<C-u>toggle tb<CR>
 " statusline-toolbar.js
 " set statuslinetoolbars=feed-button,voyurl-button,voyurl-button-no
 " lazy set statuslinetoolbars=cookiemonster-status,feed-button,identity-box
-lazy set statuslinetoolbars=feed-button,identity-box
+" lazy set statuslinetoolbars=feed-button,identity-box
 
 " はてなブックマーク拡張( http://subtech.g.hatena.ne.jp/secondlife/20090402/1238655382 )
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
@@ -376,7 +376,7 @@ noremap <S-x> :<C-u>exopen hatenaep<CR>
 " let g:ldrc_captureMappings = "['j','k','p','o','?']"
 
 " autopagerize_control.js
-" let g:autopagerize_prevmap = "K" 
+" let g:autopagerize_prevmap = "K"
 " let g:autopagerize_nextmap = "J"
 
 " lo.js
