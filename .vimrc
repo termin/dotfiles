@@ -153,6 +153,7 @@ autocmd BufNewFile,BufRead *.erb setlocal ts=2 | set sw=2 | set expandtab
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 autocmd BufNewFile,BufRead *.ctp set filetype=php
 autocmd FileType php setlocal ts=4 sw=4 sts=4 noexpandtab
+autocmd FileType cpp setlocal ts=2 sw=2 sts=2 expandtab
 
 "----------------------------------------------------
 " Indent
@@ -294,8 +295,9 @@ inoremap <silent> <C-a> <Esc>I
 filetype off
 if has('vim_starting')
 	set rtp& rtp+=~/.vim/bundle/neobundle.vim/
-	call neobundle#rc(expand('~/.vim/bundle'))
 endif
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'tpope/vim-surround'
 NeoBundle 't9md/vim-surround_custom_mapping'
@@ -338,21 +340,32 @@ NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'oppara/vim-unite-cake'
 
 " おためし {{{
+NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'tacroe/unite-mark'
 NeoBundle 'tpope/vim-rails'
+" NeoBundle 'rhysd/clever-f.vim'
+" NeoBundle 'lambdalisue/vim-gista'
+" NeoBundleLazy 'lambdalisue/vim-gista', {
+			" \ 'autoload': {
+			" \    'commands': ['Gista'],
+			" \    'mappings': '<Plug>(gista-',
+			" \    'unite_sources': 'gista',
+			" \}}
+
 " NeoBundle 'tpope/vim-endwise'
 " NeoBundle 'vim-scripts/ruby-matchit'
 " Rails completion
 " NeoBundle 'taichouchou2/alpaca_complete', {
-			" \ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
-			" \	 'build' : {
-			" \	 'mac' : 'gem install alpaca_complete',
-			" \	 'unix' : 'gem install alpaca_complete',
-			" \}}
+" \ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
+" \	 'build' : {
+" \	 'mac' : 'gem install alpaca_complete',
+" \	 'unix' : 'gem install alpaca_complete',
+" \}}
 NeoBundle 'thinca/vim-unite-history'
 " NeoBundle 'kien/ctrlp.vim'
 " NeoBundle 'Shougo/vimfiler'
 NeoBundle 'thinca/vim-ref'
+" NeoBundle 'tpope/vim-fugitive'
 " }}}
 
 " NeoBundle 'AndrewRadev/switch.vim'
@@ -378,7 +391,9 @@ NeoBundle 'thinca/vim-ref'
 
 " NeoBundle 'git://git.wincent.com/command-t.git'
 
+call neobundle#end()
 filetype plugin indent on
+NeoBundleCheck
 
 " Unite.vim
 " 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
@@ -644,6 +659,9 @@ nnoremap <Leader>ctm :<C-u>Ctestmodel<Space>
 nnoremap <Leader>ctc :<C-u>Ctestcontroller<Space>
 nnoremap <Leader>ctC :<C-u>Ctestcomponent<Space>
 nnoremap <Leader>cf :<C-u>Cfixture<Space>
+
+" vim-gista
+" let g:gista#github_user = "termin"
 
 "----------------------------------------------------
 " Post
