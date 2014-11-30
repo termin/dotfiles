@@ -49,7 +49,7 @@ mapclear
 " Basic
 "----------------------------------------------------
 " vi非互換モード
-set nocompatible
+" set nocompatible " 必要なし&副作用あり cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 " ビープ音を鳴らさない
 set vb t_vb=
 " バックスペースキーで削除できるものを指定
@@ -111,7 +111,6 @@ set laststatus=2					" ステータスラインを常に表示
 set wildmenu						" コマンドライン補完拡張
 set wildmode=list:longest,full
 set matchtime=2						" 対応する括弧の表示時間を2にする
-syntax on							" シンタックスハイライト
 
 augroup HilightZenkakuSpace
 	" 全角スペースを明示
@@ -234,7 +233,7 @@ nmap , <SLeader>
 noremap <F1> <Nop>
 inoremap <F1> <Nop>
 
-" c.f. 『端末の Vim でも Alt キーを使う - 永遠に未完成』 http://d.hatena.ne.jp/thinca/20101215/1292340358
+" cf. 『端末の Vim でも Alt キーを使う - 永遠に未完成』 http://d.hatena.ne.jp/thinca/20101215/1292340358
 if has('mac') && !has('gui_running')
   " Use meta keys in console.
   function! s:use_meta_keys()  " {{{
@@ -348,7 +347,9 @@ NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'oppara/vim-unite-cake'
 
 " おためし {{{
-NeoBundle 'editorconfig/editorconfig-vim'
+" NeoBundle 'editorconfig/editorconfig-vim'
+NeoBundle 'editorconfig/editorconfig-vim', 'v0.3.2'
+" NeoBundle 'editorconfig-vim' " 0.1.0 EditorConfig Plugin for Vim -- helps define and maintain consistent coding style
 NeoBundle 'tacroe/unite-mark'
 NeoBundle 'tpope/vim-rails'
 " NeoBundle 'rhysd/clever-f.vim'
@@ -402,6 +403,7 @@ NeoBundle 'thinca/vim-ref'
 call neobundle#end()
 filetype plugin indent on
 NeoBundleCheck
+syntax on " pluginロード後に設定する cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 
 " Unite.vim
 " 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
