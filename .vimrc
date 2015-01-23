@@ -340,16 +340,15 @@ NeoBundle 'Shougo/vimproc', {
 			\ }
 " NeoBundle 'Shougo/vimshell'
 NeoBundle 'rhysd/migemo-search.vim'
-
+NeoBundle 'editorconfig/editorconfig-vim'
+" NeoBundle 'editorconfig/editorconfig-vim', 'v0.3.2'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'violetyk/cake.vim'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'oppara/vim-unite-cake'
 
 " おためし {{{
-" NeoBundle 'editorconfig/editorconfig-vim'
-NeoBundle 'editorconfig/editorconfig-vim', 'v0.3.2'
-" NeoBundle 'editorconfig-vim' " 0.1.0 EditorConfig Plugin for Vim -- helps define and maintain consistent coding style
+NeoBundle 'solarnz/thrift.vim' " Syntax highlighting for thrift definition files.
 NeoBundle 'tacroe/unite-mark'
 NeoBundle 'tpope/vim-rails'
 " NeoBundle 'rhysd/clever-f.vim'
