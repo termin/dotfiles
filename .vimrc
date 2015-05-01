@@ -263,8 +263,8 @@ nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
 nnoremap <silent> <C-h> :<C-u>tabprevious<CR>
 nnoremap <silent> <C-l> :<C-u>tabnext<CR>
 " nnoremap gr gT
-nnoremap <silent> <Esc><S-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
-nnoremap <silent> <Esc><S-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
+nnoremap <silent> <Esc><S-h> :<C-u>execute 'tabmove' tabpagenr() - 2<CR>
+nnoremap <silent> <Esc><S-l> :<C-u>execute 'tabmove' tabpagenr() + 1<CR>
 nnoremap <silent> g0 :<C-u>tabfirst<CR>
 nnoremap <silent> g9 :<C-u>tablast<CR>
 nnoremap <silent> <C-w>t :<C-u>tabnew<CR>
