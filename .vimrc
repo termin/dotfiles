@@ -161,6 +161,7 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm
 autocmd BufNewFile,BufRead *.ctp set filetype=php
 autocmd FileType php setlocal ts=4 sw=4 sts=4 noexpandtab
 autocmd FileType cpp setlocal ts=2 sw=2 sts=2 expandtab
+set ambiwidth=double
 
 "----------------------------------------------------
 " Indent
@@ -348,7 +349,8 @@ NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'oppara/vim-unite-cake'
 
 " おためし {{{
-NeoBundle 'solarnz/thrift.vim' " Syntax highlighting for thrift definition files.
+NeoBundle 'fatih/vim-go'
+" NeoBundle 'solarnz/thrift.vim' " Syntax highlighting for thrift definition files.
 NeoBundle 'tacroe/unite-mark'
 NeoBundle 'tpope/vim-rails'
 " NeoBundle 'rhysd/clever-f.vim'
@@ -647,9 +649,14 @@ endif
 " ctrlp.vim
 " let g:ctrlp_map = '<C-^>'
 
-" let g:syntastic_mode_map = { 'mode': 'active',
-			" \ 'active_filetypes': ['ruby', 'php'],
-			" \ 'passive_filetypes': ['puppet'] }
+" syntastic
+if neobundle#is_installed('syntastic')
+	let g:syntastic_mode_map = {
+				\ "mode": "active",
+				\ "passive_filetypes": ["go"] }
+	let g:syntastic_go_checkers = ['go', 'golint']
+	nnoremap <Leader>S :<C-u>SyntasticCheck<CR>
+endif
 
 " cake.vim
 let g:cakephp_enable_fix_mode = 1
