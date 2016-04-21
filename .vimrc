@@ -1,4 +1,3 @@
-"for Terminal on Mac / Linux
 "----------------------------------------------------
 " Notice
 "----------------------------------------------------
@@ -340,19 +339,19 @@ NeoBundle 'Shougo/vimproc', {
 			\    },
 			\ }
 " NeoBundle 'Shougo/vimshell'
-NeoBundle 'rhysd/migemo-search.vim'
+" NeoBundle 'rhysd/migemo-search.vim'
 NeoBundle 'editorconfig/editorconfig-vim'
 " NeoBundle 'editorconfig/editorconfig-vim', 'v0.3.2'
-NeoBundle 'basyura/unite-rails'
+" NeoBundle 'basyura/unite-rails'
 NeoBundle 'violetyk/cake.vim'
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'oppara/vim-unite-cake'
+" NeoBundle 'vim-ruby/vim-ruby'
+" NeoBundle 'oppara/vim-unite-cake'
 
 " おためし {{{
-NeoBundle 'fatih/vim-go'
+" NeoBundle 'fatih/vim-go'
 " NeoBundle 'solarnz/thrift.vim' " Syntax highlighting for thrift definition files.
 NeoBundle 'tacroe/unite-mark'
-NeoBundle 'tpope/vim-rails'
+" NeoBundle 'tpope/vim-rails'
 " NeoBundle 'rhysd/clever-f.vim'
 " NeoBundle 'lambdalisue/vim-gista'
 " NeoBundleLazy 'lambdalisue/vim-gista', {
