@@ -95,7 +95,7 @@ nnoremap l <C-n>
 noremap <S-M-Left>  :<C-u>tabmove! -1<CR>
 noremap <S-M-Right> :<C-u>tabmove! +1<CR>
 
-nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
+" nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
 
 " <M-f>でvimpによる検索/
 " noremap <M-f> /\
@@ -145,8 +145,7 @@ nnoremap <M-d> <Nop>
 
 " ----- Plugin Options  -----
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
-" let g:plugin_loader_plugins = "lo,stella,unload-tab,loginManager,cookieManager,sbmcommentsviewer,tabsort,reporter,ldrize_cooperation,imageextender,multi_requester,nextlink,tabsort,yetmappings,reporter,google-plus-commando,pluginManager,migemo_hint,migemo-find,google-exopen"
-let g:plugin_loader_plugins = "_libly,copy,exopen,feedSomeKeys_3,removetabs,toggler,walk-input,zip-de-download-mod,statusline-toolbar,prevent-pseudo-domain,x-hint,tab-history,slideshare,unload-tab,hatenabookmark,hatena-bookmark-search"
+let g:plugin_loader_plugins = "_libly,copy,exopen,feedSomeKeys_3,toggler,walk-input,zip-de-download-mod,prevent-pseudo-domain,slideshare,unload-tab,hatenabookmark"
 
 " copy.js
 noremap <M-S-c> :<C-u>copy tw<CR>
@@ -198,9 +197,9 @@ nnoremap -urls 'www\.slideshare\.net' F :slideshare fullscreen<CR>
 
 " removetabs.js
 " 左側にあるタブを閉じる
-noremap <C-S-Left> :<C-u>removetabsleft
+" noremap <C-S-Left> :<C-u>removetabsleft
 " 右側にあるタブを閉じる
-noremap <C-S-Right> :<C-u>removetabsright
+" noremap <C-S-Right> :<C-u>removetabsright
 
 " toggler.js
 js <<EOM
@@ -254,9 +253,6 @@ nnoremap c :<C-u>hbt<Space>
 " urlのみ対象
 " noremap <Leader>cu :<C-u>hbtu<Space>
 
-" hatena-bookmark-search.js
-nnoremap <Leader>c :<C-u>bs<Space>
-
 " entry_pageを表示する( exopen.js )
 javascript <<EOM
 liberator.globalVariables.exopen_templates = [
@@ -268,14 +264,6 @@ liberator.globalVariables.exopen_templates = [
 }];
 EOM
 noremap <S-x> :<C-u>exopen hatenaep<CR>
-
-" lo.js
-" noremap <S-C-f> :<C-u>fo<Space>
-" noremap <S-C-l> :<C-u>lo<Space>
-
-" tab-history.js
-nnoremap < :tabh back<CR>
-nnoremap > :tabh forward<CR>
 
 " zip-de-download.js
 let g:zipDownloadDir = "~/Desktop"
