@@ -185,16 +185,6 @@ set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 
-
-" 『Vimで 保存した UTF-8 なファイルが Quick Look で見られない問題に対処する - ヤルキデナイズドだった』 http://d.hatena.ne.jp/uasi/20110523/1306079612
-" au BufWritePost * call SetUTF8Xattr(expand("<afile>"))
-" function! SetUTF8Xattr(file)
-	" let isutf8 = &fileencoding == "utf-8" || ( &fileencoding == "" && &encoding == "utf-8")
-	" if has("unix") && match(system("uname"),'Darwin') != -1
-		" call system("xattr -w com.apple.TextEncoding 'utf-8;134217984' '" . a:file . "'")
-	" endif
-" endfunction
-
 "----------------------------------------------------
 " Key Mapping
 "----------------------------------------------------
