@@ -21,7 +21,7 @@ mapclear
 " Basic
 "----------------------------------------------------
 " vi非互換モード
-set nocompatible
+" set nocompatible " 必要なし&副作用あり cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 " ビープ音を鳴らさない
 set vb t_vb=
 " バックスペースキーで削除できるものを指定
@@ -29,7 +29,7 @@ set backspace=indent,eol,start
 " 共有クリップボードを使う
 " set clipboard+=unnamed
 " ヘルプドキュメントの検索順
-" set helplang=ja
+set helplang=ja
 " バッファを切替えてもundoの効力を失わない
 set hidden
 " 改行コードの自動認識
@@ -44,17 +44,17 @@ set keywordprg=:help
 set notagbsearch
 
 " windowの境界だけマウスホイールで変えたい
-if has('mouse')
-	set mouse& mouse+=a
-	" map <ScrollWheelUp> <Nop>
-	" map <ScrollWheelDown> <Nop>
-	map <S-ScrollWheelUp> <Nop>
-	map <S-ScrollWheelDown> <Nop>
-	map <C-ScrollWheelUp> <Nop>
-	map <C-ScrollWheelDown> <Nop>
-	map <M-ScrollWheelUp> <Nop>
-	map <M-ScrollWheelDown> <Nop>
-endif
+" if has('mouse')
+	" set mouse& mouse+=a
+	" " map <ScrollWheelUp> <Nop>
+	" " map <ScrollWheelDown> <Nop>
+	" map <S-ScrollWheelUp> <Nop>
+	" map <S-ScrollWheelDown> <Nop>
+	" map <C-ScrollWheelUp> <Nop>
+	" map <C-ScrollWheelDown> <Nop>
+	" map <M-ScrollWheelUp> <Nop>
+	" map <M-ScrollWheelDown> <Nop>
+" endif
 
 "----------------------------------------------------
 " Backup
@@ -79,15 +79,24 @@ set title							" 編集中のファイル名を表示
 set ruler							" ルーラーを表示
 set showcmd							" 入力中のコマンドをステータスに表示する
 set showmatch						" 括弧入力時の対応する括弧を表示
+set matchtime=2						" showmatchの表示時間
 set laststatus=2					" ステータスラインを常に表示
 set wildmenu						" コマンドライン補完拡張
 set wildmode=list:longest,full
-set matchtime=2						" 対応する括弧の表示時間を2にする
 syntax on							" シンタックスハイライト
 
-" 全角スペースを明示
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-match ZenkakuSpace /　/
+augroup HilightZenkakuSpace
+	" 全角スペースを明示
+	autocmd!
+	highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+	autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+augroup END
+
+augroup HilightTrailingSpace
+	autocmd!
+	highlight TrailingSpace ctermbg=darkred guibg=darkred
+	autocmd VimEnter,WinEnter * match TrailingSpace /\s\+$/
+augroup END
 
 " ステータスラインに表示する情報の指定
 set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>
@@ -100,12 +109,14 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 " ステータスラインの色
 " highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 
+" autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
+" set foldmethod=marker
+
 "----------------------------------------------------
 " Search
 "----------------------------------------------------
 set ignorecase						" 検索の時に大文字小文字を区別しない
 set smartcase						" 検索の時に大文字が含まれている場合は区別して検索する
-set wrapscan						" 最後まで検索したら先頭に戻る
 set incsearch						" インクリメンタルサーチを使う
 set hlsearch						" 検索結果文字列のハイライト表示
 set history=100						" コマンド、検索パターンを100個まで履歴に残す
@@ -116,14 +127,13 @@ set history=100						" コマンド、検索パターンを100個まで履歴に
 filetype plugin indent on " ファイルタイプ判定をon
 " autocmd BufNewFile *.rb 0r ~/.vim/template/skeleton.ruby
 " autocmd FileType ruby setlocal ts=2 | set sw=2 | set expandtab | let ruby_space_errors = 1
-" autocmd BufNewFile,BufRead *.yaml set filetype=ruby
 " autocmd BufNewFile,BufRead *.erb setlocal ts=2 | set sw=2 | set expandtab
-" autocmd FileType yaml setlocal filetype=ruby
 " ファイルを開いた際に、前回終了時の行で起動
 " autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 autocmd BufNewFile,BufRead *.ctp set filetype=php
 autocmd FileType php setlocal ts=4 sw=4 sts=4 noexpandtab
-
+" autocmd FileType cpp setlocal ts=2 sw=2 sts=2 expandtab
+set ambiwidth=double
 " autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
 
 "----------------------------------------------------
@@ -153,6 +163,8 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 
 " au BufWritePost * call SetUTF8Xattr(expand("<afile>"))
 
+" 『Vimで 保存した UTF-8 なファイルが Quick Look で見られない問題に対処する - ヤルキデナイズドだった』 http://d.hatena.ne.jp/uasi/20110523/1306079612
+" au BufWritePost * call SetUTF8Xattr(expand("<afile>"))
 " function! SetUTF8Xattr(file)
 	" let isutf8 = &fileencoding == "utf-8" || ( &fileencoding == "" && &encoding == "utf-8")
 	" if has("unix") && match(system("uname"),'Darwin') != -1
@@ -171,30 +183,53 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 "
 " TODO:
 " Mac Terminal.appの場合
-" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする. → 今は再現しないけど...
+" <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " <Right>, <Left> 等はどうやっても使えない感じ.
-" <M-x>は, <Esc>x でもイケる！ <Esc><C-x>とか.
+" <M-x>は, <Esc>x で代用. <Esc><C-x>とか.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
 
 " TODO: Metaを使いたくて出来なかったキーを<Esc>で記述する.
 
-" *後で何かに割り当てるKey
-" CTRL-G CTRL-K CTRL-N CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
+" 後で何かに割り当てたい気がする
+" CTRL-G CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
 
 " omapを使って整理したい様な気がする.
 
-" *確認したい
+" 確認したい
 " i_CTRL-X_CTRL_{x} なキーバインドについて確認.
 
-" *使う
+" 使う
 " i_CTRL-X_CTRL-L
 " mark: m{a-zA-Z} , call: '{a-zA-Z}
 " Exモード(連続コマンド): Q or gQ :vi[sual]で抜ける.
 
 let mapleader = ";"
-nnoremap <SLeader> <Nop>
-nmap , <SLeader>
 
+noremap <F1> <Nop>
+inoremap <F1> <Nop>
+
+" cf. 『端末の Vim でも Alt キーを使う - 永遠に未完成』 http://d.hatena.ne.jp/thinca/20101215/1292340358
+if has('mac') && !has('gui_running')
+  " Use meta keys in console.
+  function! s:use_meta_keys()  " {{{
+    for i in map(
+    \   range(char2nr('a'), char2nr('z'))
+    \ + range(char2nr('A'), char2nr('Z'))
+    \ + range(char2nr('0'), char2nr('9'))
+    \ , 'nr2char(v:val)')
+      " <ESC>O do not map because used by arrow keys.
+      if i != 'O'
+        execute 'nmap <ESC>' . i '<M-' . i . '>'
+      endif
+    endfor
+  endfunction  " }}}
+
+  call s:use_meta_keys()
+  " map <NUL> <C-Space>
+  " map! <NUL> <C-Space>
+endif
+
+" let $MYVIMRC = ""
 nnoremap <Leader>hh :<C-u>tabnew<CR>:h<Space>
 nnoremap <Leader>he :<C-u>tabnew<CR>:e $MYVIMRC<CR>
 nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
@@ -203,12 +238,10 @@ nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
 nnoremap <silent> <C-h> :<C-u>tabprevious<CR>
 nnoremap <silent> <C-l> :<C-u>tabnext<CR>
 " nnoremap gr gT
-nnoremap <silent> <Esc><S-h> :<C-u>execute 'tabmove' tabpagenr() -2<CR>
-nnoremap <silent> <Esc><S-l> :<C-u>execute 'tabmove' tabpagenr()<CR>
+nnoremap <silent> <Esc><S-h> :<C-u>execute 'tabmove' tabpagenr() - 2<CR>
+nnoremap <silent> <Esc><S-l> :<C-u>execute 'tabmove' tabpagenr() + 1<CR>
 nnoremap <silent> g0 :<C-u>tabfirst<CR>
 nnoremap <silent> g9 :<C-u>tablast<CR>
-" tmuxで<C-t>をprefix keyに使う様になったので退避
-" nnoremap <silent> <C-w><C-t> :<C-u>tabnew<CR>
 nnoremap <silent> <C-w>t :<C-u>tabnew<CR>
 noremap <C-j> 5j
 noremap <C-k> 5k
@@ -238,13 +271,10 @@ inoremap <silent> <C-a> <Esc>I
 " inoremap <silent> <C-e> <Esc>A
 
 "----------------------------------------------------
-" Plugins
-"----------------------------------------------------
-"----------------------------------------------------
 " Post
 "----------------------------------------------------
 " 環境依存の設定
-" if filereadable(expand('~/.vimrc.local'))
-	" source ~/.vimrc.local
-" endif
+if filereadable(expand('~/.vimrc.local'))
+	source ~/.vimrc.local
+endif
 

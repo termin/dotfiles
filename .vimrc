@@ -71,17 +71,17 @@ set keywordprg=:help
 set notagbsearch
 
 " windowの境界だけマウスホイールで変えたい
-if has('mouse')
-	set mouse& mouse+=a
-	" map <ScrollWheelUp> <Nop>
-	" map <ScrollWheelDown> <Nop>
-	map <S-ScrollWheelUp> <Nop>
-	map <S-ScrollWheelDown> <Nop>
-	map <C-ScrollWheelUp> <Nop>
-	map <C-ScrollWheelDown> <Nop>
-	map <M-ScrollWheelUp> <Nop>
-	map <M-ScrollWheelDown> <Nop>
-endif
+" if has('mouse')
+	" set mouse& mouse+=a
+	" " map <ScrollWheelUp> <Nop>
+	" " map <ScrollWheelDown> <Nop>
+	" map <S-ScrollWheelUp> <Nop>
+	" map <S-ScrollWheelDown> <Nop>
+	" map <C-ScrollWheelUp> <Nop>
+	" map <C-ScrollWheelDown> <Nop>
+	" map <M-ScrollWheelUp> <Nop>
+	" map <M-ScrollWheelDown> <Nop>
+" endif
 
 "----------------------------------------------------
 " Backup
@@ -106,10 +106,10 @@ set title							" 編集中のファイル名を表示
 set ruler							" ルーラーを表示
 set showcmd							" 入力中のコマンドをステータスに表示する
 set showmatch						" 括弧入力時の対応する括弧を表示
+set matchtime=2						" showmatchの表示時間
 set laststatus=2					" ステータスラインを常に表示
 set wildmenu						" コマンドライン補完拡張
 set wildmode=list:longest,full
-set matchtime=2						" 対応する括弧の表示時間を2にする
 
 augroup HilightZenkakuSpace
 	" 全角スペースを明示
@@ -143,7 +143,6 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 "----------------------------------------------------
 set ignorecase						" 検索の時に大文字小文字を区別しない
 set smartcase						" 検索の時に大文字が含まれている場合は区別して検索する
-set wrapscan						" 最後まで検索したら先頭に戻る
 set incsearch						" インクリメンタルサーチを使う
 set hlsearch						" 検索結果文字列のハイライト表示
 set history=100						" コマンド、検索パターンを100個まで履歴に残す
@@ -213,9 +212,10 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
 
 " TODO: Metaを使いたくて出来なかったキーを<Esc>で記述する.
-"
+
 " 後で何かに割り当てたい気がする
 " CTRL-G CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
+
 " omapを使って整理したい様な気がする.
 
 " 確認したい
@@ -227,8 +227,6 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 " Exモード(連続コマンド): Q or gQ :vi[sual]で抜ける.
 
 let mapleader = ";"
-nnoremap <SLeader> <Nop>
-nmap , <SLeader>
 
 noremap <F1> <Nop>
 inoremap <F1> <Nop>
