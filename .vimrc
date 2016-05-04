@@ -286,111 +286,99 @@ inoremap <silent> <C-a> <Esc>I
 "----------------------------------------------------
 " Plugins
 "----------------------------------------------------
-" neobundle.vim
-filetype off
-if has('vim_starting')
-	set rtp& rtp+=~/.vim/bundle/neobundle.vim/
+" dein.vim
+if &compatible
+	set nocompatible
 endif
-call neobundle#begin(expand('~/.vim/bundle/'))
-NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'tpope/vim-surround'
-NeoBundle 't9md/vim-surround_custom_mapping'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'Shougo/neocomplete'
-" NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'tsukkee/unite-help'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'soh335/unite-qflist'
-" NeoBundle 'sgur/unite-qf'
-" NeoBundle 'ujihisa/quickrun'
-NeoBundle 'tyru/current-func-info.vim'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'vim-jp/vimdoc-ja'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle "osyo-manga/vim-textobj-multiblock", {
-			\ 'depends' : "kana/vim-textobj-user"
-			\ }
-NeoBundle 'chrisbra/SudoEdit.vim'
-NeoBundle 'renamer.vim'
-" vimshell, unite-source-grep の使用にvimprocが必要.
-NeoBundle 'Shougo/vimproc', {
-			\ 'build' : {
-			\     'windows' : 'make -f make_mingw32.mak',
-			\     'cygwin' : 'make -f make_cygwin.mak',
-			\     'mac' : 'make -f make_mac.mak',
-			\     'unix' : 'make -f make_unix.mak',
-			\    },
-			\ }
-" NeoBundle 'Shougo/vimshell'
-" NeoBundle 'rhysd/migemo-search.vim'
-NeoBundle 'editorconfig/editorconfig-vim'
-" NeoBundle 'editorconfig/editorconfig-vim', 'v0.3.2'
-" NeoBundle 'basyura/unite-rails'
-NeoBundle 'violetyk/cake.vim'
-" NeoBundle 'vim-ruby/vim-ruby'
-" NeoBundle 'oppara/vim-unite-cake'
+set runtimepath^=~/.vim/bundle/repos/github.com/Shougo/dein.vim
+let s:dein_dir = expand('~/.vim/bundle')
+if dein#load_state(s:dein_dir)
+call dein#begin(s:dein_dir)
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/vimproc', {'build': 'make'})
+call dein#add('editorconfig/editorconfig-vim')
+call dein#add('tpope/vim-surround')
+call dein#add('t9md/vim-surround_custom_mapping')
+call dein#add('scrooloose/nerdcommenter')
+call dein#add('Shougo/neocomplete', {
+			\ 'on_event': 'InsertEnter',
+			\ 'lazy': 1
+			\ })
+call dein#add('Shougo/neosnippet', {'depends': 'Shougo/vimproc'})
+" call dein#add('Shougo/neosnippet', {
+			" \ 'depends': 'Shougo/vimproc',
+			" \ 'on_event': 'InsertEnter',
+			" \ 'on_ft': 'snippet'
+			" \ })
+call dein#add('Shougo/neosnippet-snippets', {'depends': 'Shougo/neosnippet'})
+call dein#add('Shougo/unite.vim', {
+			\ 'depends': 'Shougo/vimproc',
+			\ 'on_cmd': ['Unite'],
+			\ 'lazy': 1})
+call dein#add('Shougo/unite-outline', {'depends': ['Shougo/unite.vim', 'Shougo/vimproc']})
+call dein#add('tsukkee/unite-help', {'depends': ['Shougo/unite.vim', 'Shougo/vimproc']})
+call dein#add('thinca/vim-quickrun')
+call dein#add('soh335/unite-qflist', {'depends': 'Shougo/unite.vim'})
+" call dein#add('sgur/unite-qf', {'depends': 'Shougo/unite.vim'})
+" call dein#add('ujihisa/quickrun')
+call dein#add('tyru/current-func-info.vim')
+call dein#add('scrooloose/syntastic')
+call dein#add('vim-jp/vimdoc-ja')
+call dein#add('nathanaelkane/vim-indent-guides')
+call dein#add('kana/vim-textobj-user')
+call dein#add('osyo-manga/vim-textobj-multiblock', {'depends': 'kana/vim-textobj-user'})
+" call dein#add('chrisbra/SudoEdit.vim')
+call dein#add('renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
+" call dein#add('Shougo/vimshell', {'depends': 'Shougo/vimproc'})
+" call dein#add('rhysd/migemo-search.vim')
+" call dein#add('basyura/unite-rails', {'depends': 'Shougo/unite.vim'})
+" call dein#add('vim-ruby/vim-ruby')
+call dein#add('violetyk/cake.vim', {'depends': 'Shougo/vimproc'})
+" call dein#add('oppara/vim-unite-cake', {'depends': 'Shougo/unite.vim'})
 
 " おためし {{{
-" NeoBundle 'fatih/vim-go'
-" NeoBundle 'solarnz/thrift.vim' " Syntax highlighting for thrift definition files.
-NeoBundle 'tacroe/unite-mark'
-" NeoBundle 'tpope/vim-rails'
-" NeoBundle 'rhysd/clever-f.vim'
-" NeoBundle 'lambdalisue/vim-gista'
-" NeoBundleLazy 'lambdalisue/vim-gista', {
-			" \ 'autoload': {
-			" \    'commands': ['Gista'],
-			" \    'mappings': '<Plug>(gista-',
-			" \    'unite_sources': 'gista',
-			" \}}
+" call dein#add('fatih/vim-go')
+" call dein#add('solarnz/thrift.vim') " Syntax highlighting for thrift definition files.
+call dein#add('tacroe/unite-mark', {'depends': 'Shougo/unite.vim'})
+" call dein#add('tpope/vim-rails')
+" call dein#add('rhysd/clever-f.vim')
 
-" NeoBundle 'tpope/vim-endwise'
-" NeoBundle 'vim-scripts/ruby-matchit'
-" Rails completion
-" NeoBundle 'taichouchou2/alpaca_complete', {
-" \ 'depends' : [ 'tpope/vim-rails', 'Shougo/neocomplcache'],
-" \	 'build' : {
-" \	 'mac' : 'gem install alpaca_complete',
-" \	 'unix' : 'gem install alpaca_complete',
-" \}}
-NeoBundle 'thinca/vim-unite-history'
-" NeoBundle 'kien/ctrlp.vim'
-" NeoBundle 'Shougo/vimfiler'
-NeoBundle 'thinca/vim-ref'
-" NeoBundle 'tpope/vim-fugitive'
+" call dein#add('tpope/vim-endwise')
+" call dein#add('vim-scripts/ruby-matchit')
+" call dein#add('thinca/vim-unite-history', {'depends': 'Shougo/unite.vim'})
+" call dein#add('kien/ctrlp.vim')
+" call dein#add('Shougo/vimfiler')
+" call dein#add('thinca/vim-ref')
+" call dein#add('tpope/vim-fugitive')
 " }}}
 
-" NeoBundle 'AndrewRadev/switch.vim'
-" NeoBundle 'Lokaltog/vim-easymotion'
-" NeoBundle 'Shougo/echodoc'
-" NeoBundle 'grep.vim'
-" NeoBundle 'hsitz/VimOrganizer'
-" NeoBundle 'hz_ja.vim'
-" NeoBundle 'jceb/vim-orgmode'
-" NeoBundle 'kana/vim-grex'
-" NeoBundle 'kana/vim-operator-replace'
-" NeoBundle 'kana/vim-operator-user'
-" NeoBundle 'mattn/benchvimrc-vim'
-" NeoBundle 'smartchr'
-" NeoBundle 'smartword'
-" NeoBundle 'sudo.vim'
-" NeoBundle 'taglist.vim'
-" NeoBundle 'thinca/vim-visualstar'
-" NeoBundle 'tyru/caw.vim'
-" NeoBundle 'tyru/operator-star.vim' " dependent for: visualstar, operator-user
-" NeoBundle 'ujihisa/unite-colorscheme'
-" NeoBundle 'vim-fugitive'
+" call dein#add('AndrewRadev/switch.vim')
+" call dein#add('Lokaltog/vim-easymotion')
+" call dein#add('grep.vim')
+" call dein#add('hsitz/VimOrganizer')
+" call dein#add('hz_ja.vim')
+" call dein#add('kana/vim-grex')
+" call dein#add('kana/vim-operator-replace')
+" call dein#add('kana/vim-operator-user')
+" call dein#add('mattn/benchvimrc-vim')
+" call dein#add('smartchr')
+" call dein#add('smartword')
+" call dein#add('sudo.vim')
+" call dein#add('taglist.vim')
+" call dein#add('thinca/vim-visualstar')
+" call dein#add('tyru/caw.vim')
+" call dein#add('tyru/operator-star.vim') " dependent for: visualstar, operator-user
+" call dein#add('ujihisa/unite-colorscheme', {'depends': 'Shougo/unite.vim'})
 
-" NeoBundle 'git://git.wincent.com/command-t.git'
+call dein#end()
+call dein#save_state()
+endif " /load_state()
 
-call neobundle#end()
 filetype plugin indent on
-NeoBundleCheck
+if dein#check_install()
+  call dein#install()
+endif
 syntax on " pluginロード後に設定する cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 
 " Unite.vim
@@ -398,78 +386,73 @@ syntax on " pluginロード後に設定する cf. 『vimrcアンチパターン 
 " -auto-preview はそれなりに重いので慎重に.
 " -no-quit -vertical g:unite_winwidth -buffer-name
 " dotfileを表示するには
-nnoremap su :map [unite]<CR>
-nnoremap [unite] <Nop>
-nmap U [unite]
-nnoremap [unite]U :<C-u>Unite<Space>
-nnoremap <silent> [unite]S :<C-u>Unite source<CR>
-nnoremap <silent> [unite]F :<C-u>Unite file -vertical -winwidth=60 -no-quit<CR>
-nnoremap [unite]IF :<C-u>Unite file -vertical -no-quit -winwidth=
-nnoremap <silent> [unite]f :<C-u>Unite file<CR>
+if dein#tap('unite.vim')
+	nnoremap su :map [unite]<CR>
+	nnoremap [unite] <Nop>
+	nmap U [unite]
+	nnoremap [unite]U :<C-u>Unite<Space>
+	nnoremap <silent> [unite]S :<C-u>Unite source<CR>
+	nnoremap <silent> [unite]F :<C-u>Unite file -vertical -winwidth=60 -no-quit<CR>
+	nnoremap [unite]IF :<C-u>Unite file -vertical -no-quit -winwidth=
+	nnoremap <silent> [unite]f :<C-u>Unite file<CR>
 
-nnoremap <silent> [unite]A :<C-u>Unite buffer bookmark file file_mru<CR>
-nnoremap <silent> [unite]B :<C-u>Unite bookmark file_mru<CR>
-nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]M :<C-u>Unite file_mru<CR>
-nnoremap <silent> [unite]T :<C-u>Unite tab<CR>
+	nnoremap <silent> [unite]A :<C-u>Unite buffer bookmark file file_mru<CR>
+	nnoremap <silent> [unite]B :<C-u>Unite bookmark file_mru<CR>
+	nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+	nnoremap <silent> [unite]M :<C-u>Unite file_mru<CR>
+	nnoremap <silent> [unite]T :<C-u>Unite tab<CR>
 
-" TODO: Unite grepでファイルを開くとnewfileとなってしまう場合が多い(というかほとんど).困る.
-nnoremap <silent> [unite]G :<C-u>Unite grep -no-quit<CR>
-nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
-" TODO: -auto-preview で新たなwindowを表示するのが邪魔. 既に開いているbufferを使いたい.
-nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview -winheight=15<CR>
-" nnoremap <silent> /  :<C-u>Unite -buffer-name=search line -start-insert -no-quit<CR>
-nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
-" nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
-nnoremap [unite]h :<C-u>Unite history/
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-" unite rails
-nnoremap [unite]RR :<C-u>Unite -vertical -winwidth=60 -no-quit rails/
-nnoremap <silent>[unite]RM :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/model<CR>
-nnoremap <silent>[unite]RC :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/controller<CR>
-nnoremap <silent>[unite]Rc :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/config<CR>
-nnoremap <silent>[unite]RV :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/view<CR>
-nnoremap <silent>[unite]RH :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/helper<CR>
-nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit<CR>
-nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=60 -no-quit<CR>
-nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
-nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=60 -no-quit<CR>
-nnoremap <silent> [unite]Wb :<C-u>UniteWithBufferDir file file_mru<CR>
-" nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir -prompt=%\  buffer file_mru bookmark file<CR>
+	" TODO: Unite grepでファイルを開くとnewfileとなってしまう場合が多い(というかほとんど).困る.
+	nnoremap <silent> [unite]G :<C-u>Unite grep -no-quit<CR>
+	nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
+	" TODO: -auto-preview で新たなwindowを表示するのが邪魔. 既に開いているbufferを使いたい.
+	nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview -winheight=15<CR>
+	" nnoremap <silent> /  :<C-u>Unite -buffer-name=search line -start-insert -no-quit<CR>
+	nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
+	" nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
+	nnoremap [unite]h :<C-u>Unite history/
+	nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+	" unite rails
+	nnoremap [unite]RR :<C-u>Unite -vertical -winwidth=60 -no-quit rails/
+	nnoremap <silent>[unite]RM :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/model<CR>
+	nnoremap <silent>[unite]RC :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/controller<CR>
+	nnoremap <silent>[unite]Rc :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/config<CR>
+	nnoremap <silent>[unite]RV :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/view<CR>
+	nnoremap <silent>[unite]RH :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/helper<CR>
+	nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit<CR>
+	nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=60 -no-quit<CR>
+	nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
+	nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=60 -no-quit<CR>
+	nnoremap <silent> [unite]Wb :<C-u>UniteWithBufferDir file file_mru<CR>
+	" nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir -prompt=%\  buffer file_mru bookmark file<CR>
 
-let g:unite_cursor_line_highlight = 'TabLineSel'
-" let g:unite_winwidth = 60
-" let g:unite_abbr_highlight = 'TabLine'
-autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings() "{{{
-	" CTRL-hをhで代替したい
-	imap <buffer> jj <Plug>(unite_insert_leave)
-	nmap <buffer> h <Plug>(unite_delete_backward_path)
-	nmap <buffer> l <Plug>(unite_narrowing_path)
-	" TODO: nmap l "ディレクトリ掘る" をしてみたけれど使いづらいかも...
-	" <S-m>も使いたいかも.
-	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-	nmap <buffer> <C-h> :<C-u>tabprevious<CR>
-	nmap <buffer> <C-l> :<C-u>tabnext<CR>
-	" nmap <silent> <buffer> <expr> <C-p> unite#do_action('vsplit')
-	" imap <silent> <buffer> <expr> <C-p> unite#do_action('vsplit')
+	let g:unite_cursor_line_highlight = 'TabLineSel'
+	" let g:unite_winwidth = 60
+	" let g:unite_abbr_highlight = 'TabLine'
+	autocmd FileType unite call s:unite_my_settings()
+	function! s:unite_my_settings() "{{{
+		" CTRL-hをhで代替したい
+		imap <buffer> jj <Plug>(unite_insert_leave)
+		nmap <buffer> h <Plug>(unite_delete_backward_path)
+		nmap <buffer> l <Plug>(unite_narrowing_path)
+		" TODO: nmap l "ディレクトリ掘る" をしてみたけれど使いづらいかも...
+		" <S-m>も使いたいかも.
+		imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+		nmap <buffer> <C-h> :<C-u>tabprevious<CR>
+		nmap <buffer> <C-l> :<C-u>tabnext<CR>
+		" nmap <silent> <buffer> <expr> <C-p> unite#do_action('vsplit')
+		" imap <silent> <buffer> <expr> <C-p> unite#do_action('vsplit')
 
-	" <C-l>: manual neocomplete completion.
-	" inoremap <buffer> <C-l> <C-x><C-u><C-p><Down>
+		" <C-l>: manual neocomplete completion.
+		" inoremap <buffer> <C-l> <C-x><C-u><C-p><Down>
 
-	" Start insert.
-	"let g:unite_enable_start_insert = 1
-endfunction "}}}
-
-" vim-rails
-if neobundle#is_installed('vim-rails')
-	nnoremap <leader>rc :<C-u>Rcontroller<Space>
-	nnoremap <leader>rm :<C-u>Rmodel<Space>
-	nnoremap <leader>rv :<C-u>Rview<Space>
+		" Start insert.
+		"let g:unite_enable_start_insert = 1
+	endfunction "}}}
 endif
 
 " neocomplete.vim
-if neobundle#is_installed('neocomplete')
+if dein#tap('neocomplete')
 	let g:neocomplete#enable_at_startup = 1
 	let g:neocomplete#enable_smart_case = 1
 	" let g:neocomplete#enable_prefetch=0
@@ -534,7 +517,7 @@ if neobundle#is_installed('neocomplete')
 endif
 
 " neosnippet
-if neobundle#is_installed('neosnippet')
+if dein#tap('neosnippet')
 	let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets'
 	imap <C-l> <Plug>(neosnippet_expand_or_jump)
 	smap <C-l> <Plug>(neosnippet_expand_or_jump)
@@ -549,95 +532,111 @@ if neobundle#is_installed('neosnippet')
 endif
 
 " SudoEdit.vim, sudo.vim
-command! WS SudoWrite %
+if dein#tap('SudoEdit.vim')
+	command! WS SudoWrite %
+endif
 
 " vim-surround.vim
-let g:surround_no_mappings = 1
-" ds:  delete a surrounding.
-" cs:  change a surrounding.
-" ys:  add a surrounding.
-" yS:  add a surrounding. 改行とインデントを含む.
-" yss: ただの行囲み.
-" {
-	" ySS: 行囲み. 改行とインデントを含む. こんなかんじ.
-	" ySs: ySSと同じ.
-" }
-nmap ds <Plug>Dsurround
-nmap cs <Plug>Csurround
-nmap ys <Plug>Ysurround
-nmap yS <Plug>YSurround
-nmap yss <Plug>Yssurround
-" ySSと同じ.
-" nmap ySs <Plug>YSsurround
-nmap ySS <Plug>YSsurround
-vmap S <Plug>VSurround
+if dein#tap('vim-surround')
+	let g:surround_no_mappings = 1
+	" ds:  delete a surrounding.
+	" cs:  change a surrounding.
+	" ys:  add a surrounding.
+	" yS:  add a surrounding. 改行とインデントを含む.
+	" yss: ただの行囲み.
+	" {
+		" ySS: 行囲み. 改行とインデントを含む. こんなかんじ.
+		" ySs: ySSと同じ.
+	" }
+	nmap ds <Plug>Dsurround
+	nmap cs <Plug>Csurround
+	nmap ys <Plug>Ysurround
+	nmap yS <Plug>YSurround
+	nmap yss <Plug>Yssurround
+	" ySSと同じ.
+	" nmap ySs <Plug>YSsurround
+	nmap ySS <Plug>YSsurround
+	vmap S <Plug>VSurround
 
-" let g:surround_{char2nr("p")} = "<?php \r ?>"
-" let g:surround_{char2nr("[")} = "['\r']"
-" let g:surround_{char2nr("a")} = "array('\r')"
-" let g:surround_{char2nr("v")} = "var_dump(\r);"
-" let g:surround_{char2nr("d")} = "debug(\r);"
-" let g:surround_{char2nr("c")} = "<!-- \r -->"
-" let g:surround_{char2nr("C")} = "/* \r */"
+	" let g:surround_{char2nr("p")} = "<?php \r ?>"
+	" let g:surround_{char2nr("[")} = "['\r']"
+	" let g:surround_{char2nr("a")} = "array('\r')"
+	" let g:surround_{char2nr("v")} = "var_dump(\r);"
+	" let g:surround_{char2nr("d")} = "debug(\r);"
+	" let g:surround_{char2nr("c")} = "<!-- \r -->"
+	" let g:surround_{char2nr("C")} = "/* \r */"
+endif
 
 " vim-surround_custom_mapping.vim
 " 『t9md/vim-surround_custom_mapping · GitHub』 https://github.com/t9md/vim-surround_custom_mapping
-let g:surround_custom_mapping = {}
-" filetypeに共通の設定
-let g:surround_custom_mapping._ = {
-					\ }
-let g:surround_custom_mapping.ruby = {
-					\ 'w':  "%w(\r)",
-					\ '%':  "%(\r)",
-					\ '#':  "#{\r}",
-					\ 'e':  "<%= \r %>",
-					\ 'p':  "<% \r %>",
-					\ }
+if dein#tap('vim-surround_custom_mapping')
+	let g:surround_custom_mapping = {}
+	" filetypeに共通の設定
+	let g:surround_custom_mapping._ = {
+				\ }
+	let g:surround_custom_mapping.ruby = {
+				\ 'w':  "%w(\r)",
+				\ '%':  "%(\r)",
+				\ '#':  "#{\r}",
+				\ 'e':  "<%= \r %>",
+				\ 'p':  "<% \r %>",
+				\ }
+endif
 
 " osyo-manga/vim-textobj-multiblock
-omap ab <Plug>(textobj-multiblock-a)
-omap ib <Plug>(textobj-multiblock-i)
-vmap ab <Plug>(textobj-multiblock-a)
-vmap ib <Plug>(textobj-multiblock-i)
+if dein#tap('vim-textobj-multiblock')
+	omap ab <Plug>(textobj-multiblock-a)
+	omap ib <Plug>(textobj-multiblock-i)
+	vmap ab <Plug>(textobj-multiblock-a)
+	vmap ib <Plug>(textobj-multiblock-i)
+endif
 
 " NERD_commenter.vim
-let g:NERDCreateDefaultMappings = 0
-nmap <Leader>c <plug>NERDCommenterToggle
-vmap <Leader>c <plug>NERDCommenterToggle
-" コメントの間にスペースを入れる
-let NERDSpaceDelims = 1
+if dein#tap('nerdcommenter')
+	let g:NERDCreateDefaultMappings = 0
+	nmap <Leader>c <plug>NERDCommenterToggle
+	vmap <Leader>c <plug>NERDCommenterToggle
+	" コメントの間にスペースを入れる
+	let NERDSpaceDelims = 1
+endif
 
 " vim-indent-guides
-" default mapping for ":IndentGuidestoggle"is <Leader>ig
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_guide_size = 1
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=gray
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
+if dein#tap('vim-indent-guides')
+	" default mapping for ":IndentGuidestoggle"is <Leader>ig
+	let g:indent_guides_enable_on_vim_startup = 1
+	let g:indent_guides_auto_colors = 0
+	let g:indent_guides_guide_size = 1
+	" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
+	" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+	autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=gray
+	autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
+endif
 
 " QuickRun.vim
-let g:quickrun_no_default_key_mappings = 1
-nmap <Leader>R <Plug>(quickrun)
+if dein#tap('vim-quickrun')
+	let g:quickrun_no_default_key_mappings = 1
+	nmap <Leader>R <Plug>(quickrun)
+endif
 
 " migemo-search.vim
-if neobundle#is_installed('migemo-search.vim') && executable('cmigemo')
+if dein#tap('migemo-search.vim') && executable('cmigemo')
 	cnoremap <expr><CR> migemosearch#replace_search_word()."\<CR>"
 endif
 
 " current-func-info.vim
-if neobundle#is_installed('current-func-info.vim')
+if dein#tap('current-func-info.vim')
 	" 現在のカーソル位置の関数名を表示する
 	set statusline=%n\:%y%F\ %{cfi#format('%s()','')}\|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>
 	" let &statusline = '[%{cfi#get_func_name()}()]'
 endif
 
 " ctrlp.vim
-" let g:ctrlp_map = '<C-^>'
+if dein#tap('kien/ctrlp.vim')
+	let g:ctrlp_map = '<C-^>'
+endif
 
 " syntastic
-if neobundle#is_installed('syntastic')
+if dein#tap('syntastic')
 	let g:syntastic_mode_map = {
 				\ "mode": "active",
 				\ "passive_filetypes": ["go"] }
@@ -645,26 +644,32 @@ if neobundle#is_installed('syntastic')
 	nnoremap <Leader>S :<C-u>SyntasticCheck<CR>
 endif
 
-" cake.vim
-let g:cakephp_enable_fix_mode = 1
-"let g:cakephp_app = ""
-let g:cakephp_enable_auto_mode = 1
-nnoremap <Leader>cc :<C-u>Ccontroller<Space>
-nnoremap <Leader>cC :<C-u>Ccomponent<Space>
-nnoremap <Leader>cm :<C-u>Cmodel<Space>
-nnoremap <Leader>cV :<C-u>Cviewtab<Space>
-nnoremap <Leader>cv :<C-u>Ccontrollerview<Space>
-nnoremap <Leader>cov :<C-u>Cview<Space>
-nnoremap <Leader>cnV :<C-u>Ccontrollerviewtab<Space>
-nnoremap <Leader>ch :<C-u>Chelper<Space>
-nnoremap <Leader>cth :<C-u>Ctesthelper<Space>
-nnoremap <Leader>ctm :<C-u>Ctestmodel<Space>
-nnoremap <Leader>ctc :<C-u>Ctestcontroller<Space>
-nnoremap <Leader>ctC :<C-u>Ctestcomponent<Space>
-nnoremap <Leader>cf :<C-u>Cfixture<Space>
+" vim-rails
+if dein#tap('vim-rails')
+	nnoremap <leader>rc :<C-u>Rcontroller<Space>
+	nnoremap <leader>rm :<C-u>Rmodel<Space>
+	nnoremap <leader>rv :<C-u>Rview<Space>
+endif
 
-" vim-gista
-" let g:gista#github_user = "termin"
+" cake.vim
+if dein#tap('cake.vim')
+	let g:cakephp_enable_fix_mode = 1
+	"let g:cakephp_app = ""
+	let g:cakephp_enable_auto_mode = 1
+	nnoremap <Leader>cc :<C-u>Ccontroller<Space>
+	nnoremap <Leader>cC :<C-u>Ccomponent<Space>
+	nnoremap <Leader>cm :<C-u>Cmodel<Space>
+	nnoremap <Leader>cV :<C-u>Cviewtab<Space>
+	nnoremap <Leader>cv :<C-u>Ccontrollerview<Space>
+	nnoremap <Leader>cov :<C-u>Cview<Space>
+	nnoremap <Leader>cnV :<C-u>Ccontrollerviewtab<Space>
+	nnoremap <Leader>ch :<C-u>Chelper<Space>
+	nnoremap <Leader>cth :<C-u>Ctesthelper<Space>
+	nnoremap <Leader>ctm :<C-u>Ctestmodel<Space>
+	nnoremap <Leader>ctc :<C-u>Ctestcontroller<Space>
+	nnoremap <Leader>ctC :<C-u>Ctestcomponent<Space>
+	nnoremap <Leader>cf :<C-u>Cfixture<Space>
+endif
 
 "----------------------------------------------------
 " Post
