@@ -1,4 +1,15 @@
 "----------------------------------------------------
+" Pre
+"----------------------------------------------------
+set encoding=utf-8
+scriptencoding utf-8 " これ以降マルチバイト可. encodingを先に書く
+" Note: Skip initialization for vim-tiny or vim-small.
+if !1 | finish | endif
+
+" mapping削除
+mapclear
+
+"----------------------------------------------------
 " Notice
 "----------------------------------------------------
 " ss で:registersとか:marksとか色々表示する系のkey mapを一覧する.
@@ -9,46 +20,16 @@
 "----------------------------------------------------
 " TODO:
 "----------------------------------------------------
-" indent-guidesのカラー設定. もう少し目に優しい配色にしたい. 但しtmux環境下でも表示される様に.
-" keymappingで<Space>を上手く使いたい
-"
-" tmuxを介すとwindowの区切りをマウスで移動出来ない. tmuxの設定？
 " 『Vim-users.jp - Vim Hacks Project』 http://vim-users.jp/vim-hacks-project/
 " :e dir1/dir2/txt などとしたいときに, dir1を選択した後に直下のファイルを一覧させたいが良い方法はあるか. 今は<Space><BS><Tab>してる.
 " helpを:splitじゃなくて:onlyで開きたい.
 " surround.vimのキーバインドをまともにしたい気がする. 『Vimの極め方』 http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
-" outliner的な記述が出来るpluginで使えるものはないか.(howm-mode.vim, QFixHowm, VimOrganizer, vim-orgmode)
-" 検索で一番下まで検索したので上に戻るよ、メッセージを一定時間経過後に消せないか
-" augroupを上手く使いたい.
 " Quickfix周り
-" set mouse=, set mouse=a のtoggle
-
-"----------------------------------------------------
-" Pre
-"----------------------------------------------------
-" Note: Skip initialization for vim-tiny or vim-small.
-if !1 | finish | endif
-
-" let s:tmp = &runtimepath
-" set all&
-" let &runtimepath = s:tmp
-" unlet s:tmp
-
-" 設定されているautocmdをクリア.
-" TODO: augroupで書き換えたい.
-autocmd!
-" augroup MyAutoCmd
-	" autocmd!
-" augroup END
-
-" mapping削除
-mapclear
 
 "----------------------------------------------------
 " Basic
 "----------------------------------------------------
 " vi非互換モード
-" set nocompatible " 必要なし&副作用あり cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 " ビープ音を鳴らさない
 set vb t_vb=
 " バックスペースキーで削除できるものを指定
@@ -70,7 +51,6 @@ set keywordprg=:help
 " 日本語helpの一部に開けない物があるのでその対策.
 set notagbsearch
 
-" windowの境界だけマウスホイールで変えたい
 " if has('mouse')
 	" set mouse& mouse+=a
 	" " map <ScrollWheelUp> <Nop>
@@ -100,8 +80,8 @@ set notagbsearch
 "----------------------------------------------------
 colorscheme default
 set background=light
-set number							" 行番号表示
-set showmode						" モード表示
+set number
+" set showmode
 set title							" 編集中のファイル名を表示
 set ruler							" ルーラーを表示
 set showcmd							" 入力中のコマンドをステータスに表示する
@@ -111,15 +91,11 @@ set laststatus=2					" ステータスラインを常に表示
 set wildmenu						" コマンドライン補完拡張
 set wildmode=list:longest,full
 
-augroup HilightZenkakuSpace
+augroup Hilight
 	" 全角スペースを明示
 	autocmd!
 	highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
 	autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
-augroup END
-
-augroup HilightTrailingSpace
-	autocmd!
 	highlight TrailingSpace ctermbg=darkred guibg=darkred
 	autocmd VimEnter,WinEnter * match TrailingSpace /\s\+$/
 augroup END
@@ -135,8 +111,10 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 " ステータスラインの色
 " highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 
-" autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
-" set foldmethod=marker
+" augroup Quickfix
+	" autocmd!
+	" autocmd QuickfixCmdPost grep,grepadd,vimgrep copen
+" augroup END
 
 "----------------------------------------------------
 " Search
@@ -148,31 +126,37 @@ set hlsearch						" 検索結果文字列のハイライト表示
 set history=100						" コマンド、検索パターンを100個まで履歴に残す
 
 "----------------------------------------------------
-" べんり
-"----------------------------------------------------
-filetype plugin indent on " ファイルタイプ判定をon
-autocmd BufNewFile *.rb 0r ~/.vim/template/skeleton.ruby
-autocmd FileType ruby setlocal ts=2 | set sw=2 | set expandtab | let ruby_space_errors = 1
-autocmd BufNewFile,BufRead *.erb setlocal ts=2 | set sw=2 | set expandtab
-" ファイルを開いた際に、前回終了時の行で起動
-autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
-autocmd BufNewFile,BufRead *.ctp set filetype=php
-autocmd FileType php setlocal ts=4 sw=4 sts=4 noexpandtab
-autocmd FileType cpp setlocal ts=2 sw=2 sts=2 expandtab
-set ambiwidth=double
-
-"----------------------------------------------------
 " Indent
 "----------------------------------------------------
 set autoindent
 set smartindent
-set pastetoggle=<F2>
-" インサートモードを抜けたときにpaste解除
-autocmd InsertLeave * set nopaste
 " set expandtab
 set tabstop=4
 set shiftwidth=4
 " set softtabstop=0
+
+"----------------------------------------------------
+" べんり
+"----------------------------------------------------
+filetype plugin indent on " ファイルタイプ判定をon
+set pastetoggle=<F2>
+augroup Indent
+	autocmd!
+	autocmd BufNewFile *.rb 0r ~/.vim/template/skeleton.ruby
+	autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 expandtab | let ruby_space_errors = 1
+	autocmd BufNewFile,BufRead *.erb setlocal tabstop=2 shiftwidth=2 expandtab
+
+	" ファイルを開いた際に、前回終了時の行で起動
+	autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
+
+	" インサートモードを抜けたときにpaste解除
+	autocmd InsertLeave * set nopaste
+
+	autocmd BufNewFile,BufRead *.ctp setlocal filetype=php
+	autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
+	autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+augroup END
+set ambiwidth=double
 
 "----------------------------------------------------
 " Encoding
@@ -200,8 +184,6 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 " <Right>, <Left> 等はどうやっても使えない感じ.
 " <M-x>は, <Esc>x で代用. <Esc><C-x>とか.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
-
-" TODO: Metaを使いたくて出来なかったキーを<Esc>で記述する.
 
 " 後で何かに割り当てたい気がする
 " CTRL-G CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
@@ -268,7 +250,7 @@ nnoremap <Esc>t<Esc>h :<C-u>tags<CR>
 nnoremap st :<C-u>tags<CR>
 nnoremap sT :<C-u>map<C-T><CR>
 
-nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+" nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " Yでクリップボードにコピー
 noremap Y "*yy
 nnoremap s <Nop>
@@ -279,16 +261,12 @@ nnoremap sc :<C-u>changes<CR>
 nnoremap sb :<C-u>buffers<CR>
 nnoremap s<Leader> :<C-u>map <Leader><CR>
 
-inoremap <silent> <C-a> <Esc>I
-" neocomplcacheと被ってる.でもどっちのキーバインドも使って無い.
-" inoremap <silent> <C-e> <Esc>A
-
 "----------------------------------------------------
 " Plugins
 "----------------------------------------------------
 " dein.vim
 if &compatible
-	set nocompatible
+	set nocompatible " 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 endif
 
 set runtimepath^=~/.vim/bundle/repos/github.com/Shougo/dein.vim
@@ -306,16 +284,10 @@ call dein#add('Shougo/neocomplete', {
 			\ 'lazy': 1
 			\ })
 call dein#add('Shougo/neosnippet', {'depends': 'Shougo/vimproc'})
-" call dein#add('Shougo/neosnippet', {
-			" \ 'depends': 'Shougo/vimproc',
-			" \ 'on_event': 'InsertEnter',
-			" \ 'on_ft': 'snippet'
-			" \ })
 call dein#add('Shougo/neosnippet-snippets', {'depends': 'Shougo/neosnippet'})
 call dein#add('Shougo/unite.vim', {
 			\ 'depends': 'Shougo/vimproc',
-			\ 'on_cmd': ['Unite'],
-			\ 'lazy': 1})
+			\ })
 call dein#add('Shougo/unite-outline', {'depends': ['Shougo/unite.vim', 'Shougo/vimproc']})
 call dein#add('tsukkee/unite-help', {'depends': ['Shougo/unite.vim', 'Shougo/vimproc']})
 call dein#add('thinca/vim-quickrun')
@@ -337,12 +309,11 @@ call dein#add('renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 call dein#add('violetyk/cake.vim', {'depends': 'Shougo/vimproc'})
 " call dein#add('oppara/vim-unite-cake', {'depends': 'Shougo/unite.vim'})
 
-" おためし {{{
+" call dein#add('rhysd/clever-f.vim')
 " call dein#add('fatih/vim-go')
 " call dein#add('solarnz/thrift.vim') " Syntax highlighting for thrift definition files.
 call dein#add('tacroe/unite-mark', {'depends': 'Shougo/unite.vim'})
 " call dein#add('tpope/vim-rails')
-" call dein#add('rhysd/clever-f.vim')
 
 " call dein#add('tpope/vim-endwise')
 " call dein#add('vim-scripts/ruby-matchit')
@@ -351,10 +322,7 @@ call dein#add('tacroe/unite-mark', {'depends': 'Shougo/unite.vim'})
 " call dein#add('Shougo/vimfiler')
 " call dein#add('thinca/vim-ref')
 " call dein#add('tpope/vim-fugitive')
-" }}}
-
 " call dein#add('AndrewRadev/switch.vim')
-" call dein#add('Lokaltog/vim-easymotion')
 " call dein#add('grep.vim')
 " call dein#add('hsitz/VimOrganizer')
 " call dein#add('hz_ja.vim')
@@ -364,9 +332,6 @@ call dein#add('tacroe/unite-mark', {'depends': 'Shougo/unite.vim'})
 " call dein#add('mattn/benchvimrc-vim')
 " call dein#add('smartchr')
 " call dein#add('smartword')
-" call dein#add('sudo.vim')
-" call dein#add('taglist.vim')
-" call dein#add('thinca/vim-visualstar')
 " call dein#add('tyru/caw.vim')
 " call dein#add('tyru/operator-star.vim') " dependent for: visualstar, operator-user
 " call dein#add('ujihisa/unite-colorscheme', {'depends': 'Shougo/unite.vim'})
@@ -429,7 +394,11 @@ if dein#tap('unite.vim')
 	let g:unite_cursor_line_highlight = 'TabLineSel'
 	" let g:unite_winwidth = 60
 	" let g:unite_abbr_highlight = 'TabLine'
-	autocmd FileType unite call s:unite_my_settings()
+	augroup Unite
+		autocmd!
+		autocmd FileType unite call s:unite_my_settings()
+	augroup END
+
 	function! s:unite_my_settings() "{{{
 		" CTRL-hをhで代替したい
 		imap <buffer> jj <Plug>(unite_insert_leave)
@@ -487,20 +456,26 @@ if dein#tap('neocomplete')
 	" inoremap <expr><C-l> neocomplete#complete_common_string()
 
 	" ポップアップメニューの表示
-	" autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
-	" autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
-	" autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
+	" augroup PopupMenu
+		" autocmd!
+		" autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
+		" autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
+		" autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
+	" augroup END
 
 	" FileType別のOmni Completion設定
 	" Vimに対して設定
-	autocmd FileType c setlocal omnifunc=ccomplete#Complete
-	autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-	autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-	autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-	autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-	autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-	autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-	autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+	augroup OmniCompletion
+		autocmd!
+		autocmd FileType c setlocal omnifunc=ccomplete#Complete
+		autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+		autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+		autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+		autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+		autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+		autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+		autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+	augroup END
 
 	" Enable heavy omni completion.
 	if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -594,8 +569,8 @@ endif
 " NERD_commenter.vim
 if dein#tap('nerdcommenter')
 	let g:NERDCreateDefaultMappings = 0
-	nmap <Leader>c <plug>NERDCommenterToggle
-	vmap <Leader>c <plug>NERDCommenterToggle
+	nmap <Leader>C <plug>NERDCommenterToggle
+	vmap <Leader>C <plug>NERDCommenterToggle
 	" コメントの間にスペースを入れる
 	let NERDSpaceDelims = 1
 endif
@@ -606,10 +581,13 @@ if dein#tap('vim-indent-guides')
 	let g:indent_guides_enable_on_vim_startup = 1
 	let g:indent_guides_auto_colors = 0
 	let g:indent_guides_guide_size = 1
-	" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
-	" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
-	autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=gray
-	autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
+	augroup IndentGuides
+		autocmd!
+		" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
+		" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+		autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=gray
+		autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgray
+	augroup END
 endif
 
 " QuickRun.vim
