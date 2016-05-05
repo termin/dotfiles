@@ -80,17 +80,9 @@ if which brew > /dev/null; then
 	. `brew --prefix`/etc/profile.d/z.sh
 fi
 
-# rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-# To use Homebrew's directories rather than ~/.rbenv add to your profile:
-# export RBENV_ROOT=/usr/local/opt/rbenv
-
 # golang
 export GOPATH="$HOME/gocode"
 export PATH=$PATH:$GOPATH/bin
-
-# Android Development Tools
-export PATH=$HOME/Dev/adt/sdk/tools:$HOME/Dev/adt/sdk/platform-tools:$HOME/Dev/android-ndk-r10b:$PATH
 
 # docker
 export DOCKER_HOST=tcp://:2375
