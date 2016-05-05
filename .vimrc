@@ -398,6 +398,8 @@ if dein#tap('unite.vim')
 		autocmd FileType unite call s:unite_my_settings()
 	augroup END
 
+	call unite#custom#source('file', 'matchers', 'matcher_default') " dotfileを表示する
+
 	function! s:unite_my_settings() "{{{
 		" CTRL-hをhで代替したい
 		imap <buffer> jj <Plug>(unite_insert_leave)
@@ -490,7 +492,6 @@ if dein#tap('neocomplete')
 
 endif
 
-" neosnippet
 if dein#tap('neosnippet')
 	let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets'
 	imap <C-l> <Plug>(neosnippet_expand_or_jump)
@@ -505,12 +506,10 @@ if dein#tap('neosnippet')
 	endif
 endif
 
-" SudoEdit.vim, sudo.vim
 if dein#tap('SudoEdit.vim')
 	command! WS SudoWrite %
 endif
 
-" vim-surround.vim
 if dein#tap('vim-surround')
 	let g:surround_no_mappings = 1
 	" ds:  delete a surrounding.
@@ -541,7 +540,6 @@ if dein#tap('vim-surround')
 	" let g:surround_{char2nr("C")} = "/* \r */"
 endif
 
-" vim-surround_custom_mapping.vim
 " 『t9md/vim-surround_custom_mapping · GitHub』 https://github.com/t9md/vim-surround_custom_mapping
 if dein#tap('vim-surround_custom_mapping')
 	let g:surround_custom_mapping = {}
@@ -557,7 +555,6 @@ if dein#tap('vim-surround_custom_mapping')
 				\ }
 endif
 
-" osyo-manga/vim-textobj-multiblock
 if dein#tap('vim-textobj-multiblock')
 	omap ab <Plug>(textobj-multiblock-a)
 	omap ib <Plug>(textobj-multiblock-i)
@@ -570,7 +567,6 @@ endif
 " 	xmap <Leader>C <Plug>(caw:prefix)
 " endif
 
-" NERD_commenter.vim
 if dein#tap('nerdcommenter')
 	let g:NERDCreateDefaultMappings = 0
 	nmap <Leader>C <plug>NERDCommenterToggle
@@ -579,7 +575,6 @@ if dein#tap('nerdcommenter')
 	let NERDSpaceDelims = 1
 endif
 
-" vim-indent-guides
 if dein#tap('vim-indent-guides')
 	" default mapping for ":IndentGuidestoggle"is <Leader>ig
 	let g:indent_guides_enable_on_vim_startup = 1
@@ -594,30 +589,25 @@ if dein#tap('vim-indent-guides')
 	augroup END
 endif
 
-" QuickRun.vim
 if dein#tap('vim-quickrun')
 	let g:quickrun_no_default_key_mappings = 1
 	nmap <Leader>R <Plug>(quickrun)
 endif
 
-" migemo-search.vim
 if dein#tap('migemo-search.vim') && executable('cmigemo')
 	cnoremap <expr><CR> migemosearch#replace_search_word()."\<CR>"
 endif
 
-" current-func-info.vim
 if dein#tap('current-func-info.vim')
 	" 現在のカーソル位置の関数名を表示する
 	set statusline=%n\:%y%F\ %{cfi#format('%s()','')}\|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>
 	" let &statusline = '[%{cfi#get_func_name()}()]'
 endif
 
-" ctrlp.vim
-if dein#tap('kien/ctrlp.vim')
+if dein#tap('ctrlp.vim')
 	let g:ctrlp_map = '<C-^>'
 endif
 
-" syntastic
 if dein#tap('syntastic')
 	let g:syntastic_mode_map = {
 				\ "mode": "active",
@@ -626,14 +616,12 @@ if dein#tap('syntastic')
 	nnoremap <Leader>S :<C-u>SyntasticCheck<CR>
 endif
 
-" vim-rails
 if dein#tap('vim-rails')
 	nnoremap <leader>rc :<C-u>Rcontroller<Space>
 	nnoremap <leader>rm :<C-u>Rmodel<Space>
 	nnoremap <leader>rv :<C-u>Rview<Space>
 endif
 
-" cake.vim
 if dein#tap('cake.vim')
 	let g:cakephp_enable_fix_mode = 1
 	"let g:cakephp_app = ""
