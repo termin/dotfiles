@@ -29,27 +29,17 @@ mapclear
 "----------------------------------------------------
 " Basic
 "----------------------------------------------------
-" vi非互換モード
-" ビープ音を鳴らさない
 set vb t_vb=
-" バックスペースキーで削除できるものを指定
 set backspace=indent,eol,start
-" 共有クリップボードを使う
 " set clipboard+=unnamed
-" ヘルプドキュメントの検索順
 set helplang=ja
-" バッファを切替えてもundoの効力を失わない
 set hidden
-" 改行コードの自動認識
 set fileformats=unix,dos,mac
-" [変更あり]" の代わりに "[+]" を表示
 set shortmess& shortmess+=m
 
-" K でVim helpを検索する
-set keywordprg=:help
+set keywordprg=:help " K でVim helpを検索する
 
-" 日本語helpの一部に開けない物があるのでその対策.
-set notagbsearch
+set notagbsearch " 日本語helpの一部に開けない物があるのでその対策
 
 " if has('mouse')
   " set mouse& mouse+=a
@@ -82,17 +72,16 @@ colorscheme default
 set background=light
 set number
 " set showmode
-set title                 " 編集中のファイル名を表示
-set ruler                 " ルーラーを表示
-set showcmd               " 入力中のコマンドをステータスに表示する
-set showmatch             " 括弧入力時の対応する括弧を表示
-set matchtime=2           " showmatchの表示時間
-set laststatus=2          " ステータスラインを常に表示
-set wildmenu              " コマンドライン補完拡張
+set title
+set ruler
+set showcmd
+set showmatch
+set matchtime=2
+set laststatus=2
+set wildmenu
 set wildmode=list:longest,full
 
-augroup Hilight
-  " 全角スペースを明示
+augroup Highlight
   autocmd!
   highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
   autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
@@ -108,7 +97,6 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 " highlight Comment ctermfg=lightcyan
 " highlight Comment ctermfg=lightblue
 
-" ステータスラインの色
 " highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 
 " augroup Quickfix
@@ -119,11 +107,11 @@ set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%
 "----------------------------------------------------
 " Search
 "----------------------------------------------------
-set ignorecase						" 検索の時に大文字小文字を区別しない
-set smartcase						" 検索の時に大文字が含まれている場合は区別して検索する
-set incsearch						" インクリメンタルサーチを使う
-set hlsearch						" 検索結果文字列のハイライト表示
-set history=100						" コマンド、検索パターンを100個まで履歴に残す
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set history=100
 
 "----------------------------------------------------
 " Indent
@@ -282,58 +270,52 @@ call dein#add('Shougo/neocomplete', {
       \ 'on_event': 'InsertEnter',
       \ 'lazy': 1
       \ })
-call dein#add('Shougo/neosnippet', {'depends': 'Shougo/vimproc'})
-call dein#add('Shougo/neosnippet-snippets', {'depends': 'Shougo/neosnippet'})
-call dein#add('Shougo/unite.vim', {
-      \ 'depends': 'Shougo/vimproc',
-      \ })
-call dein#add('Shougo/unite-outline', {'depends': ['Shougo/unite.vim', 'Shougo/vimproc']})
-call dein#add('tsukkee/unite-help', {'depends': ['Shougo/unite.vim', 'Shougo/vimproc']})
+call dein#add('Shougo/neosnippet', {'depends': 'vimproc'})
+call dein#add('Shougo/neosnippet-snippets', {'depends': 'neosnippet'})
+call dein#add('Shougo/unite.vim', {'depends': 'vimproc'})
+call dein#add('Shougo/unite-outline', {'depends': ['unite.vim', 'vimproc']})
+call dein#add('tsukkee/unite-help', {'depends': ['unite.vim', 'vimproc']})
 call dein#add('thinca/vim-quickrun')
-call dein#add('soh335/unite-qflist', {'depends': 'Shougo/unite.vim'})
-" call dein#add('sgur/unite-qf', {'depends': 'Shougo/unite.vim'})
+call dein#add('soh335/unite-qflist', {'depends': 'unite.vim'})
+" call dein#add('sgur/unite-qf', {'depends': 'unite.vim'})
+call dein#add('tacroe/unite-mark', {'depends': 'unite.vim'})
 call dein#add('tyru/current-func-info.vim')
 call dein#add('scrooloose/syntastic')
 call dein#add('vim-jp/vimdoc-ja')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('kana/vim-textobj-user')
-call dein#add('osyo-manga/vim-textobj-multiblock', {'depends': 'kana/vim-textobj-user'})
-" call dein#add('kana/vim-operator-user')
+call dein#add('osyo-manga/vim-textobj-multiblock', {'depends': 'vim-textobj-user'})
 call dein#add('kana/vim-repeat')
-call dein#add('tyru/caw.vim', {'depends': 'kana/vim-repeat'})
+call dein#add('tyru/caw.vim', {'depends': 'vim-repeat'})
 " call dein#add('scrooloose/nerdcommenter')
 " call dein#add('chrisbra/SudoEdit.vim')
 call dein#add('renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
-" call dein#add('Shougo/vimshell', {'depends': 'Shougo/vimproc'})
+call dein#add('ctrlpvim/ctrlp.vim')
+" call dein#add('Shougo/vimshell', {'depends': 'vimproc'})
 " call dein#add('rhysd/migemo-search.vim')
 
-" call dein#add('basyura/unite-rails', {'depends': 'Shougo/unite.vim'})
+" language {{{
+" call dein#add('basyura/unite-rails', {'depends': 'unite.vim'})
 " call dein#add('vim-ruby/vim-ruby')
-call dein#add('violetyk/cake.vim', {'depends': 'Shougo/vimproc'})
-" call dein#add('oppara/vim-unite-cake', {'depends': 'Shougo/unite.vim'})
-
-" call dein#add('rhysd/clever-f.vim')
+call dein#add('violetyk/cake.vim', {'depends': 'vimproc'})
+" call dein#add('oppara/vim-unite-cake', {'depends': 'unite.vim'})
 " call dein#add('fatih/vim-go')
 " call dein#add('solarnz/thrift.vim') " Syntax highlighting for thrift definition files.
-call dein#add('tacroe/unite-mark', {'depends': 'Shougo/unite.vim'})
 " call dein#add('tpope/vim-rails')
-
 " call dein#add('tpope/vim-endwise')
 " call dein#add('vim-scripts/ruby-matchit')
-" call dein#add('kien/ctrlp.vim')
+" }}}
+
 " call dein#add('Shougo/vimfiler')
 " call dein#add('thinca/vim-ref')
 " call dein#add('tpope/vim-fugitive')
-" call dein#add('AndrewRadev/switch.vim')
 " call dein#add('grep.vim')
-" call dein#add('hsitz/VimOrganizer')
-" call dein#add('hz_ja.vim')
 " call dein#add('kana/vim-grex')
 " call dein#add('kana/vim-operator-replace')
+" call dein#add('kana/vim-operator-user')
+" call dein#add('kana/vim-smartword')
 " call dein#add('mattn/benchvimrc-vim')
-" call dein#add('smartchr')
-" call dein#add('smartword')
-" call dein#add('ujihisa/unite-colorscheme', {'depends': 'Shougo/unite.vim'})
+" call dein#add('ujihisa/unite-colorscheme', {'depends': 'unite.vim'})
 
 call dein#end()
 call dein#save_state()
@@ -349,7 +331,6 @@ syntax on " pluginロード後に設定する cf. 『vimrcアンチパターン 
 " 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
 " -auto-preview はそれなりに重いので慎重に.
 " -no-quit -vertical g:unite_winwidth -buffer-name
-" dotfileを表示するには
 if dein#tap('unite.vim')
   nnoremap su :map [unite]<CR>
   nnoremap [unite] <Nop>
@@ -366,7 +347,6 @@ if dein#tap('unite.vim')
   nnoremap <silent> [unite]M :<C-u>Unite file_mru<CR>
   nnoremap <silent> [unite]T :<C-u>Unite tab<CR>
 
-  " TODO: Unite grepでファイルを開くとnewfileとなってしまう場合が多い(というかほとんど).困る.
   nnoremap <silent> [unite]G :<C-u>Unite grep -no-quit<CR>
   nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
   " TODO: -auto-preview で新たなwindowを表示するのが邪魔. 既に開いているbufferを使いたい.
@@ -499,7 +479,6 @@ if dein#tap('neosnippet')
   xmap <C-l> <Plug>(neosnippet_expand_target)
   " TODO: neosnippetがC-kを使ってる.
   " vnoremap <C-k> 5k
-  " Snippetsを編集する
   command! -nargs=* Nse NeoSnippetEdit
   if has('conceal')
     set conceallevel=2 concealcursor=i
@@ -519,25 +498,14 @@ if dein#tap('vim-surround')
   " yss: ただの行囲み.
   " {
     " ySS: 行囲み. 改行とインデントを含む. こんなかんじ.
-    " ySs: ySSと同じ.
   " }
   nmap ds <Plug>Dsurround
   nmap cs <Plug>Csurround
   nmap ys <Plug>Ysurround
   nmap yS <Plug>YSurround
   nmap yss <Plug>Yssurround
-  " ySSと同じ.
-  " nmap ySs <Plug>YSsurround
   nmap ySS <Plug>YSsurround
   vmap S <Plug>VSurround
-
-  " let g:surround_{char2nr("p")} = "<?php \r ?>"
-  " let g:surround_{char2nr("[")} = "['\r']"
-  " let g:surround_{char2nr("a")} = "array('\r')"
-  " let g:surround_{char2nr("v")} = "var_dump(\r);"
-  " let g:surround_{char2nr("d")} = "debug(\r);"
-  " let g:surround_{char2nr("c")} = "<!-- \r -->"
-  " let g:surround_{char2nr("C")} = "/* \r */"
 endif
 
 " 『t9md/vim-surround_custom_mapping · GitHub』 https://github.com/t9md/vim-surround_custom_mapping
@@ -545,13 +513,25 @@ if dein#tap('vim-surround_custom_mapping')
   let g:surround_custom_mapping = {}
   " filetypeに共通の設定
   let g:surround_custom_mapping._ = {
+        \ 'C': "/* \r */",
         \ }
+
   let g:surround_custom_mapping.ruby = {
         \ 'w':  "%w(\r)",
         \ '%':  "%(\r)",
         \ '#':  "#{\r}",
         \ 'e':  "<%= \r %>",
         \ 'p':  "<% \r %>",
+        \ }
+  let g:surround_custom_mapping.php = {
+        \ 'p': "<?php \r ?>",
+        \ '[': "['\r']",
+        \ 'a': "array('\r')",
+        \ 'v': "var_dump(\r);",
+        \ 'd': "debug(\r);",
+        \ }
+  let g:surround_custom_mapping.html = {
+        \ 'c': "<!-- \r -->",
         \ }
 endif
 
@@ -629,16 +609,17 @@ if dein#tap('cake.vim')
   nnoremap <Leader>cc :<C-u>Ccontroller<Space>
   nnoremap <Leader>cC :<C-u>Ccomponent<Space>
   nnoremap <Leader>cm :<C-u>Cmodel<Space>
-  nnoremap <Leader>cV :<C-u>Cviewtab<Space>
   nnoremap <Leader>cv :<C-u>Ccontrollerview<Space>
-  nnoremap <Leader>cov :<C-u>Cview<Space>
-  nnoremap <Leader>cnV :<C-u>Ccontrollerviewtab<Space>
+  nnoremap <Leader>cV :<C-u>Cview<Space>
   nnoremap <Leader>ch :<C-u>Chelper<Space>
-  nnoremap <Leader>cth :<C-u>Ctesthelper<Space>
-  nnoremap <Leader>ctm :<C-u>Ctestmodel<Space>
-  nnoremap <Leader>ctc :<C-u>Ctestcontroller<Space>
-  nnoremap <Leader>ctC :<C-u>Ctestcomponent<Space>
   nnoremap <Leader>cf :<C-u>Cfixture<Space>
+endif
+
+if dein#tap('vim-smartword')
+  map w <Plug>(smartword-w)
+  map b <Plug>(smartword-b)
+  map e <Plug>(smartword-e)
+  map ge <Plug>(smartword-ge)
 endif
 
 "----------------------------------------------------
