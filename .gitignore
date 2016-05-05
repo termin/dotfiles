@@ -1,0 +1,19 @@
+# 無視
+/*
+/.*
+
+# 除外
+!/.bash_profile
+!/.bashrc
+!/.emacs.el
+!/.gitignore
+!/.gitignore_global
+!/.inputrc
+!/.irbrc
+!/.rvmrc
+!/.tmux.conf
+!/.vimperatorrc
+!/.vimrc
+!/.vim
+!/.vrapperrc
+!/.zshrc
