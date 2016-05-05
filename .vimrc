@@ -9,6 +9,8 @@ if !1 | finish | endif
 " mapping削除
 mapclear
 
+let s:enable_plugins = 1 " pluginを使わなければここで設定
+
 "----------------------------------------------------
 " Notice
 "----------------------------------------------------
@@ -257,6 +259,10 @@ if &compatible
   set nocompatible " 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 endif
 
+if !s:enable_plugins
+filetype plugin indent on
+syntax on
+else
 set runtimepath^=~/.vim/bundle/repos/github.com/Shougo/dein.vim
 let s:dein_dir = expand('~/.vim/bundle')
 if dein#load_state(s:dein_dir)
@@ -621,6 +627,8 @@ if dein#tap('vim-smartword')
   map e <Plug>(smartword-e)
   map ge <Plug>(smartword-ge)
 endif
+
+endif " /s:enable_plugins
 
 "----------------------------------------------------
 " Post
