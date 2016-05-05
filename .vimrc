@@ -278,7 +278,6 @@ call dein#add('Shougo/vimproc', {'build': 'make'})
 call dein#add('editorconfig/editorconfig-vim')
 call dein#add('tpope/vim-surround')
 call dein#add('t9md/vim-surround_custom_mapping')
-call dein#add('scrooloose/nerdcommenter')
 call dein#add('Shougo/neocomplete', {
 			\ 'on_event': 'InsertEnter',
 			\ 'lazy': 1
@@ -293,17 +292,21 @@ call dein#add('tsukkee/unite-help', {'depends': ['Shougo/unite.vim', 'Shougo/vim
 call dein#add('thinca/vim-quickrun')
 call dein#add('soh335/unite-qflist', {'depends': 'Shougo/unite.vim'})
 " call dein#add('sgur/unite-qf', {'depends': 'Shougo/unite.vim'})
-" call dein#add('ujihisa/quickrun')
 call dein#add('tyru/current-func-info.vim')
 call dein#add('scrooloose/syntastic')
 call dein#add('vim-jp/vimdoc-ja')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('kana/vim-textobj-user')
 call dein#add('osyo-manga/vim-textobj-multiblock', {'depends': 'kana/vim-textobj-user'})
+" call dein#add('kana/vim-operator-user')
+call dein#add('kana/vim-repeat')
+call dein#add('tyru/caw.vim', {'depends': 'kana/vim-repeat'})
+" call dein#add('scrooloose/nerdcommenter')
 " call dein#add('chrisbra/SudoEdit.vim')
 call dein#add('renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 " call dein#add('Shougo/vimshell', {'depends': 'Shougo/vimproc'})
 " call dein#add('rhysd/migemo-search.vim')
+
 " call dein#add('basyura/unite-rails', {'depends': 'Shougo/unite.vim'})
 " call dein#add('vim-ruby/vim-ruby')
 call dein#add('violetyk/cake.vim', {'depends': 'Shougo/vimproc'})
@@ -317,7 +320,6 @@ call dein#add('tacroe/unite-mark', {'depends': 'Shougo/unite.vim'})
 
 " call dein#add('tpope/vim-endwise')
 " call dein#add('vim-scripts/ruby-matchit')
-" call dein#add('thinca/vim-unite-history', {'depends': 'Shougo/unite.vim'})
 " call dein#add('kien/ctrlp.vim')
 " call dein#add('Shougo/vimfiler')
 " call dein#add('thinca/vim-ref')
@@ -328,12 +330,9 @@ call dein#add('tacroe/unite-mark', {'depends': 'Shougo/unite.vim'})
 " call dein#add('hz_ja.vim')
 " call dein#add('kana/vim-grex')
 " call dein#add('kana/vim-operator-replace')
-" call dein#add('kana/vim-operator-user')
 " call dein#add('mattn/benchvimrc-vim')
 " call dein#add('smartchr')
 " call dein#add('smartword')
-" call dein#add('tyru/caw.vim')
-" call dein#add('tyru/operator-star.vim') " dependent for: visualstar, operator-user
 " call dein#add('ujihisa/unite-colorscheme', {'depends': 'Shougo/unite.vim'})
 
 call dein#end()
@@ -565,6 +564,11 @@ if dein#tap('vim-textobj-multiblock')
 	vmap ab <Plug>(textobj-multiblock-a)
 	vmap ib <Plug>(textobj-multiblock-i)
 endif
+
+" if dein#tap('tyru/caw.vim')
+" 	nmap <Leader>C <Plug>(caw:prefix)
+" 	xmap <Leader>C <Plug>(caw:prefix)
+" endif
 
 " NERD_commenter.vim
 if dein#tap('nerdcommenter')
