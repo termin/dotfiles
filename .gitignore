@@ -3,7 +3,6 @@
 /.*
 
 # 除外
-!/.bash_profile
 !/.bashrc
 !/.emacs.el
 !/.gitignore
