@@ -145,7 +145,7 @@ nnoremap <M-d> <Nop>
 
 " ----- Plugin Options  -----
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
-let g:plugin_loader_plugins = "_libly,copy,exopen,feedSomeKeys_3,toggler,walk-input,zip-de-download-mod,prevent-pseudo-domain,slideshare,unload-tab,hatenabookmark"
+let g:plugin_loader_plugins = "_libly,copy,exopen,feedSomeKeys_3,toggler,walk-input,zip-de-download-mod,prevent-pseudo-domain,slideshare,hatenabookmark"
 
 " copy.js
 noremap <M-S-c> :<C-u>copy tw<CR>
