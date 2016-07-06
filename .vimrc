@@ -278,6 +278,11 @@ call dein#add('Shougo/neocomplete', {
       \ })
 call dein#add('Shougo/neosnippet', {'depends': 'vimproc'})
 call dein#add('Shougo/neosnippet-snippets', {'depends': 'neosnippet'})
+call dein#add('ryuzee/neosnippet_chef_recipe_snippet', {
+      \ 'depends': 'neosnippet',
+      \ 'lazy': 1,
+      \ 'on_ft': 'ruby.chef'
+      \ }) " set filetype=ruby.chef
 call dein#add('Shougo/unite.vim', {'depends': 'vimproc'})
 call dein#add('Shougo/unite-outline', {'depends': ['unite.vim', 'vimproc']})
 call dein#add('tsukkee/unite-help', {'depends': ['unite.vim', 'vimproc']})
@@ -478,8 +483,8 @@ if dein#tap('neocomplete')
 
 endif
 
+let s:dein_bundle_dir = $HOME.'/.vim/bundle/'
 if dein#tap('neosnippet')
-  let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets'
   imap <C-l> <Plug>(neosnippet_expand_or_jump)
   smap <C-l> <Plug>(neosnippet_expand_or_jump)
   xmap <C-l> <Plug>(neosnippet_expand_target)
@@ -488,6 +493,11 @@ if dein#tap('neosnippet')
   command! -nargs=* Nse NeoSnippetEdit
   if has('conceal')
     set conceallevel=2 concealcursor=i
+  endif
+
+  let g:neosnippet#snippets_directory = [$HOME.'/.vim/snippets']
+  if dein#tap("neosnippet_chef_recipe_snippet")
+    let g:neosnippet#snippets_directory += [s:dein_bundle_dir.'repos/github.com/ryuzee/neosnippet_chef_recipe_snippet/neosnippets']
   endif
 endif
 
