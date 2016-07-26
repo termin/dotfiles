@@ -145,6 +145,8 @@ augroup Indent
   autocmd BufNewFile,BufRead *.ctp setlocal filetype=php
   autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+
+  autocmd FileType neosnippet setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
 augroup END
 set ambiwidth=double
 
@@ -309,6 +311,11 @@ call dein#add('ctrlpvim/ctrlp.vim')
 " call dein#add('basyura/unite-rails', {'depends': 'unite.vim'})
 " call dein#add('vim-ruby/vim-ruby')
 call dein#add('violetyk/cake.vim', {'depends': 'vimproc'})
+call dein#add('beyondwords/vim-twig', {'on_ft': 'twig', 'lazy': 1})
+call dein#add('heavenshell/unite-sf2', {'depends': 'unite.vim'})
+call dein#add('honza/vim-snippets', {'depends': 'neosnippet'})
+" call dein#add('qbbr/vim-symfony')
+" call dein#add('docteurklein/vim-symfony')
 " call dein#add('oppara/vim-unite-cake', {'depends': 'unite.vim'})
 " call dein#add('fatih/vim-go')
 " call dein#add('solarnz/thrift.vim') " Syntax highlighting for thrift definition files.
@@ -347,7 +354,7 @@ if dein#tap('unite.vim')
   nnoremap [unite] <Nop>
   nmap U [unite]
   nnoremap [unite]U :<C-u>Unite<Space>
-  nnoremap <silent> [unite]S :<C-u>Unite source<CR>
+  " nnoremap <silent> [unite]s :<C-u>Unite source<CR>
   nnoremap <silent> [unite]F :<C-u>Unite file -vertical -winwidth=60 -no-quit<CR>
   nnoremap [unite]IF :<C-u>Unite file -vertical -no-quit -winwidth=
   nnoremap <silent> [unite]f :<C-u>Unite file<CR>
@@ -380,6 +387,9 @@ if dein#tap('unite.vim')
   nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=60 -no-quit<CR>
   nnoremap <silent> [unite]Wb :<C-u>UniteWithBufferDir file file_mru<CR>
   " nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir -prompt=%\  buffer file_mru bookmark file<CR>
+  " unite sf2
+  nnoremap [unite]s :<C-u>Unite sf2/
+  nnoremap <silent> [unite]S :<C-u>Unite sf2/bundles -vertical -winwidth=60 -no-quit<CR>
 
   let g:unite_cursor_line_highlight = 'TabLineSel'
   " let g:unite_winwidth = 60
@@ -490,15 +500,22 @@ if dein#tap('neosnippet')
   xmap <C-l> <Plug>(neosnippet_expand_target)
   " TODO: neosnippetがC-kを使ってる.
   " vnoremap <C-k> 5k
-  command! -nargs=* Nse NeoSnippetEdit
+  command! -nargs=* Nse NeoSnippetEdit -split -vertical
   if has('conceal')
     set conceallevel=2 concealcursor=i
   endif
-
-  let g:neosnippet#snippets_directory = [$HOME.'/.vim/snippets']
+  let g:neosnippet#disable_runtime_snippets = {'_' : 1}
+  let g:neosnippet#snippets_directory = []
   if dein#tap("neosnippet_chef_recipe_snippet")
     let g:neosnippet#snippets_directory += [s:dein_bundle_dir.'repos/github.com/ryuzee/neosnippet_chef_recipe_snippet/neosnippets']
   endif
+  if dein#tap("neosnippet-snippets")
+    let g:neosnippet#snippets_directory += [s:dein_bundle_dir.'repos/github.com/Shougo/neosnippet-snippets/neosnippets']
+  endif
+  if dein#tap("vim-snippets")
+    let g:neosnippet#snippets_directory += [s:dein_bundle_dir.'repos/github.com/honza/vim-snippets/snippets']
+  endif
+  let g:neosnippet#snippets_directory += [$HOME.'/.vim/snippets']
 endif
 
 if dein#tap('SudoEdit.vim')
@@ -629,6 +646,10 @@ if dein#tap('cake.vim')
   nnoremap <Leader>cV :<C-u>Cview<Space>
   nnoremap <Leader>ch :<C-u>Chelper<Space>
   nnoremap <Leader>cf :<C-u>Cfixture<Space>
+endif
+
+if dein#tap('vim-symfony')
+  let g:symfony_app_console_path= "bin/console"
 endif
 
 if dein#tap('vim-smartword')
