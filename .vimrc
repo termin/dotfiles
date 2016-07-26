@@ -145,8 +145,8 @@ augroup Indent
   autocmd BufNewFile,BufRead *.ctp setlocal filetype=php
   autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-
   autocmd FileType neosnippet setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
+  autocmd FileType json setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 augroup END
 set ambiwidth=double
 
