@@ -46,11 +46,6 @@ if which erutaso > /dev/null; then
 fi
 
 if which brew > /dev/null; then
-	# bash_completion
-	# if [ -f $(brew --prefix)/etc/bash_completion ]; then
-		# . $(brew --prefix)/etc/bash_completion
-	# fi
-
 	# bash_completion2
 	if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
 		. $(brew --prefix)/share/bash-completion/bash_completion
@@ -58,8 +53,8 @@ if which brew > /dev/null; then
 
 	# bash-git-prompt
 	# if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
-		# GIT_PROMPT_THEME=Default
-		# source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+	# 	# GIT_PROMPT_THEME=Default
+	# 	source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
 	# fi
 
 	# git
@@ -83,6 +78,3 @@ fi
 # golang
 export GOPATH="$HOME/gocode"
 export PATH=$PATH:$GOPATH/bin
-
-# docker
-export DOCKER_HOST=tcp://:2375
