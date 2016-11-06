@@ -1,11 +1,8 @@
 " for Vimperator on Mac
 " ----- Notice -----
-" migemo-findのハイライトしない仕様を回避したい時は, 同pluginの"\"を先頭にすると通常の検索を使う機能を使う.
 " play on tumblrはbardicheさんが書いていたので使わせて貰った. https://gist.github.com/1393449
 
 " ----- ToDo -----
-" はてなブックマーク拡張のコメント表示, ブクマ追加キーが上手く設定できない. ブクマ追加に<S-c>などを割り当ててもcでブクマ追加されてしまう. 拡張の方の設定では上手く割り当てられてる.
-" サイトが設定しているキーボードショートカットを無視したい
 " pluginのhelpが上手く表示されない.地味に困る. liberator://help/plugins
 " タイトルは表示されているがページの中身はabout:blank, リロードするとタイトルもそうなって何開いていたのか分からなくなる, という状態のタブが出来る事がある.
 " Vimpのキーが全く効かなくなる事がある.
@@ -95,13 +92,8 @@ nnoremap l <C-n>
 noremap <S-M-Left>  :<C-u>tabmove! -1<CR>
 noremap <S-M-Right> :<C-u>tabmove! +1<CR>
 
-" nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
-
 " <M-f>でvimpによる検索/
-" noremap <M-f> /\
 noremap <M-f> /
-" XUL/Migemoで通常の検索をする
-cnoremap <M-f> <C-u>\
 " d キーでも直前にフォーカスしていたタブに戻る様にする
 nnoremap d <M-w>
 
@@ -142,6 +134,7 @@ nnoremap <M-d> <Nop>
 " silent qmark t http://twitter.com/
 " silent qmark y http://twitter.com/termin
 " silent qmark n https://twitter.com/i/notifications
+" silent qmark B https://bitbucket.org/
 
 " ----- Plugin Options  -----
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
@@ -168,17 +161,8 @@ command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 " Gmail
 lazy fmaps -u='mail\.google\.com/mail' -events=vkeydown,keypress,vkeyup j k
 lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c * / n p o u e x s r a # [ ] z ? gi gs gt gd ga gc gb <C-h>,~ <C-l>,`
-" Livedoor Reader
-lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p o v c z r f J K < > <Space> <S-Space> <Del> g G,u
-" LDR Full Feed Key Settings
-" g = "load current entry" G,u = "load all entries"
-" Tumblr
-" lazy fmaps -u='^http://[^\./]*\.tumblr\.com/' e,t n,h
-lazy fmaps -e=vkeydown -u='^http://[^\./]*\.tumblr\.com/' j k e,t n
 " はてなブックマーク
 lazy fmaps -u='^http://b\.hatena\.ne\.jp/(?!(entry|articles|guide))' j k o e B,b
-" Picasa Web
-lazy fmaps -u='^https://picasaweb\.google\.com/' <Right> <Left>
 " speakerdeck.com
 lazy fmaps -u='^https://speakerdeck\.com/' -events=keydown j,<Right> k,<Left>
 " Google Calendar
@@ -194,12 +178,6 @@ lazy fmaps -u='^https://www\.facebook\.com/' -events=vkeydown j k
 nnoremap -urls 'www\.slideshare\.net' j :slideshare next<CR>
 nnoremap -urls 'www\.slideshare\.net' k :slideshare prev<CR>
 nnoremap -urls 'www\.slideshare\.net' F :slideshare fullscreen<CR>
-
-" removetabs.js
-" 左側にあるタブを閉じる
-" noremap <C-S-Left> :<C-u>removetabsleft
-" 右側にあるタブを閉じる
-" noremap <C-S-Right> :<C-u>removetabsright
 
 " toggler.js
 js <<EOM
@@ -270,5 +248,8 @@ let g:zipDownloadDir = "~/Desktop"
 noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg,jpeg,png
 
 " ----- Others -----
+
+" 『Smart Completions not work on Fx49 · Issue #590 · vimperator/vimperator-labs』 https://github.com/vimperator/vimperator-labs/issues/590
+js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
 
 " vim: set ft=vimperator:
