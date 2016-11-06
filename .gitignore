@@ -14,5 +14,7 @@
 !/.vimperatorrc
 !/.vimrc
 !/.vim
+.vim/.netrwhist
+.vim/bundle/
 !/.vrapperrc
 !/.zshrc
