@@ -16,17 +16,8 @@ let s:enable_plugins = 1 " pluginを使わなければここで設定
 "----------------------------------------------------
 " ss で:registersとか:marksとか色々表示する系のkey mapを一覧する.
 " <Leader>he で.vimrcをすぐに表示する. ToDoとかささっと見てささっと解決したい.
-" Uniteを積極的に使いたい. qflist(Quickfix), file etc...
 "
 " Mac標準のvimはhas('mac'), has('macunix')が0だが自前でbuildすれば1.
-"----------------------------------------------------
-" TODO:
-"----------------------------------------------------
-" 『Vim-users.jp - Vim Hacks Project』 http://vim-users.jp/vim-hacks-project/
-" :e dir1/dir2/txt などとしたいときに, dir1を選択した後に直下のファイルを一覧させたいが良い方法はあるか. 今は<Space><BS><Tab>してる.
-" helpを:splitじゃなくて:onlyで開きたい.
-" surround.vimのキーバインドをまともにしたい気がする. 『Vimの極め方』 http://whileimautomaton.net/2008/08/vimworkshop3-kana-presentation
-" Quickfix周り
 
 "----------------------------------------------------
 " Basic
@@ -73,7 +64,6 @@ set notagbsearch " 日本語helpの一部に開けない物があるのでその
 colorscheme default
 set background=light
 set number
-" set showmode
 set title
 set ruler
 set showcmd
@@ -286,9 +276,10 @@ call dein#add('ryuzee/neosnippet_chef_recipe_snippet', {
       \ 'lazy': 1,
       \ 'on_ft': 'ruby.chef'
       \ }) " set filetype=ruby.chef
+call dein#add('Shougo/denite.nvim')
 call dein#add('Shougo/unite.vim', {'depends': 'vimproc'})
 call dein#add('Shougo/unite-outline', {'depends': ['unite.vim', 'vimproc']})
-call dein#add('tsukkee/unite-help', {'depends': ['unite.vim', 'vimproc']})
+" call dein#add('tsukkee/unite-help', {'depends': ['unite.vim', 'vimproc']})
 call dein#add('thinca/vim-quickrun')
 call dein#add('soh335/unite-qflist', {'depends': 'unite.vim'})
 " call dein#add('sgur/unite-qf', {'depends': 'unite.vim'})
@@ -301,7 +292,6 @@ call dein#add('kana/vim-textobj-user')
 call dein#add('osyo-manga/vim-textobj-multiblock', {'depends': 'vim-textobj-user'})
 call dein#add('kana/vim-repeat')
 call dein#add('tyru/caw.vim', {'depends': 'vim-repeat'})
-" call dein#add('scrooloose/nerdcommenter')
 " call dein#add('chrisbra/SudoEdit.vim')
 call dein#add('renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 call dein#add('ctrlpvim/ctrlp.vim')
@@ -346,11 +336,35 @@ if dein#check_install()
 endif
 syntax on " pluginロード後に設定する cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 
+" denite.nvim
+" 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
+" -auto-preview はそれなりに重いので慎重に.
+if dein#tap('denite.nvim')
+  nnoremap su :map [denite]<CR>
+  nnoremap [denite] <Nop>
+  nmap U [denite]
+  nnoremap [denite]U :<C-u>Denite<Space>
+  nnoremap <silent> [denite]R :<C-u>Denite -resume -mode=normal<CR>
+  nnoremap <silent> [denite]F :<C-u>Denite file_rec -mode=normal<CR>
+  nnoremap <silent> [denite]A :<C-u>Denite buffer file_rec -mode=normal<CR>
+  nnoremap <silent> [denite]b :<C-u>Denite buffer -mode=normal<CR>
+  nnoremap <silent> [denite]G :<C-u>DeniteBufferDir grep -mode=normal<CR>
+  nnoremap <silent> [denite]L :<C-u>Denite line<CR>
+  nnoremap <silent> [denite]O :<C-u>Denite unite:outline -mode=normal<CR>
+  " nnoremap <silent> [denite]H :<C-u>Denite help<CR>
+  nnoremap <silent> [denite]r :<C-u>Denite -buffer-name=register -mode=normal unite:register<CR>
+  nnoremap <silent> [denite]us :<C-u>Denite unite:source -mode=normal<CR>
+
+  call denite#custom#map('insert', '<C-j>', 'move_to_next_line')
+  call denite#custom#map('insert', '<C-k>', 'move_to_prev_line')
+  call denite#custom#map('insert', '<Esc>', 'enter_mode:normal')
+endif
+
 " Unite.vim
 " 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
 " -auto-preview はそれなりに重いので慎重に.
 " -no-quit -vertical g:unite_winwidth -buffer-name
-if dein#tap('unite.vim')
+if dein#tap('unite.vim') && !dein#tap('denite.nvim')
   nnoremap su :map [unite]<CR>
   nnoremap [unite] <Nop>
   nmap U [unite]
@@ -574,19 +588,6 @@ if dein#tap('vim-textobj-multiblock')
   omap ib <Plug>(textobj-multiblock-i)
   vmap ab <Plug>(textobj-multiblock-a)
   vmap ib <Plug>(textobj-multiblock-i)
-endif
-
-" if dein#tap('tyru/caw.vim')
-"   nmap <Leader>C <Plug>(caw:prefix)
-"   xmap <Leader>C <Plug>(caw:prefix)
-" endif
-
-if dein#tap('nerdcommenter')
-  let g:NERDCreateDefaultMappings = 0
-  nmap <Leader>C <plug>NERDCommenterToggle
-  vmap <Leader>C <plug>NERDCommenterToggle
-  " コメントの間にスペースを入れる
-  let NERDSpaceDelims = 1
 endif
 
 if dein#tap('vim-indent-guides')
