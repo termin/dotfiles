@@ -114,7 +114,9 @@ set smartindent
 set tabstop=4
 set shiftwidth=4
 " set softtabstop=0
-set breakindent
+if exists('+breakindent')
+  set breakindent
+endif
 
 "----------------------------------------------------
 " べんり
@@ -294,7 +296,7 @@ call dein#add('kana/vim-repeat')
 call dein#add('tyru/caw.vim', {'depends': 'vim-repeat'})
 " call dein#add('chrisbra/SudoEdit.vim')
 call dein#add('renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
-call dein#add('ctrlpvim/ctrlp.vim')
+" call dein#add('ctrlpvim/ctrlp.vim')
 " call dein#add('Shougo/vimshell', {'depends': 'vimproc'})
 " call dein#add('rhysd/migemo-search.vim')
 
