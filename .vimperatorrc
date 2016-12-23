@@ -138,7 +138,7 @@ nnoremap <M-d> <Nop>
 
 " ----- Plugin Options  -----
 let g:plugin_loader_roots = "~/vimperator-plugins/ ~/vimperator-other-plugins/"
-let g:plugin_loader_plugins = "_libly,copy,exopen,feedSomeKeys_3,toggler,walk-input,zip-de-download-mod,prevent-pseudo-domain,slideshare,hatenabookmark"
+let g:plugin_loader_plugins = "_libly,copy,exopen,feedSomeKeys_3,toggler,walk-input,zip-de-download-mod,prevent-pseudo-domain,hatenabookmark"
 
 " copy.js
 noremap <M-S-c> :<C-u>copy tw<CR>
@@ -174,10 +174,6 @@ lazy fmaps -u='^https://plus\.(google|googleapis)\.com/' j k o <C-j>,n <C-k>,p <
 " Facebook
 lazy fmaps -u='^https://www\.facebook\.com/' -events=vkeydown j k
 
-" slideshare.js
-nnoremap -urls 'www\.slideshare\.net' j :slideshare next<CR>
-nnoremap -urls 'www\.slideshare\.net' k :slideshare prev<CR>
-nnoremap -urls 'www\.slideshare\.net' F :slideshare fullscreen<CR>
 
 " toggler.js
 js <<EOM
