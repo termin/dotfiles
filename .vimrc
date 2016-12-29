@@ -357,9 +357,9 @@ if dein#tap('denite.nvim')
   nnoremap <silent> [denite]r :<C-u>Denite -buffer-name=register -mode=normal unite:register<CR>
   nnoremap <silent> [denite]us :<C-u>Denite unite:source -mode=normal<CR>
 
-  call denite#custom#map('insert', '<C-j>', 'move_to_next_line')
-  call denite#custom#map('insert', '<C-k>', 'move_to_prev_line')
-  call denite#custom#map('insert', '<Esc>', 'enter_mode:normal')
+  " call denite#custom#map('insert', '<C-j>', 'move_to_next_line')
+  " call denite#custom#map('insert', '<C-k>', 'move_to_prev_line')
+  " call denite#custom#map('insert', '<Esc>', 'enter_mode:normal')
 endif
 
 " Unite.vim
