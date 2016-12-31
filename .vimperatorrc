@@ -32,9 +32,7 @@ set hlsearch
 set hintchars="HJKLASDFGYUIOPQWERTNMZXCVB"
 " 新しいタブで開く
 set newtab=all
-
 set focuscontent
-
 set complete=slS
 " リンク先の表示位置
 set showstatuslinks=2
@@ -244,8 +242,5 @@ let g:zipDownloadDir = "~/Desktop"
 noremap <S-C-z> :<C-u>zipdownload -auto-detect jpg,jpeg,png
 
 " ----- Others -----
-
-" 『Smart Completions not work on Fx49 · Issue #590 · vimperator/vimperator-labs』 https://github.com/vimperator/vimperator-labs/issues/590
-js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
 
 " vim: set ft=vimperator:
