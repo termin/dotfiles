@@ -163,7 +163,6 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 
 " CTRL-s はttyでstopとして使われてた. 同様にCTRL-qはstart
 "
-" TODO:
 " Mac Terminal.appの場合
 " <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " <Right>, <Left> 等はどうやっても使えない感じ.
@@ -172,16 +171,6 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 
 " 後で何かに割り当てたい気がする
 " CTRL-G CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
-
-" omapを使って整理したい様な気がする.
-
-" 確認したい
-" i_CTRL-X_CTRL_{x} なキーバインドについて確認.
-
-" 使う
-" i_CTRL-X_CTRL-L
-" mark: m{a-zA-Z} , call: '{a-zA-Z}
-" Exモード(連続コマンド): Q or gQ :vi[sual]で抜ける.
 
 let mapleader = ";"
 
@@ -356,10 +345,6 @@ if dein#tap('denite.nvim')
   " nnoremap <silent> [denite]H :<C-u>Denite help<CR>
   nnoremap <silent> [denite]r :<C-u>Denite -buffer-name=register -mode=normal unite:register<CR>
   nnoremap <silent> [denite]us :<C-u>Denite unite:source -mode=normal<CR>
-
-  " call denite#custom#map('insert', '<C-j>', 'move_to_next_line')
-  " call denite#custom#map('insert', '<C-k>', 'move_to_prev_line')
-  " call denite#custom#map('insert', '<Esc>', 'enter_mode:normal')
 endif
 
 " Unite.vim
@@ -371,7 +356,6 @@ if dein#tap('unite.vim') && !dein#tap('denite.nvim')
   nnoremap [unite] <Nop>
   nmap U [unite]
   nnoremap [unite]U :<C-u>Unite<Space>
-  " nnoremap <silent> [unite]s :<C-u>Unite source<CR>
   nnoremap <silent> [unite]F :<C-u>Unite file -vertical -winwidth=60 -no-quit<CR>
   nnoremap [unite]IF :<C-u>Unite file -vertical -no-quit -winwidth=
   nnoremap <silent> [unite]f :<C-u>Unite file<CR>
@@ -384,11 +368,8 @@ if dein#tap('unite.vim') && !dein#tap('denite.nvim')
 
   nnoremap <silent> [unite]G :<C-u>Unite grep -no-quit<CR>
   nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
-  " TODO: -auto-preview で新たなwindowを表示するのが邪魔. 既に開いているbufferを使いたい.
   nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview -winheight=15<CR>
-  " nnoremap <silent> /  :<C-u>Unite -buffer-name=search line -start-insert -no-quit<CR>
   nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
-  " nnoremap <silent> [unite]H :<C-u>Unite -start-insert help<CR>
   nnoremap [unite]h :<C-u>Unite history/
   nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
   " unite rails
@@ -403,14 +384,11 @@ if dein#tap('unite.vim') && !dein#tap('denite.nvim')
   nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
   nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=60 -no-quit<CR>
   nnoremap <silent> [unite]Wb :<C-u>UniteWithBufferDir file file_mru<CR>
-  " nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir -prompt=%\  buffer file_mru bookmark file<CR>
   " unite sf2
   nnoremap [unite]s :<C-u>Unite sf2/
   nnoremap <silent> [unite]S :<C-u>Unite sf2/bundles -vertical -winwidth=60 -no-quit<CR>
 
   let g:unite_cursor_line_highlight = 'TabLineSel'
-  " let g:unite_winwidth = 60
-  " let g:unite_abbr_highlight = 'TabLine'
   augroup Unite
     autocmd!
     autocmd FileType unite call s:unite_my_settings()
@@ -419,23 +397,12 @@ if dein#tap('unite.vim') && !dein#tap('denite.nvim')
   call unite#custom#source('file', 'matchers', 'matcher_default') " dotfileを表示する
 
   function! s:unite_my_settings() "{{{
-    " CTRL-hをhで代替したい
     imap <buffer> jj <Plug>(unite_insert_leave)
     nmap <buffer> h <Plug>(unite_delete_backward_path)
     nmap <buffer> l <Plug>(unite_narrowing_path)
-    " TODO: nmap l "ディレクトリ掘る" をしてみたけれど使いづらいかも...
-    " <S-m>も使いたいかも.
     imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
     nmap <buffer> <C-h> :<C-u>tabprevious<CR>
     nmap <buffer> <C-l> :<C-u>tabnext<CR>
-    " nmap <silent> <buffer> <expr> <C-p> unite#do_action('vsplit')
-    " imap <silent> <buffer> <expr> <C-p> unite#do_action('vsplit')
-
-    " <C-l>: manual neocomplete completion.
-    " inoremap <buffer> <C-l> <C-x><C-u><C-p><Down>
-
-    " Start insert.
-    "let g:unite_enable_start_insert = 1
   endfunction "}}}
 endif
 
