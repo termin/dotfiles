@@ -1,0 +1,137 @@
+// vim:set ts=2 sts=2 sw=2 expandtab filetype=javascript:
+
+const {classes: Cc, interfaces: Ci, utils: Cu} = Components
+const {Preferences} = Cu.import('resource://gre/modules/Preferences.jsm', {})
+let categories = vimfx.get('categories');
+
+const VIMFX_PREFS = {
+  "prevent_autofocus": true,
+  "hints.chars": "JKLASDFGYUIOPQWERTNMZXCVB",
+}
+
+// const FIREFOX_PREFS = {
+// }
+
+Object.entries(VIMFX_PREFS).forEach(([pref, valueOrFunction]) => {
+  const value = typeof valueOrFunction === 'function'
+    ? valueOrFunction(vimfx.getDefault(pref))
+    : valueOrFunction
+  vimfx.set(pref, value)
+})
+
+// Preferences.set(FIREFOX_PREFS)
+
+let {commands} = vimfx.modes.normal
+const gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+  .getService(Components.interfaces.nsIClipboardHelper);
+vimfx.addCommand({
+  name: 'copy_title_and_url',
+  description: 'copy 『%title%』 %url%',
+  category: 'location',
+}, ({vim}) => {
+  let url = vim.window.gBrowser.selectedBrowser.currentURI.spec
+  let title = vim.window.gBrowser.selectedBrowser.contentTitle
+  let fmt = "『" + title + "』 " + url
+  gClipboardHelper.copyString(fmt)
+  vim.notify("Copied String: "+ fmt)
+})
+
+vimfx.addCommand({
+  name: 'search_tabs',
+  description: 'Search tabs',
+  category: 'tabs',
+  order: commands.focus_location_bar.order + 1,
+}, (args) => {
+  let {vim} = args
+  let {gURLBar} = vim.window
+  gURLBar.value = ''
+  commands.focus_location_bar.run(args)
+  // Change the `*` on the text line to a `%` to search tabs instead of bookmarks.
+  // gURLBar.value = '* '
+  gURLBar.value = '% '
+  gURLBar.onInput(new vim.window.KeyboardEvent('input'))
+})
+
+// feedSomeKeys的な
+const OVERRIDE_KEYS = [
+  [
+    location => location.hostname === 'mail.google.com',
+    ['j', 'k', 'u', 'n', 'p', 'a', 'e', '*', 's']
+  ],
+  [
+    location => location.hostname === 'calendar.google.com',
+    ['j', 'k', 't', 'd', 'w', 'm', 'a', 'x', 'c', 'e', '/']
+  ],
+  [
+    location => location.hostname === 'www.tumblr.com',
+    ['j', 'k', 'n']
+  ],
+  [
+    location => location.hostname === 'twitter.com',
+    ['j', 'k', 'o']
+  ],
+]
+Object.entries(OVERRIDE_KEYS).forEach(([index, key]) => {
+  vimfx.addKeyOverrides(key)
+})
+
+const MAPPINGS = {
+  "scroll_left": "",
+  "scroll_right": "",
+  "scroll_down": "j <c-e>",
+  "scroll_up": "k <c-y>",
+  "scroll_page_down": "<c-f>",
+  "scroll_page_up": "<c-b>",
+  "scroll_half_page_down": "<c-d>",
+  "scroll_half_page_up": "<c-u>",
+  "tab_select_previous": "J    gT h",
+  "tab_select_next": "K    gt l",
+  "tab_close": "d",
+  "tab_restore": "u",
+  "window_new": "",
+  "window_new_private": "",
+  "tab_move_backward": "<",
+  "tab_move_forward": ">",
+  "search_tabs": ["b", "custom.mode.normal"],
+  "copy_title_and_url": ["yc", "custom.mode.normal"],
+}
+
+Object.entries(MAPPINGS).forEach(([command, value]) => {
+  const [shortcuts, mode] = Array.isArray(value)
+    ? value
+    : [value, 'mode.normal']
+  vimfx.set(`${mode}.${command}`, shortcuts)
+})
+
+// qmark gnx, goxの両方を定義する
+categories.qmarks = {
+  name: 'qmarks',
+  order: categories.misc.order - 1,
+};
+function qmark(name, shortcut, url) {
+  [true, false].forEach((inCurrentTab) => {
+    let prefix = (inCurrentTab) ? 'go' : 'gn'
+    let command_name = (inCurrentTab) ? `qmark_${name}_current_tab` : `qmark_${name}` 
+    let command_description = (inCurrentTab) ? `Open qmark ${name} current tab` : `Open qmark ${name} background tab`
+
+    vimfx.addCommand({
+      name: command_name,
+      description: command_description,
+      category: 'qmarks',
+    }, function({vim}) {
+      if (inCurrentTab) {
+        vim.window.gBrowser.loadURI(url)
+      } else {
+        vim.window.gBrowser.loadOneTab(url, { inBackground: false })
+      }
+    })
+    vimfx.set(`custom.mode.normal.${command_name}`, `${prefix}${shortcut}`)
+  })
+}
+
+qmark('twitter', 't', 'https://twitter.com/')
+qmark('twitter_termin', 'y', 'https://twitter.com/termin')
+qmark('twitter_notification', 'n', 'https://twitter.com/i/notifications')
+qmark('gmail', 'm', 'https://mail.google.com/mail/u/0/#inbox')
+qmark('tumblr', 'd', 'https://www.tumblr.com/dashboard')
+
