@@ -131,6 +131,7 @@ function qmark(name, shortcut, url) {
 
 qmark('twitter', 't', 'https://twitter.com/')
 qmark('twitter_termin', 'y', 'https://twitter.com/termin')
+qmark('twitter_lists', 'l', 'https://twitter.com/termin/lists')
 qmark('twitter_notification', 'n', 'https://twitter.com/i/notifications')
 qmark('gmail', 'm', 'https://mail.google.com/mail/u/0/#inbox')
 qmark('tumblr', 'd', 'https://www.tumblr.com/dashboard')
