@@ -17,6 +17,7 @@ brew install coreutils
 brew install ffmpeg --with-faac
 # brew install gettext
 brew install git
+brew install tig
 brew install go
 # brew install mercurial
 brew install nicovideo-dl
@@ -57,7 +58,8 @@ brew tap termin/termin
 brew install erutaso
 
 brew tap homebrew/completions
-brew install bash-completion2
+# brew install bash-completion2
+brew install homebrew/versions/bash-completion2
 brew install brew-cask-completion
 brew install bundler-completion
 brew install composer-completion
