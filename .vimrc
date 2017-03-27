@@ -14,6 +14,9 @@ let s:enable_plugins = 1 " pluginを使わなければここで設定
 "----------------------------------------------------
 " Notice
 "----------------------------------------------------
+" パッケージマネージャーにdein.vimが必要
+" https://github.com/Shougo/dein.vim
+"
 " ss で:registersとか:marksとか色々表示する系のkey mapを一覧する.
 " <Leader>he で.vimrcをすぐに表示する. ToDoとかささっと見てささっと解決したい.
 "
