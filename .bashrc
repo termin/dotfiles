@@ -71,8 +71,10 @@ if which brew > /dev/null; then
 	esac
 
 	# z.sh
-	_Z_CMD=j
-	. `brew --prefix`/etc/profile.d/z.sh
+	if [ -f `brew --prefix`/etc/profile.d/z.sh ]; then
+		_Z_CMD=j
+		. `brew --prefix`/etc/profile.d/z.sh
+	fi
 fi
 
 # golang
