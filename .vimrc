@@ -477,7 +477,6 @@ if dein#tap('neocomplete')
 
 endif
 
-let s:dein_bundle_dir = $HOME.'/.vim/bundle/'
 if dein#tap('neosnippet')
   imap <C-l> <Plug>(neosnippet_expand_or_jump)
   smap <C-l> <Plug>(neosnippet_expand_or_jump)
@@ -491,13 +490,13 @@ if dein#tap('neosnippet')
   let g:neosnippet#disable_runtime_snippets = {'_' : 1}
   let g:neosnippet#snippets_directory = []
   if dein#tap("neosnippet_chef_recipe_snippet")
-    let g:neosnippet#snippets_directory += [s:dein_bundle_dir.'repos/github.com/ryuzee/neosnippet_chef_recipe_snippet/neosnippets']
+    let g:neosnippet#snippets_directory += [s:dein_dir.'/repos/github.com/ryuzee/neosnippet_chef_recipe_snippet/neosnippets']
   endif
   if dein#tap("neosnippet-snippets")
-    let g:neosnippet#snippets_directory += [s:dein_bundle_dir.'repos/github.com/Shougo/neosnippet-snippets/neosnippets']
+    let g:neosnippet#snippets_directory += [s:dein_dir.'/repos/github.com/Shougo/neosnippet-snippets/neosnippets']
   endif
   if dein#tap("vim-snippets")
-    let g:neosnippet#snippets_directory += [s:dein_bundle_dir.'repos/github.com/honza/vim-snippets/snippets']
+    let g:neosnippet#snippets_directory += [s:dein_dir.'/repos/github.com/honza/vim-snippets/snippets']
   endif
   let g:neosnippet#snippets_directory += [$HOME.'/.vim/snippets']
 endif
