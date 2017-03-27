@@ -247,8 +247,14 @@ if !s:enable_plugins
 filetype plugin indent on
 syntax on
 else
-set runtimepath^=~/.vim/bundle/repos/github.com/Shougo/dein.vim
-let s:dein_dir = expand('~/.vim/bundle')
+
+if has('nvim')
+  set runtimepath^=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+  let s:dein_dir = expand('~/.config/nvim/bundle')
+else
+  set runtimepath^=~/.vim/bundle/repos/github.com/Shougo/dein.vim
+  let s:dein_dir = expand('~/.vim/bundle')
+endif
 if dein#load_state(s:dein_dir)
 call dein#begin(s:dein_dir)
 call dein#add('Shougo/dein.vim')
@@ -256,25 +262,35 @@ call dein#add('Shougo/vimproc', {'build': 'make'})
 call dein#add('editorconfig/editorconfig-vim')
 call dein#add('tpope/vim-surround')
 call dein#add('t9md/vim-surround_custom_mapping')
-call dein#add('Shougo/neocomplete', {
-      \ 'on_event': 'InsertEnter',
-      \ 'lazy': 1
-      \ })
-call dein#add('Shougo/neosnippet', {'depends': 'vimproc'})
-call dein#add('Shougo/neosnippet-snippets', {'depends': 'neosnippet'})
-call dein#add('ryuzee/neosnippet_chef_recipe_snippet', {
-      \ 'depends': 'neosnippet',
-      \ 'lazy': 1,
-      \ 'on_ft': 'ruby.chef'
-      \ }) " set filetype=ruby.chef
+
+if has('nvim')
+  call dein#add('Shougo/deoplete.nvim')
+else
+  call dein#add('Shougo/neocomplete', {
+        \ 'on_event': 'InsertEnter',
+        \ 'lazy': 1
+        \ })
+  call dein#add('Shougo/neosnippet', {'depends': 'vimproc'})
+  call dein#add('Shougo/neosnippet-snippets', {'depends': 'neosnippet'})
+  call dein#add('ryuzee/neosnippet_chef_recipe_snippet', {
+        \ 'depends': 'neosnippet',
+        \ 'lazy': 1,
+        \ 'on_ft': 'ruby.chef'
+        \ }) " set filetype=ruby.chef
+  call dein#add('honza/vim-snippets', {'depends': 'neosnippet'})
+endif
+
+" denite, unite
 call dein#add('Shougo/denite.nvim')
 call dein#add('Shougo/unite.vim', {'depends': 'vimproc'})
 call dein#add('Shougo/unite-outline', {'depends': ['unite.vim', 'vimproc']})
 " call dein#add('tsukkee/unite-help', {'depends': ['unite.vim', 'vimproc']})
-call dein#add('thinca/vim-quickrun')
+
 call dein#add('soh335/unite-qflist', {'depends': 'unite.vim'})
 " call dein#add('sgur/unite-qf', {'depends': 'unite.vim'})
 call dein#add('tacroe/unite-mark', {'depends': 'unite.vim'})
+
+call dein#add('thinca/vim-quickrun')
 call dein#add('tyru/current-func-info.vim')
 call dein#add('scrooloose/syntastic')
 call dein#add('vim-jp/vimdoc-ja')
@@ -295,7 +311,6 @@ call dein#add('renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 call dein#add('violetyk/cake.vim', {'depends': 'vimproc'})
 call dein#add('beyondwords/vim-twig', {'on_ft': 'twig', 'lazy': 1})
 call dein#add('heavenshell/unite-sf2', {'depends': 'unite.vim'})
-call dein#add('honza/vim-snippets', {'depends': 'neosnippet'})
 " call dein#add('qbbr/vim-symfony')
 " call dein#add('docteurklein/vim-symfony')
 " call dein#add('oppara/vim-unite-cake', {'depends': 'unite.vim'})
@@ -475,6 +490,70 @@ if dein#tap('neocomplete')
   " let g:neocomplete_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
   " let g:neocomplete_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
+endif
+
+if dein#tap('deoplete.nvim')
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#enable_smart_case = 1
+
+  " 日本語をキャッシュしない.
+  if !exists('g:deoplete#keyword_patterns')
+    let g:deoplete#keyword_patterns = {}
+  endif
+  let g:deoplete#keyword_patterns['default'] = '\h\w*'
+
+  " let g:deoplete_omni_functions = {
+  " \ 'python' : 'pythoncomplete#Complete',
+  " \ 'ruby' : 'rubycomplete#Complete',
+  " \ }
+
+  " <CR>: close popup
+  inoremap <expr><CR> pumvisible() ? deoplete#smart_close_popup() : "\<CR>"
+  " <TAB>: completion.
+  " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  " 補完を選択しポップアップを閉じる
+  inoremap <expr><C-y> deoplete#close_popup()
+  " 補完をキャンセルしpopupを閉じる
+  inoremap <expr><C-e> deoplete#cancel_popup()
+  " 補完をキャンセルしてから行頭まで削除する.
+  " inoremap <expr><C-u> deoplete#cancel_popup() . "\<C-u>"
+
+  " inoremap <expr><C-g> deoplete#undo_completion()
+  " inoremap <expr><C-l> deoplete#complete_common_string()
+
+  " ポップアップメニューの表示
+  " augroup PopupMenu
+    " autocmd!
+    " autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
+    " autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
+    " autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
+  " augroup END
+
+  " FileType別のOmni Completion設定
+  " Vimに対して設定
+  augroup OmniCompletion
+    autocmd!
+    autocmd FileType c setlocal omnifunc=ccomplete#Complete
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  augroup END
+
+  " Enable heavy omni completion.
+  if !exists('g:deoplete#sources#omni#input_patterns')
+    let g:deoplete#sources#omni#input_patterns = {}
+  endif
+  if !exists('g:deoplete#force_omni_input_patterns')
+    let g:deoplete#force_omni_input_patterns = {}
+  endif
+  let g:deoplete#sources#omni#input_patterns.php =
+  \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+  " let g:deoplete_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+  " let g:deoplete_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 endif
 
 if dein#tap('neosnippet')

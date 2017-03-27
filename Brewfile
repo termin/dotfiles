@@ -36,6 +36,7 @@ brew install tree
 # brew install v
 brew install python3
 brew install vim --with-lua --with-luajit --with-python3
+brew install neovim/neovim/neovim
 brew install wget
 brew install youtube-dl --with-rtmpdump
 # brew install z

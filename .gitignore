@@ -3,22 +3,26 @@
 /.*
 
 # 除外
+!/README.md
 !/.bashrc
+!/.zshrc
 !/.emacs.el
 !/.gitignore
 !/.gitignore_global
 !/.inputrc
 !/.irbrc
-!/.rvmrc
 !/.tmux.conf
 !/.vimperatorrc
+
+# vim
 !/.vimrc
-!/.vim
-.vim/.netrwhist
-.vim/bundle/
+!/.vim/ftdetect
+!/.vim/syntax
+!/.vim/template
 !/.vrapperrc
-!/.zshrc
-!/README.md
+# neovim
+!/.config/nvim/init.vim
+
 !/.vimfx/config.js.example
 !/Brewfile
 !/.tigrc
