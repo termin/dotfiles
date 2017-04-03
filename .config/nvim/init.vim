@@ -1,1 +1,1 @@
-/Users/termin/.vimrc
+../../.vimrc
