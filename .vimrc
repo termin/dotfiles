@@ -169,7 +169,6 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 " Mac Terminal.appの場合
 " <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " <Right>, <Left> 等はどうやっても使えない感じ.
-" <M-x>は, <Esc>x で代用. <Esc><C-x>とか.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
 
 " 後で何かに割り当てたい気がする
@@ -210,8 +209,8 @@ nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
 nnoremap <silent> <C-h> :<C-u>tabprevious<CR>
 nnoremap <silent> <C-l> :<C-u>tabnext<CR>
 " nnoremap gr gT
-nnoremap <silent> <Esc><S-h> :<C-u>execute 'tabmove' tabpagenr() - 2<CR>
-nnoremap <silent> <Esc><S-l> :<C-u>execute 'tabmove' tabpagenr() + 1<CR>
+nnoremap <silent> <A-S-h> :<C-u>execute 'tabmove' tabpagenr() - 2<CR>
+nnoremap <silent> <A-S-l> :<C-u>execute 'tabmove' tabpagenr() + 1<CR>
 nnoremap <silent> g0 :<C-u>tabfirst<CR>
 nnoremap <silent> g9 :<C-u>tablast<CR>
 nnoremap <silent> <C-w>t :<C-u>tabnew<CR>
@@ -219,15 +218,14 @@ noremap <C-j> 5j
 noremap <C-k> 5k
 
 " tagsearch
-nnoremap <Esc>t <Nop>
-nnoremap <Esc>t<Esc>t <C-]>
-nnoremap <Esc>t<Esc>j :<C-u>tag<CR>
-nnoremap <Esc>t<Esc>k :<C-u>pop<CR>
-nnoremap <Esc>t<Esc>h :<C-u>tags<CR>
+nnoremap <A-t> <Nop>
+nnoremap <A-t><A-t> <C-]>
+nnoremap <A-t><A-j> :<C-u>tag<CR>
+nnoremap <A-t><A-k> :<C-u>pop<CR>
+nnoremap <A-t><A-h> :<C-u>tags<CR>
 nnoremap st :<C-u>tags<CR>
 nnoremap sT :<C-u>map<C-T><CR>
 
-" nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " Yでクリップボードにコピー
 noremap Y "*yy
 nnoremap s <Nop>
