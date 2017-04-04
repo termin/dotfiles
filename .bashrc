@@ -19,6 +19,11 @@ shopt -s checkjobs
 # shopt -s cmdhist
 # shopt -s lithist
 # shopt -s extglob
+shopt -s checkwinsize	# 端末のウィンドウサイズを${COLUMNS}と${LINES}に反映
+shopt -s histappend		# 履歴を上書きせず追加のみ行う
+
+stty werase undef
+bind '\C-w:unix-filename-rubout'
 
 # source /usr/local/Cellar/coreutils/8.15/aliases
 # PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
@@ -37,9 +42,6 @@ alias info='info --vi-keys'
 alias vi='vim'
 alias be='bundle exec'
 
-shopt -s checkwinsize	# 端末のウィンドウサイズを${COLUMNS}と${LINES}に反映
-shopt -s histappend		# 履歴を上書きせず追加のみ行う
-
 # erutaso
 if which erutaso > /dev/null; then
 	alias sl='erutaso -a'
@@ -57,13 +59,19 @@ if which brew > /dev/null; then
 	# 	source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
 	# fi
 
+	# TODO
 	# git
-	GIT_PS1_SHOWDIRTYSTATE=true
-	GIT_PS1_SHOWSTASHSTATE=true
+	# GIT_PS1_SHOWDIRTYSTATE=true
+	# GIT_PS1_SHOWSTASHSTATE=true
+	# if [ -f /usr/local/share/gitprompt.sh ]; then
+	# 	# GIT_PROMPT_THEME=Default
+	# 	. /usr/local/share/gitprompt.sh
+	# fi
 	# \j     the number of jobs currently managed by the shell
 	case "$TERM" in
 		xterm*|rxvt*|putty*|screen*)
 			PS1='\[\e[1;34m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)$(if [ \j -ne 0 ]; then echo "[\j]"; fi)\n\$ '
+			# PS1='\[\e[1;34m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(if [ \j -ne 0 ]; then echo "[\j]"; fi)\n\$ '
 			;;
 		*)
 			PS1='[$(date +%H:%M:%S)(\#)]\u@\h:\w\$ '
