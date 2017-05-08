@@ -301,7 +301,7 @@ call dein#add('osyo-manga/vim-textobj-multiblock', {'depends': 'vim-textobj-user
 call dein#add('kana/vim-repeat')
 call dein#add('tyru/caw.vim', {'depends': 'vim-repeat'})
 " call dein#add('chrisbra/SudoEdit.vim')
-call dein#add('renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
+call dein#add('vim-scripts/renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 " call dein#add('ctrlpvim/ctrlp.vim')
 " call dein#add('Shougo/vimshell', {'depends': 'vimproc'})
 " call dein#add('rhysd/migemo-search.vim')
