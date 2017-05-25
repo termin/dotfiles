@@ -61,8 +61,8 @@ if which brew > /dev/null; then
 
 	# TODO
 	# git
-	# GIT_PS1_SHOWDIRTYSTATE=true
-	# GIT_PS1_SHOWSTASHSTATE=true
+	GIT_PS1_SHOWDIRTYSTATE=true
+	GIT_PS1_SHOWSTASHSTATE=true
 	# if [ -f /usr/local/share/gitprompt.sh ]; then
 	# 	# GIT_PROMPT_THEME=Default
 	# 	. /usr/local/share/gitprompt.sh
