@@ -48,7 +48,7 @@ if which erutaso > /dev/null; then
 fi
 
 if which brew > /dev/null; then
-	# bash_completion2
+	# bash_completion@2
 	if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
 		. $(brew --prefix)/share/bash-completion/bash_completion
 	fi
@@ -88,3 +88,5 @@ fi
 # golang
 export GOPATH="$HOME/gocode"
 export PATH=$PATH:$GOPATH/bin
+
+export PATH="$(brew --prefix homebrew/php/php71)/bin:$PATH"
