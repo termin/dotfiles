@@ -1,3 +1,4 @@
+export LANG=ja_JP.UTF-8
 # Path
 export PATH=~/bin:$PATH
 # Macは/etc/pathsでも設定
