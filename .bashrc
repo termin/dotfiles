@@ -1,6 +1,6 @@
 export LANG=ja_JP.UTF-8
 # Path
-export PATH=~/bin:$PATH
+export PATH=~/bin:/usr/local/sbin:$PATH
 # Macは/etc/pathsでも設定
 
 # readlineのC-sを使える様に
@@ -90,4 +90,3 @@ fi
 export GOPATH="$HOME/gocode"
 export PATH=$PATH:$GOPATH/bin
 
-export PATH="$(brew --prefix homebrew/php/php71)/bin:$PATH"
