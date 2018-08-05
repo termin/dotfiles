@@ -309,7 +309,7 @@ call dein#add('vim-scripts/renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 " language {{{
 " call dein#add('basyura/unite-rails', {'depends': 'unite.vim'})
 " call dein#add('vim-ruby/vim-ruby')
-call dein#add('violetyk/cake.vim', {'depends': 'vimproc'})
+" call dein#add('violetyk/cake.vim', {'depends': 'vimproc'})
 call dein#add('beyondwords/vim-twig', {'on_ft': 'twig', 'lazy': 1})
 call dein#add('heavenshell/unite-sf2', {'depends': 'unite.vim'})
 call dein#add('airblade/vim-gitgutter')
