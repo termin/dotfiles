@@ -38,10 +38,8 @@ alias ll='ls -lh'
 alias la='ls -A'
 alias grep='grep --color'
 alias sudo='sudo '
-alias sude='sudo -e'
 alias info='info --vi-keys'
 alias vi='vim'
-alias be='bundle exec'
 
 # erutaso
 if which erutaso > /dev/null; then
