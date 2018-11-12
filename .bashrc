@@ -88,3 +88,5 @@ fi
 export GOPATH="$HOME/gocode"
 export PATH=$PATH:$GOPATH/bin
 
+alias pip_update_all="pip list --outdated --format freeze | awk -F = '{print $1}' | xargs pip install -U pip"
+alias pip2_update_all="pip2 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip2 install -U pip"
