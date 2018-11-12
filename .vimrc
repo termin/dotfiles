@@ -256,6 +256,7 @@ else
   set runtimepath^=~/.vim/bundle/repos/github.com/Shougo/dein.vim
   let s:dein_dir = expand('~/.vim/bundle')
 endif
+
 if dein#load_state(s:dein_dir)
 call dein#begin(s:dein_dir)
 call dein#add('Shougo/dein.vim')
@@ -264,8 +265,12 @@ call dein#add('editorconfig/editorconfig-vim')
 call dein#add('tpope/vim-surround')
 call dein#add('t9md/vim-surround_custom_mapping')
 
-if has('nvim')
+if has('nvim') || (v:version >= 800 && has("python3"))
   call dein#add('Shougo/deoplete.nvim')
+  if !has('nvim') " vim8
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
 else
   call dein#add('Shougo/neocomplete', {
         \ 'on_event': 'InsertEnter',
@@ -310,7 +315,7 @@ call dein#add('vim-scripts/renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 " call dein#add('basyura/unite-rails', {'depends': 'unite.vim'})
 " call dein#add('vim-ruby/vim-ruby')
 " call dein#add('violetyk/cake.vim', {'depends': 'vimproc'})
-call dein#add('beyondwords/vim-twig', {'on_ft': 'twig', 'lazy': 1})
+" call dein#add('beyondwords/vim-twig', {'on_ft': 'twig', 'lazy': 1})
 call dein#add('heavenshell/unite-sf2', {'depends': 'unite.vim'})
 call dein#add('airblade/vim-gitgutter')
 " call dein#add('qbbr/vim-symfony')
