@@ -278,11 +278,6 @@ else
         \ })
   call dein#add('Shougo/neosnippet', {'depends': 'vimproc'})
   call dein#add('Shougo/neosnippet-snippets', {'depends': 'neosnippet'})
-  call dein#add('ryuzee/neosnippet_chef_recipe_snippet', {
-        \ 'depends': 'neosnippet',
-        \ 'lazy': 1,
-        \ 'on_ft': 'ruby.chef'
-        \ }) " set filetype=ruby.chef
   call dein#add('honza/vim-snippets', {'depends': 'neosnippet'})
 endif
 
@@ -305,7 +300,6 @@ call dein#add('kana/vim-textobj-user')
 call dein#add('osyo-manga/vim-textobj-multiblock', {'depends': 'vim-textobj-user'})
 call dein#add('kana/vim-repeat')
 call dein#add('tyru/caw.vim', {'depends': 'vim-repeat'})
-" call dein#add('chrisbra/SudoEdit.vim')
 call dein#add('vim-scripts/renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 " call dein#add('ctrlpvim/ctrlp.vim')
 " call dein#add('Shougo/vimshell', {'depends': 'vimproc'})
@@ -314,15 +308,8 @@ call dein#add('vim-scripts/renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
 " language {{{
 " call dein#add('basyura/unite-rails', {'depends': 'unite.vim'})
 " call dein#add('vim-ruby/vim-ruby')
-" call dein#add('violetyk/cake.vim', {'depends': 'vimproc'})
-" call dein#add('beyondwords/vim-twig', {'on_ft': 'twig', 'lazy': 1})
-call dein#add('heavenshell/unite-sf2', {'depends': 'unite.vim'})
 call dein#add('airblade/vim-gitgutter')
-" call dein#add('qbbr/vim-symfony')
-" call dein#add('docteurklein/vim-symfony')
-" call dein#add('oppara/vim-unite-cake', {'depends': 'unite.vim'})
 " call dein#add('fatih/vim-go')
-" call dein#add('solarnz/thrift.vim') " Syntax highlighting for thrift definition files.
 " call dein#add('tpope/vim-rails')
 " call dein#add('tpope/vim-endwise')
 " call dein#add('vim-scripts/ruby-matchit')
@@ -337,7 +324,6 @@ call dein#add('airblade/vim-gitgutter')
 " call dein#add('kana/vim-operator-user')
 " call dein#add('kana/vim-smartword')
 " call dein#add('mattn/benchvimrc-vim')
-" call dein#add('ujihisa/unite-colorscheme', {'depends': 'unite.vim'})
 
 call dein#end()
 call dein#save_state()
