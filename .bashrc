@@ -48,25 +48,18 @@ fi
 
 if which brew > /dev/null; then
 	# bash_completion@2
-	if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
-		. $(brew --prefix)/share/bash-completion/bash_completion
-	fi
+	export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
+	[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 	# bash-git-prompt
-	# if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
-	# 	# GIT_PROMPT_THEME=Default
-	# 	source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+	# if [ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+	# 	__GIT_PROMPT_DIR="/usr/local/opt/bash-git-prompt/share"
+	# 	source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
 	# fi
 
-	# TODO
 	# git
 	GIT_PS1_SHOWDIRTYSTATE=true
 	GIT_PS1_SHOWSTASHSTATE=true
-	# if [ -f /usr/local/share/gitprompt.sh ]; then
-	# 	# GIT_PROMPT_THEME=Default
-	# 	. /usr/local/share/gitprompt.sh
-	# fi
-	# \j     the number of jobs currently managed by the shell
 	case "$TERM" in
 		xterm*|rxvt*|putty*|screen*)
 			PS1='\[\e[1;34m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)$(if [ \j -ne 0 ]; then echo "[\j]"; fi)\n\$ '
@@ -83,10 +76,6 @@ if which brew > /dev/null; then
 		. `brew --prefix`/etc/profile.d/z.sh
 	fi
 fi
-
-# golang
-export GOPATH="$HOME/gocode"
-export PATH=$PATH:$GOPATH/bin
 
 alias pip3_update_all="pip3 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip3 install -U pip"
 alias pip2_update_all="pip2 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip2 install -U pip"
