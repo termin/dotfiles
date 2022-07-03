@@ -14,8 +14,8 @@ let s:enable_plugins = 1 " pluginを使わなければここで設定
 "----------------------------------------------------
 " Notice
 "----------------------------------------------------
-" パッケージマネージャーにdein.vimが必要
-" https://github.com/Shougo/dein.vim
+" パッケージマネージャーにvim-jetpackが必要
+" https://github.com/tani/vim-jetpack
 "
 " ss で:registersとか:marksとか色々表示する系のkey mapを一覧する.
 " <Leader>he で.vimrcをすぐに表示する. ToDoとかささっと見てささっと解決したい.
@@ -124,7 +124,7 @@ endif
 "----------------------------------------------------
 " べんり
 "----------------------------------------------------
-filetype plugin indent on " ファイルタイプ判定をon
+filetype plugin indent on
 set pastetoggle=<F2>
 augroup Indent
   autocmd!
@@ -141,7 +141,6 @@ augroup Indent
   autocmd BufNewFile,BufRead *.ctp setlocal filetype=php
   autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-  autocmd FileType neosnippet setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab
   autocmd FileType json setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 augroup END
 set ambiwidth=double
@@ -170,9 +169,6 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,sjis,cp932
 " <修飾キー-Tab>は使えなかった. 修飾キーはM, Cが使えた. 但しMは, Terminal.appでoptionをMetaとして使うにチェックする.
 " <Right>, <Left> 等はどうやっても使えない感じ.
 " helpでは"<D-"でCommand Keyが使えるとしているけれど, 設定しても使えなかった.
-
-" 後で何かに割り当てたい気がする
-" CTRL-G CTRL-M i_CTRL-M CTRL-P i_CTRL-J i_CTRL-K
 
 let mapleader = ";"
 
@@ -239,7 +235,6 @@ nnoremap s<Leader> :<C-u>map <Leader><CR>
 "----------------------------------------------------
 " Plugins
 "----------------------------------------------------
-" dein.vim
 if &compatible
   set nocompatible " 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 endif
@@ -249,335 +244,49 @@ filetype plugin indent on
 syntax on
 else
 
-if has('nvim')
-  set runtimepath^=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
-  let s:dein_dir = expand('~/.config/nvim/bundle')
-else
-  set runtimepath^=~/.vim/bundle/repos/github.com/Shougo/dein.vim
-  let s:dein_dir = expand('~/.vim/bundle')
-endif
+packadd vim-jetpack
+call jetpack#begin()
+" if !has('nvim')
+"   Jetpack 'roxma/nvim-yarp'
+"   Jetpack 'roxma/vim-hug-neovim-rpc'
+" endif
+" Jetpack 'Shougo/vimproc', {'do': 'make'}
+Jetpack 'editorconfig/editorconfig-vim'
+Jetpack 'tpope/vim-surround'
+Jetpack 't9md/vim-surround_custom_mapping'
 
-if dein#load_state(s:dein_dir)
-call dein#begin(s:dein_dir)
-call dein#add('Shougo/dein.vim')
-call dein#add('Shougo/vimproc', {'build': 'make'})
-call dein#add('editorconfig/editorconfig-vim')
-call dein#add('tpope/vim-surround')
-call dein#add('t9md/vim-surround_custom_mapping')
-
-if has('nvim') || (v:version >= 800 && has("python3"))
-  call dein#add('Shougo/deoplete.nvim')
-  if !has('nvim') " vim8
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
-else
-  call dein#add('Shougo/neocomplete', {
-        \ 'on_event': 'InsertEnter',
-        \ 'lazy': 1
-        \ })
-  call dein#add('Shougo/neosnippet', {'depends': 'vimproc'})
-  call dein#add('Shougo/neosnippet-snippets', {'depends': 'neosnippet'})
-  call dein#add('honza/vim-snippets', {'depends': 'neosnippet'})
-endif
-
-" denite, unite
-call dein#add('Shougo/denite.nvim')
-call dein#add('Shougo/unite.vim', {'depends': 'vimproc'})
-call dein#add('Shougo/unite-outline', {'depends': ['unite.vim', 'vimproc']})
-" call dein#add('tsukkee/unite-help', {'depends': ['unite.vim', 'vimproc']})
-
-call dein#add('soh335/unite-qflist', {'depends': 'unite.vim'})
-" call dein#add('sgur/unite-qf', {'depends': 'unite.vim'})
-call dein#add('tacroe/unite-mark', {'depends': 'unite.vim'})
-
-call dein#add('thinca/vim-quickrun')
-call dein#add('tyru/current-func-info.vim')
-call dein#add('scrooloose/syntastic')
-call dein#add('vim-jp/vimdoc-ja')
-call dein#add('nathanaelkane/vim-indent-guides')
-call dein#add('kana/vim-textobj-user')
-call dein#add('osyo-manga/vim-textobj-multiblock', {'depends': 'vim-textobj-user'})
-call dein#add('kana/vim-repeat')
-call dein#add('tyru/caw.vim', {'depends': 'vim-repeat'})
-call dein#add('vim-scripts/renamer.vim', {'on_cmd': 'Renamer', 'lazy': 1})
-" call dein#add('ctrlpvim/ctrlp.vim')
-" call dein#add('Shougo/vimshell', {'depends': 'vimproc'})
-" call dein#add('rhysd/migemo-search.vim')
+Jetpack 'thinca/vim-quickrun'
+Jetpack 'tyru/current-func-info.vim'
+Jetpack 'scrooloose/syntastic'
+" Jetpack 'vim-jp/vimdoc-ja'
+Jetpack 'nathanaelkane/vim-indent-guides'
+Jetpack 'kana/vim-textobj-user'
+Jetpack 'osyo-manga/vim-textobj-multiblock' " depends vim-textobj-user
+Jetpack 'kana/vim-repeat'
+Jetpack 'tyru/caw.vim' " depends vim-repeat
+Jetpack 'vim-scripts/renamer.vim', {'cmd': 'Renamer'}
+" Jetpack 'ctrlpvim/ctrlp.vim'
 
 " language {{{
-" call dein#add('basyura/unite-rails', {'depends': 'unite.vim'})
-" call dein#add('vim-ruby/vim-ruby')
-call dein#add('airblade/vim-gitgutter')
-" call dein#add('fatih/vim-go')
-" call dein#add('tpope/vim-rails')
-" call dein#add('tpope/vim-endwise')
-" call dein#add('vim-scripts/ruby-matchit')
+Jetpack 'airblade/vim-gitgutter'
 " }}}
 
-" call dein#add('Shougo/vimfiler')
-" call dein#add('thinca/vim-ref')
-" call dein#add('tpope/vim-fugitive')
-" call dein#add('grep.vim')
-" call dein#add('kana/vim-grex')
-" call dein#add('kana/vim-operator-replace')
-" call dein#add('kana/vim-operator-user')
-" call dein#add('kana/vim-smartword')
-" call dein#add('mattn/benchvimrc-vim')
+" Jetpack 'Shougo/vimfiler'
+" Jetpack 'thinca/vim-ref'
+" Jetpack 'tpope/vim-fugitive'
+" Jetpack 'grep.vim'
+" Jetpack 'kana/vim-grex'
+" Jetpack 'kana/vim-operator-replace'
+" Jetpack 'kana/vim-operator-user'
+" Jetpack 'kana/vim-smartword'
+" Jetpack 'mattn/benchvimrc-vim'
 
-call dein#end()
-call dein#save_state()
-endif " /load_state()
+call jetpack#end()
 
 filetype plugin indent on
-if dein#check_install()
-  call dein#install()
-endif
 syntax on " pluginロード後に設定する cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 
-" denite.nvim
-" 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
-" -auto-preview はそれなりに重いので慎重に.
-if dein#tap('denite.nvim')
-  nnoremap su :map [denite]<CR>
-  nnoremap [denite] <Nop>
-  nmap U [denite]
-  nnoremap [denite]U :<C-u>Denite<Space>
-  nnoremap <silent> [denite]R :<C-u>Denite -resume -mode=normal<CR>
-  nnoremap <silent> [denite]F :<C-u>Denite file_rec -mode=normal<CR>
-  nnoremap <silent> [denite]A :<C-u>Denite buffer file_rec -mode=normal<CR>
-  nnoremap <silent> [denite]b :<C-u>Denite buffer -mode=normal<CR>
-  nnoremap <silent> [denite]G :<C-u>DeniteBufferDir grep -mode=normal<CR>
-  nnoremap <silent> [denite]L :<C-u>Denite line<CR>
-  nnoremap <silent> [denite]O :<C-u>Denite unite:outline -mode=normal<CR>
-  " nnoremap <silent> [denite]H :<C-u>Denite help<CR>
-  nnoremap <silent> [denite]r :<C-u>Denite -buffer-name=register -mode=normal unite:register<CR>
-  nnoremap <silent> [denite]us :<C-u>Denite unite:source -mode=normal<CR>
-endif
-
-" Unite.vim
-" 『unite plugins · Shougo/unite.vim Wiki · GitHub』 https://github.com/Shougo/unite.vim/wiki/unite-plugins
-" -auto-preview はそれなりに重いので慎重に.
-" -no-quit -vertical g:unite_winwidth -buffer-name
-if dein#tap('unite.vim') && !dein#tap('denite.nvim')
-  nnoremap su :map [unite]<CR>
-  nnoremap [unite] <Nop>
-  nmap U [unite]
-  nnoremap [unite]U :<C-u>Unite<Space>
-  nnoremap <silent> [unite]F :<C-u>Unite file -vertical -winwidth=60 -no-quit<CR>
-  nnoremap [unite]IF :<C-u>Unite file -vertical -no-quit -winwidth=
-  nnoremap <silent> [unite]f :<C-u>Unite file<CR>
-
-  nnoremap <silent> [unite]A :<C-u>Unite buffer bookmark file file_mru<CR>
-  nnoremap <silent> [unite]B :<C-u>Unite bookmark file_mru<CR>
-  nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-  nnoremap <silent> [unite]M :<C-u>Unite file_mru<CR>
-  nnoremap <silent> [unite]T :<C-u>Unite tab<CR>
-
-  nnoremap <silent> [unite]G :<C-u>Unite grep -no-quit<CR>
-  nnoremap <silent> [unite]l :<C-u>Unite line -start-insert -no-quit -winheight=15<CR>
-  nnoremap <silent> [unite]L :<C-u>Unite line -start-insert -no-quit -auto-preview -winheight=15<CR>
-  nnoremap <silent> [unite]O :<C-u>Unite outline<CR>
-  nnoremap [unite]h :<C-u>Unite history/
-  nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-  " unite rails
-  nnoremap [unite]RR :<C-u>Unite -vertical -winwidth=60 -no-quit rails/
-  nnoremap <silent>[unite]RM :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/model<CR>
-  nnoremap <silent>[unite]RC :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/controller<CR>
-  nnoremap <silent>[unite]Rc :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/config<CR>
-  nnoremap <silent>[unite]RV :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/view<CR>
-  nnoremap <silent>[unite]RH :<C-u>Unite -vertical -winwidth=60 -no-quit  rails/helper<CR>
-  nnoremap <silent> [unite]Q :<C-u>Unite qflist -no-quit<CR>
-  nnoremap <silent> [unite]WC :<C-u>UniteWithCurrentDir file file_mru -vertical -winwidth=60 -no-quit<CR>
-  nnoremap <silent> [unite]Wc :<C-u>UniteWithCurrentDir file file_mru<CR>
-  nnoremap <silent> [unite]WB :<C-u>UniteWithBufferDir file file_mru -vertical -winwidth=60 -no-quit<CR>
-  nnoremap <silent> [unite]Wb :<C-u>UniteWithBufferDir file file_mru<CR>
-  " unite sf2
-  nnoremap [unite]s :<C-u>Unite sf2/
-  nnoremap <silent> [unite]S :<C-u>Unite sf2/bundles -vertical -winwidth=60 -no-quit<CR>
-
-  let g:unite_cursor_line_highlight = 'TabLineSel'
-  augroup Unite
-    autocmd!
-    autocmd FileType unite call s:unite_my_settings()
-  augroup END
-
-  call unite#custom#source('file', 'matchers', 'matcher_default') " dotfileを表示する
-
-  function! s:unite_my_settings() "{{{
-    imap <buffer> jj <Plug>(unite_insert_leave)
-    nmap <buffer> h <Plug>(unite_delete_backward_path)
-    nmap <buffer> l <Plug>(unite_narrowing_path)
-    imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-    nmap <buffer> <C-h> :<C-u>tabprevious<CR>
-    nmap <buffer> <C-l> :<C-u>tabnext<CR>
-  endfunction "}}}
-endif
-
-" neocomplete.vim
-if dein#tap('neocomplete')
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_smart_case = 1
-  " let g:neocomplete#enable_prefetch=0
-  " let g:neocomplete#enable_camel_case_completion = 1
-  " _を入力したときに、それを単語の区切りとしてあいまい検索を行うかどうか制御する。例えば p_h と入力したとき、public_html とマッチするようになる。1ならば有効になる。副作用があるので、初期値は0となっている。
-  " let g:neocomplete#enable_underbar_completion = 1
-  " let g:neocomplete#dictionary_filetype_lists =
-
-  " 日本語をキャッシュしない.
-  if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-  endif
-  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-  " let g:neocomplete_omni_functions = {
-  " \ 'python' : 'pythoncomplete#Complete',
-  " \ 'ruby' : 'rubycomplete#Complete',
-  " \ }
-
-  " <CR>: close popup
-  inoremap <expr><CR> pumvisible() ? neocomplete#smart_close_popup() : "\<CR>"
-  " <TAB>: completion.
-  " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  " 補完を選択しポップアップを閉じる
-  inoremap <expr><C-y> neocomplete#close_popup()
-  " 補完をキャンセルしpopupを閉じる
-  inoremap <expr><C-e> neocomplete#cancel_popup()
-  " 補完をキャンセルしてから行頭まで削除する.
-  " inoremap <expr><C-u> neocomplete#cancel_popup() . "\<C-u>"
-
-  " inoremap <expr><C-g> neocomplete#undo_completion()
-  " inoremap <expr><C-l> neocomplete#complete_common_string()
-
-  " ポップアップメニューの表示
-  " augroup PopupMenu
-    " autocmd!
-    " autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
-    " autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
-    " autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
-  " augroup END
-
-  " FileType別のOmni Completion設定
-  " Vimに対して設定
-  augroup OmniCompletion
-    autocmd!
-    autocmd FileType c setlocal omnifunc=ccomplete#Complete
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  augroup END
-
-  " Enable heavy omni completion.
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
-  if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-  endif
-  let g:neocomplete#sources#omni#input_patterns.php =
-  \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-  " let g:neocomplete_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-  " let g:neocomplete_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-
-endif
-
-if dein#tap('deoplete.nvim')
-  let g:deoplete#enable_at_startup = 1
-  let g:deoplete#enable_smart_case = 1
-
-  " 日本語をキャッシュしない.
-  if !exists('g:deoplete#keyword_patterns')
-    let g:deoplete#keyword_patterns = {}
-  endif
-  let g:deoplete#keyword_patterns['default'] = '\h\w*'
-
-  " let g:deoplete_omni_functions = {
-  " \ 'python' : 'pythoncomplete#Complete',
-  " \ 'ruby' : 'rubycomplete#Complete',
-  " \ }
-
-  " <CR>: close popup
-  inoremap <expr><CR> pumvisible() ? deoplete#smart_close_popup() : "\<CR>"
-  " <TAB>: completion.
-  " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  " 補完を選択しポップアップを閉じる
-  inoremap <expr><C-y> deoplete#close_popup()
-  " 補完をキャンセルしpopupを閉じる
-  inoremap <expr><C-e> deoplete#cancel_popup()
-  " 補完をキャンセルしてから行頭まで削除する.
-  " inoremap <expr><C-u> deoplete#cancel_popup() . "\<C-u>"
-
-  " inoremap <expr><C-g> deoplete#undo_completion()
-  " inoremap <expr><C-l> deoplete#complete_common_string()
-
-  " ポップアップメニューの表示
-  " augroup PopupMenu
-    " autocmd!
-    " autocmd VimEnter,ColorScheme * :hi Pmenu ctermbg=8
-    " autocmd VimEnter,ColorScheme * :hi PmenuSel ctermbg=1
-    " autocmd VimEnter,ColorScheme * :hi PmenuSbar ctermbg=2
-  " augroup END
-
-  " FileType別のOmni Completion設定
-  " Vimに対して設定
-  augroup OmniCompletion
-    autocmd!
-    autocmd FileType c setlocal omnifunc=ccomplete#Complete
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  augroup END
-
-  " Enable heavy omni completion.
-  if !exists('g:deoplete#sources#omni#input_patterns')
-    let g:deoplete#sources#omni#input_patterns = {}
-  endif
-  if !exists('g:deoplete#force_omni_input_patterns')
-    let g:deoplete#force_omni_input_patterns = {}
-  endif
-  let g:deoplete#sources#omni#input_patterns.php =
-  \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-  " let g:deoplete_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-  " let g:deoplete_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-endif
-
-if dein#tap('neosnippet')
-  imap <C-l> <Plug>(neosnippet_expand_or_jump)
-  smap <C-l> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-l> <Plug>(neosnippet_expand_target)
-  " TODO: neosnippetがC-kを使ってる.
-  " vnoremap <C-k> 5k
-  command! -nargs=* Nse NeoSnippetEdit -split -vertical
-  if has('conceal')
-    set conceallevel=2 concealcursor=i
-  endif
-  let g:neosnippet#disable_runtime_snippets = {'_' : 1}
-  let g:neosnippet#snippets_directory = []
-  if dein#tap("neosnippet_chef_recipe_snippet")
-    let g:neosnippet#snippets_directory += [s:dein_dir.'/repos/github.com/ryuzee/neosnippet_chef_recipe_snippet/neosnippets']
-  endif
-  if dein#tap("neosnippet-snippets")
-    let g:neosnippet#snippets_directory += [s:dein_dir.'/repos/github.com/Shougo/neosnippet-snippets/neosnippets']
-  endif
-  if dein#tap("vim-snippets")
-    let g:neosnippet#snippets_directory += [s:dein_dir.'/repos/github.com/honza/vim-snippets/snippets']
-  endif
-  let g:neosnippet#snippets_directory += [$HOME.'/.vim/snippets']
-endif
-
-if dein#tap('SudoEdit.vim')
-  command! WS SudoWrite %
-endif
-
-if dein#tap('vim-surround')
+if jetpack#tap('vim-surround')
   let g:surround_no_mappings = 1
   " ds:  delete a surrounding.
   " cs:  change a surrounding.
@@ -597,7 +306,7 @@ if dein#tap('vim-surround')
 endif
 
 " 『t9md/vim-surround_custom_mapping · GitHub』 https://github.com/t9md/vim-surround_custom_mapping
-if dein#tap('vim-surround_custom_mapping')
+if jetpack#tap('vim-surround_custom_mapping')
   let g:surround_custom_mapping = {}
   " filetypeに共通の設定
   let g:surround_custom_mapping._ = {
@@ -623,14 +332,14 @@ if dein#tap('vim-surround_custom_mapping')
         \ }
 endif
 
-if dein#tap('vim-textobj-multiblock')
+if jetpack#tap('vim-textobj-multiblock')
   omap ab <Plug>(textobj-multiblock-a)
   omap ib <Plug>(textobj-multiblock-i)
   vmap ab <Plug>(textobj-multiblock-a)
   vmap ib <Plug>(textobj-multiblock-i)
 endif
 
-if dein#tap('vim-indent-guides')
+if jetpack#tap('vim-indent-guides')
   " default mapping for ":IndentGuidestoggle"is <Leader>ig
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_auto_colors = 0
@@ -644,26 +353,22 @@ if dein#tap('vim-indent-guides')
   augroup END
 endif
 
-if dein#tap('vim-quickrun')
+if jetpack#tap('vim-quickrun')
   let g:quickrun_no_default_key_mappings = 1
   nmap <Leader>R <Plug>(quickrun)
 endif
 
-if dein#tap('migemo-search.vim') && executable('cmigemo')
-  cnoremap <expr><CR> migemosearch#replace_search_word()."\<CR>"
-endif
-
-if dein#tap('current-func-info.vim')
+if jetpack#tap('current-func-info.vim')
   " 現在のカーソル位置の関数名を表示する
   set statusline=%n\:%y%F\ %{cfi#format('%s()','')}\|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>
   " let &statusline = '[%{cfi#get_func_name()}()]'
 endif
 
-if dein#tap('ctrlp.vim')
+if jetpack#tap('ctrlp.vim')
   let g:ctrlp_map = '<C-^>'
 endif
 
-if dein#tap('syntastic')
+if jetpack#tap('syntastic')
   let g:syntastic_mode_map = {
         \ "mode": "active",
         \ "passive_filetypes": ["go"] }
@@ -671,30 +376,7 @@ if dein#tap('syntastic')
   nnoremap <Leader>S :<C-u>SyntasticCheck<CR>
 endif
 
-if dein#tap('vim-rails')
-  nnoremap <leader>rc :<C-u>Rcontroller<Space>
-  nnoremap <leader>rm :<C-u>Rmodel<Space>
-  nnoremap <leader>rv :<C-u>Rview<Space>
-endif
-
-if dein#tap('cake.vim')
-  let g:cakephp_enable_fix_mode = 1
-  "let g:cakephp_app = ""
-  let g:cakephp_enable_auto_mode = 1
-  nnoremap <Leader>cc :<C-u>Ccontroller<Space>
-  nnoremap <Leader>cC :<C-u>Ccomponent<Space>
-  nnoremap <Leader>cm :<C-u>Cmodel<Space>
-  nnoremap <Leader>cv :<C-u>Ccontrollerview<Space>
-  nnoremap <Leader>cV :<C-u>Cview<Space>
-  nnoremap <Leader>ch :<C-u>Chelper<Space>
-  nnoremap <Leader>cf :<C-u>Cfixture<Space>
-endif
-
-if dein#tap('vim-symfony')
-  let g:symfony_app_console_path= "bin/console"
-endif
-
-if dein#tap('vim-smartword')
+if jetpack#tap('vim-smartword')
   map w <Plug>(smartword-w)
   map b <Plug>(smartword-b)
   map e <Plug>(smartword-e)
