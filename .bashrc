@@ -14,7 +14,7 @@ fi
 if [[ $BASH_VERSINFO -ge 4 ]]; then
 	shopt -s globstar
 fi
-shopt -s dirspell # 動かないなんで
+shopt -s dirspell
 shopt -s no_empty_cmd_completion
 shopt -s checkjobs
 # shopt -s cmdhist
@@ -78,5 +78,4 @@ if which brew > /dev/null; then
 fi
 
 alias pip3_update_all="pip3 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip3 install -U pip"
-alias pip2_update_all="pip2 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip2 install -U pip"
-
+# alias pip2_update_all="pip2 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip2 install -U pip"
