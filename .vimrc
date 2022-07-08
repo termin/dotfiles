@@ -312,27 +312,44 @@ filetype plugin indent on
 syntax on " pluginロード後に設定する cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 
 if jetpack#tap('lightline.vim')
-  let g:lightline = {'colorscheme': 'wombat',}
+  " filename => absolutepath
+  " rightのcloseが不要
+  let g:lightline = {
+        \   'active': {
+        \     'left': [ [ 'mode', 'paste' ], [ 'readonly', 'absolutepath', 'modified' ] ],
+        \     'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \   },
+        \   'inactive': {
+        \     'left': [ [ 'absolutepath' ] ],
+        \     'right': [ [ 'lineinfo' ], [ 'percent' ] ]
+        \   },
+        \   'tabline': {
+        \     'left': [ [ 'tabs' ] ],
+        \     'right': [ ]
+        \   },
+        \ }
+  " defaultとして
+  let g:lightline.colorscheme = 'wombat'
 endif
 
 if jetpack#tap('nord-vim')
   colorscheme nord
   if jetpack#tap('lightline.vim')
-    let g:lightline = {'colorscheme': 'nord',}
+    let g:lightline.colorscheme = 'nord'
   endif
 endif
 
 if jetpack#tap('dracula')
   colorscheme dracula
   if jetpack#tap('lightline.vim')
-    let g:lightline = {'colorscheme': 'darcula',}
+    let g:lightline.colorscheme = 'darcula'
   endif
 endif
 
 if jetpack#tap('iceberg.vim')
   colorscheme iceberg
   if jetpack#tap('lightline.vim')
-    let g:lightline = {'colorscheme': 'iceberg',}
+    let g:lightline.colorscheme = 'iceberg'
   endif
   set background=dark
 endif
