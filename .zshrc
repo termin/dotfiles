@@ -31,6 +31,14 @@ alias grep='grep --color'
 alias sudo='sudo '
 alias info='info --vi-keys'
 
+if which colordiff > /dev/null; then
+	alias diff='colordiff'
+fi
+
+if [[ $TERM != xterm* ]]; then
+	alias ssh='TERM=xterm-256color ssh'
+fi
+
 # erutaso
 if which erutaso > /dev/null; then
 	alias sl='erutaso -a'

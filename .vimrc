@@ -64,8 +64,15 @@ set notagbsearch " 日本語helpの一部に開けない物があるのでその
 "----------------------------------------------------
 " Appearance
 "----------------------------------------------------
+if has('termguicolors') && $COLORTERM == "truecolor" && s:enable_plugins
+  " cf. :h xterm-true-color
+  set termguicolors
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
 colorscheme default
-set background=light
+set background=dark
 set number
 set title
 set ruler
@@ -143,6 +150,9 @@ augroup Indent
   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
   autocmd FileType json setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 augroup END
+
+" pluginが入っていればrbtnn/vim-ambiwidth でsingleに上書き
+" cf. https://twitter.com/mattn_jp/status/1526718582264320000
 set ambiwidth=double
 
 "----------------------------------------------------
@@ -244,6 +254,13 @@ filetype plugin indent on
 syntax on
 else
 
+" TODO: :JetpackSync で何故か~vim-jetpackのファイルが消える
+let s:jetpackfile = expand('~/.vim/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim')
+let s:jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
+if !filereadable(s:jetpackfile)
+  call system(printf('curl -fsSLo %s --create-dirs %s', s:jetpackfile, s:jetpackurl))
+endif
+
 packadd vim-jetpack
 call jetpack#begin()
 " if !has('nvim')
@@ -251,12 +268,21 @@ call jetpack#begin()
 "   Jetpack 'roxma/vim-hug-neovim-rpc'
 " endif
 " Jetpack 'Shougo/vimproc', {'do': 'make'}
+
+" Jetpack 'vim-airline/vim-airline'
+Jetpack 'dracula/vim', { 'as': 'dracula' }
+" Jetpack 'cocopon/iceberg.vim'
+" Jetpack 'arcticicestudio/nord-vim'
+Jetpack 'itchyny/lightline.vim'
+Jetpack 'ryanoasis/vim-devicons'
+Jetpack 'cocopon/colorswatch.vim' " :ColorSwatchGenerate
+
+Jetpack 'rbtnn/vim-ambiwidth'
 Jetpack 'editorconfig/editorconfig-vim'
 Jetpack 'tpope/vim-surround'
 Jetpack 't9md/vim-surround_custom_mapping'
-
 Jetpack 'thinca/vim-quickrun'
-Jetpack 'tyru/current-func-info.vim'
+" Jetpack 'tyru/current-func-info.vim'
 Jetpack 'scrooloose/syntastic'
 " Jetpack 'vim-jp/vimdoc-ja'
 Jetpack 'nathanaelkane/vim-indent-guides'
@@ -271,7 +297,6 @@ Jetpack 'vim-scripts/renamer.vim', {'cmd': 'Renamer'}
 Jetpack 'airblade/vim-gitgutter'
 " }}}
 
-" Jetpack 'Shougo/vimfiler'
 " Jetpack 'thinca/vim-ref'
 " Jetpack 'tpope/vim-fugitive'
 " Jetpack 'grep.vim'
@@ -285,6 +310,32 @@ call jetpack#end()
 
 filetype plugin indent on
 syntax on " pluginロード後に設定する cf. 『vimrcアンチパターン - rbtnn雑記』 http://rbtnn.hateblo.jp/entry/2014/11/30/174749
+
+if jetpack#tap('lightline.vim')
+  let g:lightline = {'colorscheme': 'wombat',}
+endif
+
+if jetpack#tap('nord-vim')
+  colorscheme nord
+  if jetpack#tap('lightline.vim')
+    let g:lightline = {'colorscheme': 'nord',}
+  endif
+endif
+
+if jetpack#tap('dracula')
+  colorscheme dracula
+  if jetpack#tap('lightline.vim')
+    let g:lightline = {'colorscheme': 'darcula',}
+  endif
+endif
+
+if jetpack#tap('iceberg.vim')
+  colorscheme iceberg
+  if jetpack#tap('lightline.vim')
+    let g:lightline = {'colorscheme': 'iceberg',}
+  endif
+  set background=dark
+endif
 
 if jetpack#tap('vim-surround')
   let g:surround_no_mappings = 1
