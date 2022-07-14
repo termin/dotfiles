@@ -30,6 +30,7 @@ apply = ["defer"]
 
 [plugins."git-prompt.zsh"]
 github = 'termin/git-prompt.zsh'
+# local = "~/.zsh/dev/git-prompt.zsh"
 
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
@@ -38,6 +39,9 @@ apply = ["defer"]
 [plugins.zsh-autosuggestions]
 github = 'zsh-users/zsh-autosuggestions'
 apply = ["defer"]
+
+[plugins.zsh-vi-mode]
+github = 'jeffreytse/zsh-vi-mode'
 
 [templates]
 defer = { value = 'zsh-defer source "{{ file }}"', each = true }
