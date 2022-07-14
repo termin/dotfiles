@@ -1,3 +1,5 @@
+eval "$(sheldon source)"
+
 bindkey -v
 bindkey -M viins '^A' beginning-of-line
 bindkey -M viins '^B' backward-char
@@ -44,26 +46,62 @@ if which erutaso > /dev/null; then
 	alias sl='erutaso -a'
 fi
 
-# if which brew > /dev/null; then
+if (which sheldon > /dev/null 2>&1); then
+	autoload -Uz compinit; compinit
+fi
+
+# 大文字小文字無視, 但し大文字入力の場合は小文字を対象としない
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}'
+# setopt list_packed
+autoload -Uz colors
+zstyle ':completion:*' list-colors ''
+
+# if [[ -r "/opt/homebrew/opt/git/etc/bash_completion.d/git-prompt.sh" ]]; then
+# 	source /opt/homebrew/opt/git/etc/bash_completion.d/git-prompt.sh
+# 	GIT_PS1_SHOWDIRTYSTATE=true
+# 	GIT_PS1_SHOWSTASHSTATE=true
 # 	case "$TERM" in
-# 		xterm*|rxvt*|putty*|screen*)
-# 			PS1='\[\e[1;34m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1)$(if [ \j -ne 0 ]; then echo "[\j]"; fi)\n\$ '
-# 			# PS1='\[\e[1;34m\]\u@\h\[\e[00m\]:\[\e[1;34m\]\w\[\e[0m\]$(if [ \j -ne 0 ]; then echo "[\j]"; fi)\n\$ '
-# 			;;
-# 		*)
-# 			PS1='[$(date +%H:%M:%S)(\#)]\u@\h:\w\$ '
+# 		xterm*|rxvt*|putty*|screen*|alacritty)
+# 			setopt PROMPT_SUBST
+# 			PROMPT=$'%B%F{blue}%n@%m%f%b:%B%F{blue}%~%f%b$(__git_ps1)%1(j.[%j].)\n%# '
 # 			;;
 # 	esac
 # fi
 
-autoload -Uz compinit
-compinit 
-# 大文字小文字無視, 但し大文字入力の場合は小文字を対象としない
-zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}'
-# setopt list_packed
-autoload colors
-zstyle ':completion:*' list-colors ''
+# dev
+# source ~/.zsh/dev/git-prompt.zsh/git-prompt.zsh
+
+ZSH_GIT_PROMPT_FORCE_BLANK=1
+ZSH_GIT_PROMPT_SHOW_STASH=1
+ZSH_GIT_PROMPT_SHOW_COUNT_UNMERGED=0
+ZSH_GIT_PROMPT_SHOW_COUNT_STAGED=0
+ZSH_GIT_PROMPT_SHOW_COUNT_UNSTAGED=0
+ZSH_GIT_PROMPT_SHOW_COUNT_UNTRACKED=0
+ZSH_GIT_PROMPT_SHOW_COUNT_STASHED=0
+ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
+ZSH_THEME_GIT_PROMPT_PREFIX="("
+ZSH_THEME_GIT_PROMPT_SUFFIX=")"
+ZSH_THEME_GIT_PROMPT_SEPARATOR=" "
+ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg[magenta]%}"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[yellow]%}→ "
+ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX=" "
+ZSH_THEME_GIT_PROMPT_DETACHED="%{$fg_no_bold[cyan]%}detached"
+ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_no_bold[cyan]%}behind"
+ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_no_bold[cyan]%}ahead"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}!"
+ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}+"
+ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}*"
+ZSH_THEME_GIT_PROMPT_UNTRACKED=""
+ZSH_THEME_GIT_PROMPT_STASHED="%{$fg[blue]%}<stashed>"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+
+PROMPT=$'%B%F{blue}%n@%m%f%b:%B%F{blue}%~%f%b $(gitprompt)%1(j.[%j].)\n%# '
+RPROMPT=''
 
 alias pip3_update_all="pip3 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip3 install -U pip"
 # alias pip2_update_all="pip2 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip2 install -U pip"
+
+# if (which zprof > /dev/null 2>&1); then
+# 	zprof
+# fi
 

@@ -27,3 +27,5 @@
 !/.vimfx/config.js.example
 !/Brewfile
 !/.tigrc
+!/.config/sheldon/*
+
