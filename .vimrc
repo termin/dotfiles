@@ -263,6 +263,7 @@ endif
 
 packadd vim-jetpack
 call jetpack#begin()
+Jetpack 'tani/vim-jetpack', {'opt': 1} " bootstrap
 " if !has('nvim')
 "   Jetpack 'roxma/nvim-yarp'
 "   Jetpack 'roxma/vim-hug-neovim-rpc'
