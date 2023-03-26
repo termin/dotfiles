@@ -28,4 +28,5 @@
 !/Brewfile
 !/.tigrc
 !/.config/sheldon/*
+!/.config/alacritty/alacritty.yml
 
