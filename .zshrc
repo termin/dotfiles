@@ -1,4 +1,5 @@
 eval "$(sheldon source)"
+eval "$(direnv hook zsh)"
 
 bindkey -v
 bindkey -M viins '^A' beginning-of-line
