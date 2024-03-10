@@ -4,6 +4,7 @@
 
 # 除外
 !/README.md
+!/justfile
 !/.bashrc
 !/.zshrc
 !/.emacs.el
