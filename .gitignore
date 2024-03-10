@@ -29,4 +29,5 @@
 !/.tigrc
 !/.config/sheldon/*
 !/.config/alacritty/alacritty.yml
+!/.config/alacritty/alacritty.toml
 

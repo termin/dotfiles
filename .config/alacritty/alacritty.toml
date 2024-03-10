@@ -1,0 +1,27 @@
+import = ["/Users/termin/.config/alacritty/dracula.toml"]
+live_config_reload = true
+
+[font]
+size = 17.0
+
+[font.bold]
+family = "Ricty"
+style = "Bold"
+
+[font.normal]
+family = "Ricty"
+style = "Regular"
+
+[window]
+opacity = 0.95
+# option_as_alt = "OnlyLeft"
+# 有効にするとBackslashが入力出来ない
+
+[window.padding]
+x = 5
+y = 5
+[keyboard]
+bindings = [
+  { key = "Backslash", mods = "Alt", chars = "\\" },
+]
+
