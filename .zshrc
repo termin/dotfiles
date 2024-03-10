@@ -1,6 +1,9 @@
 eval "$(sheldon source)"
 eval "$(direnv hook zsh)"
 
+# readlineのC-sを使える様に
+stty stop undef
+
 bindkey -v
 bindkey -M viins '^A' beginning-of-line
 bindkey -M viins '^B' backward-char
