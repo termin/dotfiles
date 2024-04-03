@@ -36,10 +36,7 @@ alias la='ls -A'
 alias grep='grep --color'
 alias sudo='sudo '
 alias info='info --vi-keys'
-
-if which colordiff > /dev/null; then
-	alias diff='colordiff'
-fi
+alias diff='diff --color=auto'
 
 if [[ $TERM != xterm* ]]; then
 	alias ssh='TERM=xterm-256color ssh'
