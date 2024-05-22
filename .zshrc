@@ -174,6 +174,21 @@ if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]
 	zstyle ':completion:*' recent-dirs-insert both
 	zstyle ':chpwd:*' recent-dirs-max 100
 	zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
+
+	# 存在しないディレクトリをcdrから削除
+	# cf. https://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
+	function prune-missing-chpwd-recent-dirs {
+		emulate -L zsh
+		setopt localoptions extendedglob
+		local -aU reply
+		integer history_size
+		autoload -Uz chpwd_recent_filehandler
+		chpwd_recent_filehandler
+		history_size=$#reply
+		reply=(${^reply}(N))
+		(( $history_size == $#reply )) || chpwd_recent_filehandler $reply
+	}
+	prune-missing-chpwd-recent-dirs
 fi
 
 # cdrの履歴をインタラクティブに検索してcdする
