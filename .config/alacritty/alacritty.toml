@@ -5,11 +5,11 @@ live_config_reload = true
 size = 17.0
 
 [font.bold]
-family = "Ricty"
+family = "Ricty ShinDiminished"
 style = "Bold"
 
 [font.normal]
-family = "Ricty"
+family = "Ricty ShinDiminished"
 style = "Regular"
 
 [window]
