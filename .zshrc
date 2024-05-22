@@ -128,10 +128,12 @@ function zvm_after_select_vi_mode {
 #        * 実際に動かすfunctionを発火するだけのfunctionを作ってそれをbindkeyする
 #        * 自分自身のfunctionをechoする
 if which fzf > /dev/null; then
-	export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
+	export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border --bind=ctrl-f:page-down,ctrl-b:page-up,home:first,end:last'
 	export FZF_CTRL_R_OPTS="--prompt='history > '"
 	export FZF_CTRL_T_OPTS="--prompt='file > '"
 	export FZF_ALT_C_OPTS="--prompt='cd > '"
+	export FZF_CTRL_T_COMMAND="fd --hidden --no-ignore-vcs"
+	export FZF_ALT_C_COMMAND="fd --type d --hidden --no-ignore-vcs"
 
 	FZF_CTRL_T_COMMAND= \
 	FZF_ALT_C_COMMAND= \
@@ -192,6 +194,7 @@ alias cdp="cd-project-interactive"
 function cd-find {
 	setopt localoptions pipefail no_aliases 2> /dev/null
 	local dir="$(
+		FZF_DEFAULT_COMMAND=${FZF_ALT_C_COMMAND:-} \
 		FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --walker=dir,follow,hidden --scheme=path" "${FZF_ALT_C_OPTS-} +m") \
 		$(__fzfcmd) < /dev/tty
 	)"
