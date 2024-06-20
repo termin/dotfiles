@@ -148,7 +148,7 @@ fi
 bindkey -rM vicmd '^j'
 bindkey -rM viins '^j'
 
-function user-defined-aliases-and-keymaps {
+function list-user-defined-aliases-and-keymaps {
 	echo "\n# Aliases"
 	alias cdh cdp
 	echo
@@ -156,14 +156,14 @@ function user-defined-aliases-and-keymaps {
 	bindkey -L -M viins | grep "\"^J" | awk '{print $3,$4,$5}'
 }
 # 実際に動かしたコマンド名をログに残す為のfunction
-function user-defined-aliases-and-keymaps-fire {
+function list-user-defined-aliases-and-keymaps-fire {
 	# 別にfunction名をechoするだけでも良いけれども
-	BUFFER="user-defined-aliases-and-keymaps"
+	BUFFER="list-user-defined-aliases-and-keymaps"
 	CURSOR=$#BUFFER
 	zle accept-line
 }
-zle -N user-defined-aliases-and-keymaps-fire
-bindkey -M viins '^j?' user-defined-aliases-and-keymaps-fire
+zle -N list-user-defined-aliases-and-keymaps-fire
+bindkey -M viins '^j?' list-user-defined-aliases-and-keymaps-fire
 
 # initialize cdr
 if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
