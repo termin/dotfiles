@@ -145,6 +145,7 @@ if which fzf > /dev/null; then
 fi
 
 # ^jはprefixとして使う
+# cf. https://github.com/warpdotdev/Warp/issues/1694
 if [[ ${TERM_PROGRAM:=unknown} != WarpTerminal ]]; then
 	bindkey -rM vicmd '^j'
 	bindkey -rM viins '^j'
