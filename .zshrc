@@ -145,8 +145,10 @@ if which fzf > /dev/null; then
 fi
 
 # ^jはprefixとして使う
-bindkey -rM vicmd '^j'
-bindkey -rM viins '^j'
+if [[ ${TERM_PROGRAM:=unknown} != WarpTerminal ]]; then
+	bindkey -rM vicmd '^j'
+	bindkey -rM viins '^j'
+fi
 
 function list-user-defined-aliases-and-keymaps {
 	echo "\n# Aliases"
@@ -221,21 +223,9 @@ function cd-find {
 }
 alias cdf=cd-find
 
-# historyをインタラクティブに検索する. 即時実行はしない
-# TODO: deprecated? fzf-history-widgetで十分なら削除
-function history-interactive-search-widget {
-	local cmd=$(history -n -r 1 | $(__fzfcmd) --prompt="history > " --query "$LBUFFER")
-	if [ -n $cmd ]; then
-		BUFFER=$cmd
-		CURSOR=$#BUFFER
-		zle reset-prompt
-	fi
-}
-zle -N history-interactive-search-widget
-bindkey -M viins '^j^r' history-interactive-search-widget
-
 zle -N fzf-history-widget
 bindkey -M viins '^jr' fzf-history-widget
+bindkey -M viins '^j^r' fzf-history-widget
 
 zle -N fzf-file-widget
 bindkey -M viins '^jf' fzf-file-widget
@@ -249,3 +239,4 @@ source ${HOME}/.zshrc.private
 # if (which zprof > /dev/null 2>&1); then
 # 	zprof
 # fi
+
