@@ -45,7 +45,8 @@ alias sudo='sudo '
 alias info='info --vi-keys'
 alias diff='diff --color=auto'
 
-if [[ $TERM != xterm* ]]; then
+# リモートにterminfoを書くまでしたくないので
+if [[ $TERM != xterm* || $TERM == xterm-ghostty ]]; then
 	alias ssh='TERM=xterm-256color ssh'
 fi
 
