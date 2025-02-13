@@ -60,5 +60,5 @@ macos-option-as-alt = true
 # TODO: vimで¥が入力出来ない
 keybind = ¥=text:\\
 # ^M 効かない問題対策. cf. https://github.com/ghostty-org/ghostty/discussions/3151#discussioncomment-11678064
-keybind = ctrl+m=text:\n
+keybind = ctrl+m=text:\r
 
