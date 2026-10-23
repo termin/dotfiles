@@ -207,7 +207,6 @@ if has('mac') && !has('gui_running')
 endif
 
 " let $MYVIMRC = ""
-nnoremap <Leader>hh :<C-u>tabnew<CR>:h<Space>
 nnoremap <Leader>he :<C-u>tabnew<CR>:e $MYVIMRC<CR>
 nnoremap <Leader>hr :<C-u>w<CR>:source $MYVIMRC<CR>
 
@@ -257,48 +256,26 @@ else
 packadd vim-jetpack
 call jetpack#begin()
 Jetpack 'tani/vim-jetpack', {'opt': 1} " bootstrap
-" if !has('nvim')
-"   Jetpack 'roxma/nvim-yarp'
-"   Jetpack 'roxma/vim-hug-neovim-rpc'
-" endif
-" Jetpack 'Shougo/vimproc', {'do': 'make'}
 
-" Jetpack 'vim-airline/vim-airline'
 Jetpack 'dracula/vim', { 'as': 'dracula' }
-" Jetpack 'cocopon/iceberg.vim'
-" Jetpack 'arcticicestudio/nord-vim'
 Jetpack 'itchyny/lightline.vim'
 Jetpack 'ryanoasis/vim-devicons'
-Jetpack 'cocopon/colorswatch.vim' " :ColorSwatchGenerate
-
+" Jetpack 'cocopon/colorswatch.vim' " :ColorSwatchGenerate
 Jetpack 'rbtnn/vim-ambiwidth'
 Jetpack 'editorconfig/editorconfig-vim'
 Jetpack 'tpope/vim-surround'
 Jetpack 't9md/vim-surround_custom_mapping'
 Jetpack 'thinca/vim-quickrun'
-" Jetpack 'tyru/current-func-info.vim'
-Jetpack 'scrooloose/syntastic'
-" Jetpack 'vim-jp/vimdoc-ja'
-Jetpack 'nathanaelkane/vim-indent-guides'
+Jetpack 'preservim/vim-indent-guides'
 Jetpack 'kana/vim-textobj-user'
 Jetpack 'osyo-manga/vim-textobj-multiblock' " depends vim-textobj-user
 Jetpack 'kana/vim-repeat'
 Jetpack 'tyru/caw.vim' " depends vim-repeat
-Jetpack 'vim-scripts/renamer.vim', {'cmd': 'Renamer'}
 " Jetpack 'ctrlpvim/ctrlp.vim'
 
 " language {{{
 Jetpack 'airblade/vim-gitgutter'
 " }}}
-
-" Jetpack 'thinca/vim-ref'
-" Jetpack 'tpope/vim-fugitive'
-" Jetpack 'grep.vim'
-" Jetpack 'kana/vim-grex'
-" Jetpack 'kana/vim-operator-replace'
-" Jetpack 'kana/vim-operator-user'
-" Jetpack 'kana/vim-smartword'
-" Jetpack 'mattn/benchvimrc-vim'
 
 call jetpack#end()
 
@@ -326,26 +303,11 @@ if jetpack#tap('lightline.vim')
   let g:lightline.colorscheme = 'wombat'
 endif
 
-if jetpack#tap('nord-vim')
-  colorscheme nord
-  if jetpack#tap('lightline.vim')
-    let g:lightline.colorscheme = 'nord'
-  endif
-endif
-
 if jetpack#tap('dracula')
   colorscheme dracula
   if jetpack#tap('lightline.vim')
     let g:lightline.colorscheme = 'darcula'
   endif
-endif
-
-if jetpack#tap('iceberg.vim')
-  colorscheme iceberg
-  if jetpack#tap('lightline.vim')
-    let g:lightline.colorscheme = 'iceberg'
-  endif
-  set background=dark
 endif
 
 if jetpack#tap('vim-surround')
@@ -428,14 +390,6 @@ endif
 
 if jetpack#tap('ctrlp.vim')
   let g:ctrlp_map = '<C-^>'
-endif
-
-if jetpack#tap('syntastic')
-  let g:syntastic_mode_map = {
-        \ "mode": "active",
-        \ "passive_filetypes": ["go"] }
-  let g:syntastic_go_checkers = ['go', 'golint']
-  nnoremap <Leader>S :<C-u>SyntasticCheck<CR>
 endif
 
 if jetpack#tap('vim-smartword')

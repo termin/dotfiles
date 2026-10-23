@@ -39,8 +39,8 @@ apply = ["defer"]
 [plugins.zsh-vi-mode]
 github = 'jeffreytse/zsh-vi-mode'
 
-[plugins.git-open]
-github = 'paulirish/git-open'
+# [plugins.git-open]
+# github = 'paulirish/git-open'
 
 [templates]
 defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"

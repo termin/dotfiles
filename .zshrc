@@ -234,11 +234,23 @@ bindkey -M viins '^jf' fzf-file-widget
 # zle -N fzf-cd-widget
 # bindkey -M viins '^jc' fzf-cd-widget
 
-alias pip3_update_all="pip3 list --outdated --format freeze | awk -F = '{print $1}' | xargs pip3 install -U pip"
+alias pip3_update_all="pip3 list --outdated --format=json | jq -r '.[].name' | xargs -n1 pip3 install -U"
 
 source ${HOME}/.zshrc.private
 
 # if (which zprof > /dev/null 2>&1); then
 # 	zprof
 # fi
+
+# eval "$(gh copilot alias -- zsh)"
+
+# setting for gup command (auto generate)
+fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(~/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
 

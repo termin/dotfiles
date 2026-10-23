@@ -1,15 +1,20 @@
-import = ["/Users/termin/.config/alacritty/dracula.toml"]
+[general]
 live_config_reload = true
+import = ["/Users/termin/.config/alacritty/dracula.toml"]
 
 [font]
-size = 17.0
+size = 18.0
 
 [font.bold]
-family = "Ricty ShinDiminished"
+# family = "Ricty ShinDiminished"
+family = "Bizin Gothic"
+# family = "NOTONOTO35"
 style = "Bold"
 
 [font.normal]
-family = "Ricty ShinDiminished"
+# family = "Ricty ShinDiminished"
+family = "Bizin Gothic"
+# family = "NOTONOTO35"
 style = "Regular"
 
 [window]
